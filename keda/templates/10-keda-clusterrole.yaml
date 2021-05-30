@@ -3,34 +3,58 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
-    app.kubernetes.io/name: {{ .Values.operatorName }}
+    app.kubernetes.io/name: {{ .Values.operator.name }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/part-of: {{ .Values.operatorName }}
+    app.kubernetes.io/part-of: {{ .Values.operator.name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/instance: {{ .Release.Name }}
   creationTimestamp: null
-  name: {{ .Values.operatorName }}
+  name: {{ .Values.operator.name }}
 rules:
 - apiGroups:
   - ""
   resources:
-  - pods
-  - services
-  - services/finalizers
-  - endpoints
-  - events
   - configmaps
-  - secrets
-  - namespaces
+  - configmaps/status
+  - events
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
   - external
+  - pods
+  - secrets
+  - services
+  - serviceaccounts
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - get
+- apiGroups:
+  - '*'
+  resources:
+  - '*/scale'
   verbs:
   - '*'
 - apiGroups:
   - apps
   resources:
   - deployments
-  - deployments/finalizers
-  - replicasets
+  - statefulsets
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
   verbs:
   - '*'
 - apiGroups:
@@ -40,22 +64,27 @@ rules:
   verbs:
   - '*'
 - apiGroups:
-  - monitoring.coreos.com
+  - keda.sh
   resources:
-  - servicemonitors
-  verbs:
-  - get
-  - create
-- apiGroups:
-  - keda.k8s.io
-  resources:
-  - '*'
+  - scaledjobs
+  - scaledjobs/status
   verbs:
   - '*'
 - apiGroups:
-  - autoscaling
+  - keda.sh
   resources:
-  - horizontalpodautoscalers
+  - scaledobjects
+  - scaledobjects/finalizers
+  - scaledobjects/status
   verbs:
-   - '*'
+  - '*'
+- apiGroups:
+  - keda.sh
+  resources:
+  - clustertriggerauthentications
+  - clustertriggerauthentications/status
+  - triggerauthentications
+  - triggerauthentications/status
+  verbs:
+  - '*'
 {{- end -}}

@@ -1,29 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.operatorName }}-metrics-apiserver
+  name: {{ .Values.operator.name }}-metrics-apiserver
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Values.operatorName }}-metrics-apiserver
-    app.kubernetes.io/name: {{ .Values.operatorName }}-metrics-apiserver
+    app: {{ .Values.operator.name }}-metrics-apiserver
+    app.kubernetes.io/name: {{ .Values.operator.name }}-metrics-apiserver
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/part-of: {{ .Values.operatorName }}
+    app.kubernetes.io/part-of: {{ .Values.operator.name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.operatorName }}-metrics-apiserver
+      app: {{ .Values.operator.name }}-metrics-apiserver
   template:
     metadata:
       labels:
-        app: {{ .Values.operatorName }}-metrics-apiserver
-        {{- if .Values.aadPodIdentity }}
-        aadpodidbinding: {{ .Values.aadPodIdentity }}
+        app: {{ .Values.operator.name }}-metrics-apiserver
+        {{- if .Values.podIdentity.activeDirectory.identity }}
+        aadpodidbinding: {{ .Values.podIdentity.activeDirectory.identity }}
         {{- end }}
-      {{- if .Values.podAnnotations.metricsAdapter }}
+        {{- if .Values.podLabels.metricsAdapter }}
+        {{- toYaml .Values.podLabels.metricsAdapter | nindent 8}}
+        {{- end }}
       annotations:
+      {{- if .Values.prometheus.metricServer.enabled }}
+        prometheus.io/scrape: "true"
+        prometheus.io/port: {{ .Values.prometheus.metricServer.port | quote }}
+        prometheus.io/path: {{ .Values.prometheus.metricServer.path }}
+      {{- end }}
+      {{- if .Values.podAnnotations.metricsAdapter }}
       {{- toYaml .Values.podAnnotations.metricsAdapter | nindent 8}}
       {{- end }}
     spec:
@@ -38,22 +46,38 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Values.operatorName }}-metrics-apiserver
+        - name: {{ .Values.operator.name }}-metrics-apiserver
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.metricsAdapter }}"
+          image: "{{ .Values.image.metricsApiServer.repository }}:{{ .Values.image.metricsApiServer.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.service.portHttpsTarget }}
+              scheme: HTTPS
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: {{ .Values.service.portHttpsTarget }}
+              scheme: HTTPS
+            initialDelaySeconds: 5
           env:
             - name: WATCH_NAMESPACE
-              value: ""
+              value: {{ .Values.watchNamespace | quote }}
             {{- if .Values.env }}
             {{- toYaml .Values.env | nindent 12 -}}
             {{- end }}
           args:
           - /usr/local/bin/keda-adapter
-          - --secure-port=6443
+          - --secure-port={{ .Values.service.portHttpsTarget }}
           - --logtostderr=true
-          - --v={{ .Values.logLevelMetrics }}
+          {{- if .Values.prometheus.metricServer.enabled }}
+          - --metrics-port={{ .Values.prometheus.metricServer.port }}
+          - --metrics-path={{ .Values.prometheus.metricServer.path }}
+          {{- end }}
+          - --v={{ .Values.logging.metricServer.level }}
           ports:
             - containerPort: {{ .Values.service.portHttpsTarget }}
               name: https
@@ -61,6 +85,11 @@ spec:
             - containerPort: {{ .Values.service.portHttpTarget }}
               name: http
               protocol: TCP
+            {{- if .Values.prometheus.metricServer.enabled }}
+            - containerPort: {{ .Values.prometheus.metricServer.port }}
+              name: metrics
+              protocol: TCP
+            {{- end }}
           volumeMounts:
           {{- if .Values.grpcTLSCertsSecret }}
           - name: grpc-certs
@@ -69,6 +98,9 @@ spec:
           {{- if .Values.hashiCorpVaultTLS }}
           - name: hashicorp-vault-certs
             mountPath: /hashicorp-vaultcerts
+          {{- end }}
+          {{- if .Values.volumes.metricsApiServer.extraVolumeMounts }}
+          {{- toYaml .Values.volumes.metricsApiServer.extraVolumeMounts | nindent 12 }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -83,6 +115,10 @@ spec:
         secret:
           secretName: {{ .Values.hashiCorpVaultTLS }}
       {{- end }}
+      {{- if .Values.volumes.metricsApiServer.extraVolumes }}
+      {{- toYaml .Values.volumes.metricsApiServer.extraVolumes | nindent 8 }}
+      {{- end }}
+      hostNetwork: {{ .Values.metricsServer.useHostNetwork }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
