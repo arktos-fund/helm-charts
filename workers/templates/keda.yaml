@@ -1,0 +1,23 @@
+{{- if .Values.cronjob.enabled }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ include "workers.fullname" . }}
+  labels:
+    {{- include "workers.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    name: {{ include "workers.fullname" . }}-jobs
+  pollingInterval: {{ .Values.worker.autoscaling.pollingInterval | default 5 }}
+  cooldownPeriod:  {{ .Values.worker.autoscaling.cooldownPeriod | default 150 }}
+  minReplicaCount: {{ .Values.worker.autoscaling.minReplicaCount | default 0 }}
+  maxReplicaCount: {{ .Values.worker.autoscaling.maxReplicaCount | default 10 }}
+  triggers:
+  - type: rabbitmq
+    metadata:
+      protocol: amqp
+      queueName: {{ .name }}
+      queueLength: {{ .Values.worker.autoscaling.queueLength | quote }}
+    authenticationRef:
+      name: keda-trigger-auth-rabbitmq-conn
+{{- end -}}

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "hasura-graphql.fullname" . }}-test-connection"
+  labels:
+    {{- include "hasura-graphql.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "hasura-graphql.fullname" . }}:{{ .Values.service.port }}']
+      resources:
+        {{- toYaml .Values.resources | nindent 8 }}
+  restartPolicy: Never

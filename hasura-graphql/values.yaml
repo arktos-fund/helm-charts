@@ -1,0 +1,97 @@
+# Default values for hasura-graphql.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: hasura/graphql-engine
+  tag: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "false"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+environment:
+  - name: HASURA_GRAPHQL_CORS_DOMAIN
+    value: "*"
+  - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+    value: "true"
+  - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+    value: "anonymous"
+  - name: HASURA_GRAPHQL_DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: hasura_secret
+        key: database_url
+  - name: HASURA_GRAPHQL_JWT_SECRET 
+    valueFrom:
+      secretKeyRef:
+        name: hasura_secret
+        key: jwt_secret
+  - name: HASURA_GRAPHQL_ADMIN_SECRET 
+    valueFrom:
+      secretKeyRef:
+        name: hasura_secret
+        key: admin_secret
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
