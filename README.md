@@ -1,8 +1,6 @@
 # Helm Chart
 
-## Other Registries
-
-- `Apache Druid`
-- `Apache SuperSet`
-- `Minio` (Gateway) 
-- `Redis`
+Minimal charts to deploy Analysis stack.
+- Hasura,
+- Workers,
+- Tasks scheduled.
