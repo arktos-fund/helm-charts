@@ -1,4 +1,4 @@
-{{- if .Values.cronjob.enabled }}
+{{- if .Values.worker.autoscaling.enabled }}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
@@ -7,11 +7,11 @@ metadata:
     {{- include "workers.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    name: {{ include "workers.fullname" . }}-jobs
+    name: {{ include "workers.fullname" . }}
   pollingInterval: {{ .Values.worker.autoscaling.pollingInterval | default 5 }}
   cooldownPeriod:  {{ .Values.worker.autoscaling.cooldownPeriod | default 150 }}
-  minReplicaCount: {{ .Values.worker.autoscaling.minReplicaCount | default 0 }}
-  maxReplicaCount: {{ .Values.worker.autoscaling.maxReplicaCount | default 10 }}
+  minReplicaCount: {{ .Values.worker.autoscaling.minReplicas | default 0 }}
+  maxReplicaCount: {{ .Values.worker.autoscaling.maxReplicas | default 10 }}
   triggers:
   - type: rabbitmq
     metadata:

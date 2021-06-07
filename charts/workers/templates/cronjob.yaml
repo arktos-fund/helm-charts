@@ -1,47 +1,51 @@
 {{- if .Values.cronjob.enabled }}
+{{- $dot := . }}
+{{- range .Values.cronjob.actions }}
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ include "workers.fullname" . }}-worker
+  name: {{ include "workers.fullname" $dot }}-{{ .name }}
   labels:
-    {{- include "workers.labels" . | nindent 4 }}
+    {{- include "workers.labels" $dot | nindent 4 }}
 spec:
-  schedule: {{ .Values.cronjob.schedule | quote }}
+  schedule: {{ .schedule | quote }}
   successfulJobsHistoryLimit: 0
   failedJobsHistoryLimit: 2
-  startingDeadlineSeconds: {{ .Values.cronjob.startingDeadlineSeconds | default 600 }}
+  startingDeadlineSeconds: {{ .startingDeadlineSeconds | default 600 }}
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       backoffLimit: 0
       template:
         spec:
-          {{- if .Values.global.serviceAccount.create -}}
-          serviceAccountName: {{ include "workers.serviceAccountName" . }}
+          {{- if $dot.Values.global.serviceAccount.create -}}
+          serviceAccountName: {{ include "workers.serviceAccountName" $dot }}
           {{- end }}
           securityContext:
-            {{- toYaml .Values.global.podSecurityContext | nindent 12 }}
+            {{- toYaml $dot.Values.global.podSecurityContext | nindent 12 }}
           containers:
             - name: app
               securityContext:
-                {{- toYaml .Values.global.securityContext | nindent 16 }}
-              image: {{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag }}
-              imagePullPolicy: {{ .Values.cronjob.image.pullPolicy }}
+                {{- toYaml $dot.Values.global.securityContext | nindent 16 }}
+              image: {{ .image.repository }}:{{ .image.tag }}
+              imagePullPolicy: {{ .image.pullPolicy }}
               env:
-                {{- toYaml .Values.cronjob.environment | nindent 16 }}
+                {{- toYaml .environment | nindent 16 }}
               resources:
-                {{- toYaml .Values.cronjob.resources | nindent 16 }}
+                {{- toYaml .resources | nindent 16 }}
           restartPolicy: Never
-          {{- with .Values.nodeSelector }}
+          {{- with $dot.Values.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.affinity }}
+          {{- with $dot.Values.affinity }}
           affinity:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.tolerations }}
+          {{- with $dot.Values.tolerations }}
           tolerations:
             {{- toYaml . | nindent 12 }}
           {{- end }}
 {{- end }}
+{{- end -}}
