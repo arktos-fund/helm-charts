@@ -46,7 +46,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "false"
   hosts:
-    - host: chart-example.local
+    - host: stocks.universe.sh
       paths:
         - path: /
           pathType: ImplementationSpecific
@@ -62,29 +62,29 @@ environment:
   - name: HASURA_GRAPHQL_DATABASE_URL
     valueFrom:
       secretKeyRef:
-        name: hasura_secret
+        name: hasura-secret
         key: database_url
   - name: HASURA_GRAPHQL_JWT_SECRET 
     valueFrom:
       secretKeyRef:
-        name: hasura_secret
+        name: hasura-secret
         key: jwt_secret
   - name: HASURA_GRAPHQL_ADMIN_SECRET 
     valueFrom:
       secretKeyRef:
-        name: hasura_secret
+        name: hasura-secret
         key: admin_secret
 
 resources:
   limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 350m
+    memory: 372Mi
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 250m
+    memory: 256Mi
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 2
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
