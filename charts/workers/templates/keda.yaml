@@ -16,8 +16,8 @@ spec:
   - type: rabbitmq
     metadata:
       protocol: amqp
-      queueName: {{ .name }}
-      queueLength: {{ .Values.worker.autoscaling.queueLength | quote }}
+      queueName: {{ .Values.worker.autoscaling.queueName }}
+      value: {{ .Values.worker.autoscaling.queueValue }}
     authenticationRef:
       name: keda-trigger-auth-rabbitmq-conn
 {{- end -}}

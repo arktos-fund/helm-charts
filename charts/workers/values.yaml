@@ -55,6 +55,8 @@ worker:
 
   autoscaling:
     enabled: true
+    queueName: add-articles
+    queueValue: 10
     minReplicas: 0
     maxReplicas: 10
     pollingInterval: 5
