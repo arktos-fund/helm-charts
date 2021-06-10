@@ -3,9 +3,9 @@ entries:
   graphql:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-06-10T18:33:17.438275+02:00"
+    created: "2021-06-10T18:37:24.118723+02:00"
     description: A Helm chart for Kubernetes
-    digest: a2a15d2c0226b14bcc62b19103292c62b21ce9993fdb8fa4ada21d708536fa81
+    digest: fa0ae4aa467dbac7142b80ad81412023652072f70cf31d2295cc77ff02873e50
     name: graphql
     type: application
     urls:
@@ -13,7 +13,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-06-10T18:33:17.437943+02:00"
+    created: "2021-06-10T18:37:24.118403+02:00"
     description: A Helm chart for Kubernetes
     digest: 5c976392a686e17d931815a2c0f47dd573754325261d911ede551720daea7cb3
     name: graphql
@@ -24,9 +24,9 @@ entries:
   hasura-graphql:
   - apiVersion: v2
     appVersion: v1.3.3
-    created: "2021-06-10T18:33:17.438619+02:00"
+    created: "2021-06-10T18:37:24.119127+02:00"
     description: Hasura Helm chart for Kubernetes
-    digest: e94d5164fde84ae174309acca687d77851924f607b28791c8a40e8e3963c6ca7
+    digest: b5965be18eeba3118ad6406cf368a563d0a4d8d9d993d8baade151ec1fc5977e
     name: hasura-graphql
     type: application
     urls:
@@ -35,9 +35,9 @@ entries:
   workers:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-06-10T18:33:17.440021+02:00"
+    created: "2021-06-10T18:37:24.121376+02:00"
     description: A Helm chart for Kubernetes
-    digest: d05cfdd86944f17ac38722fde77ad7c3698bae1e1ba2591049b935077ebd573a
+    digest: 9008e12e6d4d4fb39ce23c857c1494fcd565cecfa0befe2cbf40960a8158e9b5
     name: workers
     type: application
     urls:
@@ -45,7 +45,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-06-10T18:33:17.439696+02:00"
+    created: "2021-06-10T18:37:24.12102+02:00"
     description: A Helm chart for Kubernetes
     digest: 55be52440c5b257688054a1d706c237a218d6daae46b8f38cba6ed671930796b
     name: workers
@@ -55,7 +55,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-06-10T18:33:17.439043+02:00"
+    created: "2021-06-10T18:37:24.120282+02:00"
     description: A Helm chart for Kubernetes
     digest: 7e521bd13c32f0dc3274280f6822f3165883dd97efe6925373cb331beeb3c8b2
     name: workers
@@ -63,4 +63,4 @@ entries:
     urls:
     - https://helm.universe.sh/workers-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-10T18:33:17.437106+02:00"
+generated: "2021-06-10T18:37:24.117769+02:00"

@@ -31,7 +31,7 @@ spec:
               image: {{ .image.repository }}:{{ .image.tag }}
               imagePullPolicy: {{ .image.pullPolicy }}
               args:
-                - "--config /config.yaml"
+                - "--config '/config.yaml'"
               env:
                 {{- toYaml .environment | nindent 16 }}
               resources:
