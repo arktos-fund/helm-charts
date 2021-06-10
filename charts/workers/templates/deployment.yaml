@@ -61,6 +61,7 @@ spec:
             secretName: config
             items:
               - key: base
+                path: config.yaml
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
