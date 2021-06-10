@@ -36,14 +36,14 @@ worker:
     imagePullSecrets:
       - name: regcred
 
-  environment:
-    - name: API_DEBUG
-      value: "false"
-    - name: EOD_KEY
-      valueFrom:
-        secretKeyRef:
-          name: mysecret
-          key: key_api
+  environment: []
+    # - name: API_DEBUG
+    #   value: "false"
+    # - name: EOD_KEY
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: mysecret
+    #       key: key_api
 
   resources:
     limits:

@@ -30,6 +30,9 @@ spec:
                 {{- toYaml $dot.Values.global.securityContext | nindent 16 }}
               image: {{ .image.repository }}:{{ .image.tag }}
               imagePullPolicy: {{ .image.pullPolicy }}
+              command: 
+                - "./go" 
+                - "--config config.yaml"
               env:
                 {{- toYaml .environment | nindent 16 }}
               resources:
