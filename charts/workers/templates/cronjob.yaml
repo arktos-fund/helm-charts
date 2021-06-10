@@ -33,7 +33,7 @@ spec:
               command: 
                 - "./go"
               args:
-                - "--config config.yaml"
+                - "--config /config.yaml"
               env:
                 {{- toYaml .environment | nindent 16 }}
               resources:
