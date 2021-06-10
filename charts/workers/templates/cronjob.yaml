@@ -31,8 +31,7 @@ spec:
               image: {{ .image.repository }}:{{ .image.tag }}
               imagePullPolicy: {{ .image.pullPolicy }}
               command: 
-                - "./go" 
-                - "--config config.yaml"
+                - "./go --config config.yaml"
               env:
                 {{- toYaml .environment | nindent 16 }}
               resources:
