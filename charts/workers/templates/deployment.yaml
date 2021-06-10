@@ -36,7 +36,9 @@ spec:
           image: "{{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}"
           imagePullPolicy: {{ .Values.worker.image.pullPolicy }}
           command: 
-            - "./go --config config.yaml"
+            - "./go"
+          args:
+            - "--config config.yaml"
           env:
             {{- toYaml .Values.worker.environment | nindent 12 }}
           volumeMounts:
