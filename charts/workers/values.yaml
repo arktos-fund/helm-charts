@@ -27,6 +27,7 @@ global:
 
 worker:
   enabled: true
+  config: basic
   replicaCount: 1
 
   image:
@@ -69,6 +70,7 @@ cronjob:
     - name: add
       schedule: "@daily"
       startingDeadlineSeconds: 1200
+      config: fr
 
       image:
         repository: nginx
@@ -90,6 +92,7 @@ cronjob:
     - name: delete
       schedule: "@daily"
       startingDeadlineSeconds: 1200
+      config: fr
 
       image:
         repository: nginx

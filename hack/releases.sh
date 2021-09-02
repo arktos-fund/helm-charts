@@ -12,6 +12,6 @@ if [ "$CLOUDFLARE" == "" ]; then
     done
 
     # Generate index
-    helm repo index ${OUTPUT} --url https://helm.universe.sh
+    helm repo index ${OUTPUT} --url https://helm-venture.universe.sh
 fi
 

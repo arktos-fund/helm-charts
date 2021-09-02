@@ -1,46 +1,25 @@
 apiVersion: v1
 entries:
-  graphql:
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-07-24T16:09:21.193337+02:00"
-    description: A Helm chart for Kubernetes
-    digest: 73e969defe6895f160566ffad4a833216cb43961643f6d28472a1d4a26614077
-    name: graphql
-    type: application
-    urls:
-    - https://helm.universe.sh/graphql-0.1.1.tgz
-    version: 0.1.1
   hasura-graphql:
   - apiVersion: v2
     appVersion: v1.3.3
-    created: "2021-07-24T16:09:21.194493+02:00"
+    created: "2021-09-03T00:42:42.792696+02:00"
     description: Hasura Helm chart for Kubernetes
-    digest: 23d3f067634c9369ce86a199c8f8c1f64d036512d86335a63ad736ed328724f4
+    digest: 7966261d1b89815bddc577fe24a583d51c1c818496bef07b8c596b41165ea3b2
     name: hasura-graphql
     type: application
     urls:
-    - https://helm.universe.sh/hasura-graphql-0.1.0.tgz
+    - https://helm-venture.universe.sh/hasura-graphql-0.1.0.tgz
     version: 0.1.0
   workers:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-09-02T22:02:45.791671+02:00"
+    created: "2021-09-03T00:42:42.794124+02:00"
     description: A Helm chart for Kubernetes
-    digest: 96019f7b29809aa169bd5781d35eb763d488c5d49bdd4120645fc6d479096e84
+    digest: 12dd86dced6bb6cb8dc31b9fed67719797a249667d3fd5a3b3e0bc83f6a72fbe
     name: workers
     type: application
     urls:
-    - https://helm.universe.sh/workers-0.1.3.tgz
+    - https://helm-venture.universe.sh/workers-0.1.3.tgz
     version: 0.1.3
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-02T22:02:45.79133+02:00"
-    description: A Helm chart for Kubernetes
-    digest: 662173b51eeb5f02017da5704c152e32878ca159d2010b728f18bcdb81eb3616
-    name: workers
-    type: application
-    urls:
-    - https://helm.universe.sh/workers-0.1.2.tgz
-    version: 0.1.2
-generated: "2021-09-02T22:02:45.789489+02:00"
+generated: "2021-09-03T00:42:42.791959+02:00"
