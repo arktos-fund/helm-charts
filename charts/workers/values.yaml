@@ -26,6 +26,7 @@ global:
     runAsUser: 1000
 
 worker:
+  enabled: true
   replicaCount: 1
 
   image:

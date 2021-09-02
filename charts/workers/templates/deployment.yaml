@@ -1,3 +1,4 @@
+{{- if .Values.worker.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,11 +50,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /healthz
+              path: /liveness
               port: http
           readinessProbe:
             httpGet:
-              path: /healthz
+              path: /readiness
               port: http
           resources:
             {{- toYaml .Values.worker.resources | nindent 12 }}
@@ -76,3 +77,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}
