@@ -62,14 +62,3 @@ Selector labels
 app.kubernetes.io/name: {{ include "workers.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "workers.serviceAccountName" -}}
-{{- if .Values.global.serviceAccount.create }}
-{{- default (include "workers.fullname" .) .Values.global.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.global.serviceAccount.name }}
-{{- end }}
-{{- end }}

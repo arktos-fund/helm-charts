@@ -9,6 +9,7 @@ spec:
   {{- if not .Values.worker.autoscaling.enabled }}
   replicas: {{ .Values.worker.replicaCount }}
   {{- end }}
+  revisionHistoryLimit: {{ .Values.worker.revisionHistoryLimit | default 2 }}
   selector:
     matchLabels:
       {{- include "workers.selectorLabels" . | nindent 6 }}
@@ -21,13 +22,7 @@ spec:
       labels:
         {{- include "workers.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.worker.image.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- if .Values.global.serviceAccount.create -}}
-      serviceAccountName: {{ include "workers.serviceAccountName" . }}
-      {{- end }}
+      serviceAccountName: {{ include "workers.fullname" . }}
       securityContext:
         {{- toYaml .Values.global.podSecurityContext | nindent 8 }}
       containers:
