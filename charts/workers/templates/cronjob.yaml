@@ -1,18 +1,19 @@
 {{- if .Values.cronjob.enabled }}
 {{- $dot := . }}
-{{- range .Values.cronjob.actions }}
+{{- range $akey, $action := .Values.cronjob.actions }}
+{{- range $ckey, $country := $dot.Values.cronjob.countries }}
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "workers.fullname" $dot }}-{{ .name }}
+  name: {{ include "workers.fullname" $dot }}-{{ $action.name }}-{{ $country }}
   labels:
     {{- include "workers.labels" $dot | nindent 4 }}
 spec:
-  schedule: {{ .schedule | quote }}
+  schedule: {{ $action.schedule | quote }}
   successfulJobsHistoryLimit: 0
   failedJobsHistoryLimit: 2
-  startingDeadlineSeconds: {{ .startingDeadlineSeconds | default 600 }}
+  startingDeadlineSeconds: {{ $action.startingDeadlineSeconds | default 600 }}
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -28,21 +29,25 @@ spec:
             - name: app
               securityContext:
                 {{- toYaml $dot.Values.global.securityContext | nindent 16 }}
-              image: {{ .image.repository }}:{{ .image.tag }}
-              imagePullPolicy: {{ .image.pullPolicy }}
+              image: {{ $action.image.repository }}:{{ $action.image.tag }}
+              imagePullPolicy: {{ $action.image.pullPolicy }}
               args:
                 - "--config '/config.yaml'"
               env:
-                {{- toYaml .environment | nindent 16 }}
+                {{- toYaml $action.environment | nindent 16 }}
               resources:
-                {{- toYaml .resources | nindent 16 }}
+                {{- toYaml $action.resources | nindent 16 }}
+              volumeMounts:
+                - name: config
+                  mountPath: "/config.yaml"
+                  readOnly: true
           restartPolicy: Never
           volumes:
             - name: config
               secret:
                 secretName: config
                 items:
-                  - key: base
+                  - key: {{ $country }}
                     path: config.yaml
           {{- with $dot.Values.nodeSelector }}
           nodeSelector:
@@ -56,5 +61,6 @@ spec:
           tolerations:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+{{- end }}
 {{- end }}
 {{- end -}}

@@ -66,11 +66,12 @@ worker:
 
 cronjob:
   enabled: true
+  countries: ["c-fr", "c-es"]
+
   actions:
     - name: add
       schedule: "@daily"
       startingDeadlineSeconds: 1200
-      config: fr
 
       image:
         repository: nginx
@@ -92,7 +93,6 @@ cronjob:
     - name: delete
       schedule: "@daily"
       startingDeadlineSeconds: 1200
-      config: fr
 
       image:
         repository: nginx
