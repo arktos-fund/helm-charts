@@ -31,13 +31,12 @@ spec:
             {{- toYaml .Values.global.securityContext | nindent 12 }}
           image: "{{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}"
           imagePullPolicy: {{ .Values.worker.image.pullPolicy }}
-          cmd:
-            - "--config /config.yaml"
           env:
             {{- toYaml .Values.worker.environment | nindent 12 }}
           volumeMounts:
             - name: config
               mountPath: "/config.yaml"
+              subPath: config.yaml
               readOnly: true
           ports:
             - name: http

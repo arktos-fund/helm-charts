@@ -29,8 +29,6 @@ spec:
                 {{- toYaml $dot.Values.global.securityContext | nindent 16 }}
               image: {{ $action.image.repository }}:{{ $action.image.tag }}
               imagePullPolicy: {{ $action.image.pullPolicy }}
-              cmd:
-                - "--config /config.yaml"
               env:
                 {{- toYaml $action.environment | nindent 16 }}
               resources:
@@ -38,6 +36,7 @@ spec:
               volumeMounts:
                 - name: config
                   mountPath: "/config.yaml"
+                  subPath: config.yaml
                   readOnly: true
           restartPolicy: Never
           volumes:
