@@ -29,8 +29,8 @@ spec:
                 {{- toYaml $dot.Values.global.securityContext | nindent 16 }}
               image: {{ $action.image.repository }}:{{ $action.image.tag }}
               imagePullPolicy: {{ $action.image.pullPolicy }}
-              args:
-                - "--config '/config.yaml'"
+              cmd:
+                - "--config /config.yaml"
               env:
                 {{- toYaml $action.environment | nindent 16 }}
               resources:

@@ -33,9 +33,9 @@ worker:
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
 
-  environment: []
-    # - name: API_DEBUG
-    #   value: "false"
+  environment:
+    - name: API_DEBUG
+      value: "false"
     # - name: EOD_KEY
     #   valueFrom:
     #     secretKeyRef:
