@@ -66,12 +66,7 @@ worker:
 
 cronjob:
   enabled: true
-  countries: {
-    "c-fr": "@daily",
-    "c-es": "@daily",
-    "c-us": "@daily",
-    "c-cn": "@daily",
-  }
+  countries: {}
 
   actions:
     - name: company-dividends
