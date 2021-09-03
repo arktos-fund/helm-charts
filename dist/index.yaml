@@ -14,7 +14,17 @@ entries:
   workers:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-09-03T18:41:13.967207+02:00"
+    created: "2021-09-03T18:45:47.57581+02:00"
+    description: A Helm chart for Kubernetes
+    digest: 9f3743d83982112040a015820b56163b56fbb40523d04e7fb3a5db744316b847
+    name: workers
+    type: application
+    urls:
+    - https://helm-venture.universe.sh/workers-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-09-03T18:45:47.575493+02:00"
     description: A Helm chart for Kubernetes
     digest: 9223284410bc0406a4d94a7492dc541bf551105378a2498bd0be024edc340063
     name: workers
@@ -42,4 +52,4 @@ entries:
     urls:
     - https://helm-venture.universe.sh/workers-0.1.3.tgz
     version: 0.1.3
-generated: "2021-09-03T18:41:13.965336+02:00"
+generated: "2021-09-03T18:45:47.572546+02:00"
