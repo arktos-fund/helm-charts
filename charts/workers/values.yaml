@@ -31,10 +31,10 @@ worker:
   replicaCount: 1
 
   image:
-    repository: nginx
+    repository: rg.fr-par.scw.cloud/internal-consumers/add-companies:latest
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    tag: "latest"
     imagePullSecrets:
       - name: regcred
 
@@ -66,18 +66,22 @@ worker:
 
 cronjob:
   enabled: true
-  countries: ["c-fr", "c-es"]
+  countries: {
+    "c-fr": "@daily",
+    "c-es": "@daily",
+    "c-us": "@daily",
+    "c-cn": "@daily",
+  }
 
   actions:
-    - name: add
-      schedule: "@daily"
+    - name: company-dividends
       startingDeadlineSeconds: 1200
 
       image:
-        repository: nginx
+        repository: rg.fr-par.scw.cloud/internal-consumers/schedule-company-dividends
         pullPolicy: IfNotPresent
         # Overrides the image tag whose default is the chart appVersion.
-        tag: "1"
+        tag: "latest"
         imagePullSecrets: []
 
       environment: []
@@ -90,15 +94,14 @@ cronjob:
           cpu: 100m
           memory: 128Mi
 
-    - name: delete
-      schedule: "@daily"
+    - name: company-analysis
       startingDeadlineSeconds: 1200
 
       image:
-        repository: nginx
+        repository: rg.fr-par.scw.cloud/internal-consumers/schedule-company-analysis
         pullPolicy: IfNotPresent
         # Overrides the image tag whose default is the chart appVersion.
-        tag: "1"
+        tag: "latest"
         imagePullSecrets: []
 
       environment: []

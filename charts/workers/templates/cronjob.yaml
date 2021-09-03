@@ -6,11 +6,11 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "crons.fullname" $dot }}-{{ $country }}
+  name: {{ include "crons.fullname" $dot }}-{{ $ckey }}
   labels:
     {{- include "workers.labels" $dot | nindent 4 }}
 spec:
-  schedule: {{ $action.schedule | quote }}
+  schedule: {{ $country | quote }}
   successfulJobsHistoryLimit: 0
   failedJobsHistoryLimit: 2
   startingDeadlineSeconds: {{ $action.startingDeadlineSeconds | default 600 }}
@@ -47,7 +47,7 @@ spec:
               secret:
                 secretName: config
                 items:
-                  - key: {{ $country }}
+                  - key: {{ $ckey }}
                     path: config.yaml
           {{- with $dot.Values.nodeSelector }}
           nodeSelector:

@@ -3,9 +3,9 @@ entries:
   hasura-graphql:
   - apiVersion: v2
     appVersion: v1.3.3
-    created: "2021-09-03T00:42:42.792696+02:00"
+    created: "2021-09-03T18:58:22.93366+02:00"
     description: Hasura Helm chart for Kubernetes
-    digest: 7966261d1b89815bddc577fe24a583d51c1c818496bef07b8c596b41165ea3b2
+    digest: f04a456e8a933f7ff2718ea9d1bd09ca50b1fa439d5a78cacced1c0463bdc53c
     name: hasura-graphql
     type: application
     urls:
@@ -14,7 +14,17 @@ entries:
   workers:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-09-03T18:45:47.57581+02:00"
+    created: "2021-09-03T18:58:22.936544+02:00"
+    description: A Helm chart for Kubernetes
+    digest: f8c7e1ab583458cb048e09d31d526c976043450fd2106ad57f5a7157d5208118
+    name: workers
+    type: application
+    urls:
+    - https://helm-venture.universe.sh/workers-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-09-03T18:58:22.936181+02:00"
     description: A Helm chart for Kubernetes
     digest: 9f3743d83982112040a015820b56163b56fbb40523d04e7fb3a5db744316b847
     name: workers
@@ -24,7 +34,7 @@ entries:
     version: 0.1.6
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-09-03T18:45:47.575493+02:00"
+    created: "2021-09-03T18:58:22.935363+02:00"
     description: A Helm chart for Kubernetes
     digest: 9223284410bc0406a4d94a7492dc541bf551105378a2498bd0be024edc340063
     name: workers
@@ -34,7 +44,7 @@ entries:
     version: 0.1.5
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-09-03T18:41:13.96688+02:00"
+    created: "2021-09-03T18:58:22.93481+02:00"
     description: A Helm chart for Kubernetes
     digest: dd40ff915a13cb74b67164867d7425b962f4585804b98b9bdfd3860da9d8b43b
     name: workers
@@ -44,7 +54,7 @@ entries:
     version: 0.1.4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-09-03T18:41:13.966276+02:00"
+    created: "2021-09-03T18:58:22.934266+02:00"
     description: A Helm chart for Kubernetes
     digest: 12dd86dced6bb6cb8dc31b9fed67719797a249667d3fd5a3b3e0bc83f6a72fbe
     name: workers
@@ -52,4 +62,4 @@ entries:
     urls:
     - https://helm-venture.universe.sh/workers-0.1.3.tgz
     version: 0.1.3
-generated: "2021-09-03T18:45:47.572546+02:00"
+generated: "2021-09-03T18:58:22.933137+02:00"
