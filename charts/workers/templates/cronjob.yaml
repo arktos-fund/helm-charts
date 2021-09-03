@@ -6,7 +6,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "workers.fullname" $dot }}-{{ $action.name }}-{{ $country }}
+  name: {{ include "workers.fullname" $dot }}-{{ $country }}
   labels:
     {{- include "workers.labels" $dot | nindent 4 }}
 spec:
