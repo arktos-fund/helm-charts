@@ -1,0 +1,246 @@
+# Default values for microservice.
+
+app:
+  replicaCount: 1
+
+  image:
+    repository: rg.fr-par.scw.cloud/arktos-venture/grpc-apis/company
+    pullPolicy: IfNotPresent
+    tag: ""
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    create: false
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext:
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    ports:
+      http: 8000
+      grpc: 11000
+
+  ingress:
+    enabled: false
+    className: "nginx"
+    annotations: {}
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: venture.universe.sh
+        paths:
+          - path: /grpc/v1/company
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  env: []
+    # - name: API_DEBUG
+    #   value: {{ .Values.app.secrets.debug }}
+    # - name: API_KEY
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: backend-user
+    #       key: backend-username
+
+  config:
+    logger:
+      format: fmt
+      level: info
+    timeout: 3s
+    data:
+      redis:
+        hostname: redis
+        port: 6379
+        database: 8
+        timeout: 1.5s
+      tdengine:
+        database: analysis
+        username: root
+        password: taosdata
+        timeout: 5s
+      mongodb:
+        hostnames: 
+          - mongodb:27017
+        database: brokers
+        timeout: 3s
+      services:
+        companies:
+          hostname: company
+          port: 11000
+          timeout: 3s
+
+  metrics:
+    enabled: true
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+redis:
+  enabled: false
+
+  image:
+    registry: docker.io
+    repository: bitnami/redis
+    tag: 6.2.6-debian-10-r53
+    pullSecrets: []
+    debug: false
+  
+  architecture: replication
+  auth:
+    enabled: true
+    sentinel: false
+    existingSecret: ""
+    existingSecretPasswordKey: ""
+
+  master:
+    persistence:
+      enabled: false
+
+    resources:
+      limits: {}
+      requests: {}
+  
+  replica:
+    replicaCount: 0
+    persistence:
+      enabled: false
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 11
+      targetCPU: ""
+      targetMemory: ""
+
+    resources:
+      limits:
+        cpu: 250m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 256Mi
+
+  metrics:
+    enabled: false
+    image:
+      registry: docker.io
+      repository: bitnami/redis-exporter
+      tag: 1.31.4-debian-10-r11
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+
+    resources:
+      limits: {}
+      requests: {}
+
+mongodb:
+  enabled: false
+
+  serviceAccount:
+    create: false
+
+  image:
+    registry: docker.io
+    repository: bitnami/mongodb
+    tag: 4.4.10-debian-10-r44
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+    debug: false
+
+  auth:
+    enabled: true
+    rootUser: root
+    rootPassword: ""
+    usernames: []
+    passwords: []
+    databases: []
+    existingSecret: ""
+
+  systemLogVerbosity: 0
+  initdbScripts: 
+    my_init_script.sh: |
+      #!/bin/bash
+      echo "Do something."
+
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 30
+
+  pdb:
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 2Gi
+
+  arbiter:
+    enabled: false
+
+  metrics:
+    enabled: true
+    image:
+      registry: docker.io
+      repository: bitnami/mongodb-exporter
+      tag: 0.11.2-debian-10-r354
+      pullSecrets: []
+
+    serviceMonitor:
+      enabled: true
+
+    resources:
+      limits:
+        cpu: 30m
+        memory: 56Mi
+      requests:
+        cpu: 30m
+        memory: 56Mi
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi

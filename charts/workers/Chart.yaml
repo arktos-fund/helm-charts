@@ -1,6 +1,0 @@
-apiVersion: v2
-name: workers
-description: A Helm chart for Kubernetes Workers
-type: application
-version: 0.2.3
-appVersion: "1.16.0"
