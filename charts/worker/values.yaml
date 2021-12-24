@@ -1,0 +1,89 @@
+# Default values for microservice.
+
+app:
+  schedule:
+    - expression: "0 0 * * 2-6"
+      exchange: NASDAQ
+    - expression: "0 3 * * 2-6"
+      exchange: NYSE
+    - expression: "0 19 * * 1-5"
+      exchange: PA
+    - expression: "45 19 * * 1-5"
+      exchange: BR
+    - expression: "50 19 * * 1-5"
+      exchange: AS
+    - expression: "0 18 * * 1-5"
+      exchange: LSE
+    - expression: "0 18 * * 1-5"
+      exchange: LS
+
+  image:
+    repository: rg.fr-par.scw.cloud/arktos-venture/grpc-apis/company
+    pullPolicy: IfNotPresent
+    tag: ""
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    create: false
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext:
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+
+  env: []
+    # - name: API_DEBUG
+    #   value: {{ .Values.app.secrets.debug }}
+    # - name: API_KEY
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: backend-user
+    #       key: backend-username
+
+  config:
+    logger:
+      format: fmt
+      level: info
+    data:
+      redis:
+        hostname: redis
+        port: 6379
+        database: 8
+        timeout: 1.5s
+      tdengine:
+        database: analysis
+        username: root
+        password: taosdata
+        timeout: 5s
+      mongodb:
+        hostnames: 
+          - mongodb:27017
+        database: brokers
+        timeout: 3s
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
