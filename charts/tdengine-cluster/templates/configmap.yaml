@@ -7,4 +7,4 @@ metadata:
     {{- include "tdengine.labels" . | nindent 4 }}
 data: 
   taos.cfg: |-
-    {{- .Values.taoscfg | nindent 4 }}
+    {{- .Values.taosd.taoscfg | nindent 4 }}

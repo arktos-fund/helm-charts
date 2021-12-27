@@ -7,8 +7,7 @@ metadata:
     app: taosd
 spec:
   serviceName: {{ include "tdengine.fullname" . }}
-  replicas: {{ .Values.replicaCount }}
-  # podManagementPolicy: Parallel
+  replicas: {{ .Values.taosd.replicaCount }}
   selector:
     matchLabels:
       {{- include "tdengine.selectorLabels" . | nindent 6 }}
@@ -17,27 +16,29 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.taosd.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "tdengine.selectorLabels" . | nindent 8 }}
         app: taosd
     spec:
-      {{- with .Values.nodeSelectors.taosd }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.global.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.global.podSecurityContext }}
       securityContext:
-        fsGroup: 10001
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       initContainers:
         - name: init-config
-          image: "{{ .Values.image.prefix }}-init-config:latest"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.global.image.prefix }}-init-config:latest"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          {{- with .Values.global.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             - name: POD_NAME
               valueFrom:
@@ -54,13 +55,11 @@ spec:
             - name: TAOS_SERVER_PORT
               value: "6030"
             - name: TAOS_FIRST_EP
-              value: '$(STS_NAME)-0.$(SERVICE_NAME).$(STS_NAMESPACE).svc.{{ .Values.clusterDomainSuffix | default "cluster.local" }}:$(TAOS_SERVER_PORT)'
+              value: '$(STS_NAME)-0.$(SERVICE_NAME).$(STS_NAMESPACE).svc.{{ .Values.global.clusterDomainSuffix | default "cluster.local" }}:$(TAOS_SERVER_PORT)'
             - name: TAOS_FQDN
-              value: '$(POD_NAME).$(SERVICE_NAME).$(STS_NAMESPACE).svc.{{ .Values.clusterDomainSuffix | default "cluster.local" }}'
-            {{- if .Values.arbitrator }}
+              value: '$(POD_NAME).$(SERVICE_NAME).$(STS_NAMESPACE).svc.{{ .Values.global.clusterDomainSuffix | default "cluster.local" }}'
             - name: TAOS_ARBITRATOR
               value: {{ include "tdengine.fullname" . }}-arbitrator
-            {{- end }}
           volumeMounts:
             - name: {{ include "tdengine.fullname" . }}-taoscfg
               mountPath: /config
@@ -70,15 +69,15 @@ spec:
               readOnly: false
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.prefix }}-node:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports: {{ range $idx, $val := .Values.service.ports.tcp }}
+          image: "{{ .Values.global.image.prefix }}-node:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          ports: {{ range $idx, $val := .Values.taosd.service.ports.tcp }}
             - name: tcp{{- $idx}}
               containerPort: {{ $val }}
               hostPort: {{ $val }}
               protocol: TCP
             {{- end }}
-            {{ range $idx, $val := .Values.service.ports.udp }}
+            {{ range $idx, $val := .Values.taosd.service.ports.udp }}
             - name: udp {{- $idx}}
               containerPort: {{ $val }}
               hostPort: {{ $val }}
@@ -99,14 +98,12 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            - name: TZ
-              value: {{ .Values.timezone | quote }}
             - name: TAOS_SERVER_PORT
               value: "6030"
             - name: TAOS_FIRST_EP
-              value: '$(STS_NAME)-0.$(SERVICE_NAME).$(STS_NAMESPACE).svc.{{ .Values.clusterDomainSuffix | default "cluster.local" }}:$(TAOS_SERVER_PORT)'
+              value: '$(STS_NAME)-0.$(SERVICE_NAME).$(STS_NAMESPACE).svc.{{ .Values.global.clusterDomainSuffix | default "cluster.local" }}:$(TAOS_SERVER_PORT)'
             - name: TAOS_FQDN
-              value: '$(POD_NAME).$(SERVICE_NAME).$(STS_NAMESPACE).svc.{{ .Values.clusterDomainSuffix | default "cluster.local" }}'
+              value: '$(POD_NAME).$(SERVICE_NAME).$(STS_NAMESPACE).svc.{{ .Values.global.clusterDomainSuffix | default "cluster.local" }}'
           volumeMounts:
             - name: {{ include "tdengine.fullname" . }}-taosdata
               mountPath: /var/lib/taos
@@ -132,36 +129,27 @@ spec:
               port: 6030
             initialDelaySeconds: 15
             periodSeconds: 20
+          {{- with .Values.global.securityContext }}
           securityContext:
-            privileged: false
-            allowPrivilegeEscalation: false
-            runAsUser: 10001
-            runAsGroup: 10001
-            capabilities:
-              drop:
-                - ALL
-            # AllowedHostPaths:
-            # - pathPrefix: "/proc"
-            #   readOnly: true # 仅允许只读模式挂载
-            # - pathPrefix: "/sys"
-            #   readOnly: true # 仅允许只读模式挂载
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.taosd.resources | nindent 12 }}
       volumes:
         - name: config
           emptyDir: {}
         - name: {{ include "tdengine.fullname" . }}-taoscfg
           configMap:
             name: {{ include "tdengine.fullname" . }}-taoscfg
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.taosd.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.taosd.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.taosd.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -171,16 +159,16 @@ spec:
       spec:
         accessModes:
           - "ReadWriteOnce"
-        storageClassName: "{{ .Values.storage.className }}"
+        storageClassName: "{{ .Values.taosd.storage.className }}"
         resources:
           requests:
-            storage: "{{ .Values.storage.dataSize }}"
+            storage: "{{ .Values.taosd.storage.dataSize }}"
     - metadata:
         name: {{ include "tdengine.fullname" . }}-taoslog
       spec:
         accessModes:
           - "ReadWriteOnce"
-        storageClassName: "{{ .Values.storage.className }}"
+        storageClassName: "{{ .Values.taosd.storage.className }}"
         resources:
           requests:
-            storage: "{{ .Values.storage.logSize }}"
+            storage: "{{ .Values.taosd.storage.logSize }}"
