@@ -1,0 +1,67 @@
+# Default values for tdengine.
+
+replicaCount: 3
+
+image:
+  prefix: quay.io/arktos-venture/tdengine
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "2.3.6.0"
+
+service:
+  # ClusterIP is the default service type, use NodeIP only if you know what you are doing.
+  type: ClusterIP
+  ports:
+    # TCP range required
+    tcp: [6030,6031,6032,6033,6034, 6035,6036,6037,6038, 6039, 6040, 6041, 6042, 6043, 6044, 6045, 6060]
+    # UDP range 6030-6039
+    udp: [6030, 6031, 6032, 6033, 6034, 6035, 6036, 6037, 6038, 6039]
+
+arbitrator: true
+
+# Set timezone here, not in taoscfg
+timezone: "Europe/London"
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 256Mi
+  requests:
+    cpu: 300m
+    memory: 256Mi
+
+storage:
+  # Set storageClassName for pvc. K8s use default storage class if not set.
+  #
+  className: "scw-bssd"
+  dataSize: "10Gi"
+  logSize: "2Gi"
+
+nodeSelectors:
+  taosd:
+    # node selectors
+
+clusterDomainSuffix: ""
+
+# Config settings in taos.cfg file.
+#
+# The helm/k8s support will use environment variables for taos.cfg,
+# converting an upper-snake-cased variable like `TAOS_DEBUG_FLAG`,
+# to a camelCase taos config variable `debugFlag`.
+#
+# See the variable list at https://www.taosdata.com/cn/documentation/administrator .
+#
+# Note:
+# 1. firstEp/secondEp: should not be setted here, it's auto generated at scale-up.
+# 2. serverPort: should not be setted, we'll use the default 6030 in many places.
+# 3. fqdn: will be auto generated in kubenetes, user should not care about it.
+# 4. role: currently role is not supported - every node is able to be mnode and vnode.
+#
+# Btw, keep quotes "" around the value like below, even the value will be number or not.
+taoscfg: |
+  keepColumnName  1
+  http  1
+  monitor 1
+  enableRecordSql 0
+  enableCoreFile  1
+  stream  0

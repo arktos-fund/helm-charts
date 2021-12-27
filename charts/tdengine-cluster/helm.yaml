@@ -1,0 +1,448 @@
+---
+# Source: tdengine/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: global-tdengine-taoscfg
+  labels:
+    helm.sh/chart: tdengine-0.2.1
+    app.kubernetes.io/name: tdengine
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.2.2.10"
+    app.kubernetes.io/managed-by: Helm
+data: 
+  taos.cfg: |-
+    # keepColumnName  1
+    # http  1
+    # monitor 1
+    # enableRecordSql 0
+    # enableCoreFile  1
+    # stream  0
+---
+# Source: tdengine/templates/arbitrator-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: global-tdengine-arbitrator
+  labels:
+    helm.sh/chart: tdengine-0.2.1
+    app.kubernetes.io/name: tdengine
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.2.2.10"
+    app.kubernetes.io/managed-by: Helm
+    app: "arbitrator"
+spec:
+  type: ClusterIP
+  ports:
+    - name: tcp6042
+      port: 6042
+      protocol: TCP
+  selector:
+    app: "arbitrator"
+---
+# Source: tdengine/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: global-tdengine
+  labels:
+    helm.sh/chart: tdengine-0.2.1
+    app.kubernetes.io/name: tdengine
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.2.2.10"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports: 
+    - name: tcp0
+      port: 6030
+      protocol: TCP
+    - name: tcp1
+      port: 6031
+      protocol: TCP
+    - name: tcp2
+      port: 6032
+      protocol: TCP
+    - name: tcp3
+      port: 6033
+      protocol: TCP
+    - name: tcp4
+      port: 6034
+      protocol: TCP
+    - name: tcp5
+      port: 6035
+      protocol: TCP
+    - name: tcp6
+      port: 6036
+      protocol: TCP
+    - name: tcp7
+      port: 6037
+      protocol: TCP
+    - name: tcp8
+      port: 6038
+      protocol: TCP
+    - name: tcp9
+      port: 6039
+      protocol: TCP
+    - name: tcp10
+      port: 6040
+      protocol: TCP
+    - name: tcp11
+      port: 6041
+      protocol: TCP
+    - name: tcp12
+      port: 6042
+      protocol: TCP
+    - name: tcp13
+      port: 6043
+      protocol: TCP
+    - name: tcp14
+      port: 6044
+      protocol: TCP
+    - name: tcp15
+      port: 6045
+      protocol: TCP
+    - name: tcp16
+      port: 6060
+      protocol: TCP
+    
+    - name: udp0
+      port: 6030
+      protocol: UDP
+    - name: udp1
+      port: 6031
+      protocol: UDP
+    - name: udp2
+      port: 6032
+      protocol: UDP
+    - name: udp3
+      port: 6033
+      protocol: UDP
+    - name: udp4
+      port: 6034
+      protocol: UDP
+    - name: udp5
+      port: 6035
+      protocol: UDP
+    - name: udp6
+      port: 6036
+      protocol: UDP
+    - name: udp7
+      port: 6037
+      protocol: UDP
+    - name: udp8
+      port: 6038
+      protocol: UDP
+    - name: udp9
+      port: 6039
+      protocol: UDP
+  selector:
+    app.kubernetes.io/name: tdengine
+    app.kubernetes.io/instance: global
+    app: "taosd"
+---
+# Source: tdengine/templates/arbitrator.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: global-tdengine-arbitrator
+  labels:
+    helm.sh/chart: tdengine-0.2.1
+    app.kubernetes.io/name: tdengine
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.2.2.10"
+    app.kubernetes.io/managed-by: Helm
+    app: "arbitrator"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tdengine
+      app.kubernetes.io/instance: global
+      app: "arbitrator"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: tdengine
+        app.kubernetes.io/instance: global
+        app: "arbitrator"
+    spec:
+      containers:
+      - name: arbitrator
+        image: "quay.io/arktos-venture/tdengine-arbitrator:2.3.6.0"
+        ports:
+        - name: tcp6042
+          containerPort: 6042
+          protocol: TCP
+---
+# Source: tdengine/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: global-tdengine
+  labels:
+    helm.sh/chart: tdengine-0.2.1
+    app.kubernetes.io/name: tdengine
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.2.2.10"
+    app.kubernetes.io/managed-by: Helm
+    app: taosd
+spec:
+  serviceName: global-tdengine
+  replicas: 3
+  # podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tdengine
+      app.kubernetes.io/instance: global
+      app: taosd
+  template:
+    metadata:
+      annotations:
+        checksum/config: 4bec139df960fa71d655d226a377b7bd92f889cd239b87d48c507491b29f3eaa
+      labels:
+        app.kubernetes.io/name: tdengine
+        app.kubernetes.io/instance: global
+        app: taosd
+    spec:
+      securityContext:
+        fsGroup: 10001
+      initContainers:
+        - name: init-config
+          image: "quay.io/arktos-venture/tdengine-init-config:latest"
+          imagePullPolicy: Always
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SERVICE_NAME
+              value: global-tdengine
+            - name: STS_NAME
+              value: global-tdengine
+            - name: STS_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: TAOS_SERVER_PORT
+              value: "6030"
+            - name: TAOS_FIRST_EP
+              value: "$(STS_NAME)-0.$(SERVICE_NAME).$(STS_NAMESPACE).svc.cluster.local:$(TAOS_SERVER_PORT)"
+            - name: TAOS_FQDN
+              value: "$(POD_NAME).$(SERVICE_NAME).$(STS_NAMESPACE).svc.cluster.local"
+            - name: TAOS_ARBITRATOR
+              value: global-tdengine-arbitrator
+          volumeMounts:
+            - name: global-tdengine-taoscfg
+              mountPath: /config
+              readOnly: true
+            - name: config
+              mountPath: "/etc/taos"
+              readOnly: false
+      containers:
+        - name: tdengine
+          image: "quay.io/arktos-venture/tdengine-node:2.3.6.0"
+          imagePullPolicy: Always
+          ports: 
+            - name: tcp0
+              containerPort: 6030
+              hostPort: 6030
+              protocol: TCP
+            - name: tcp1
+              containerPort: 6031
+              hostPort: 6031
+              protocol: TCP
+            - name: tcp2
+              containerPort: 6032
+              hostPort: 6032
+              protocol: TCP
+            - name: tcp3
+              containerPort: 6033
+              hostPort: 6033
+              protocol: TCP
+            - name: tcp4
+              containerPort: 6034
+              hostPort: 6034
+              protocol: TCP
+            - name: tcp5
+              containerPort: 6035
+              hostPort: 6035
+              protocol: TCP
+            - name: tcp6
+              containerPort: 6036
+              hostPort: 6036
+              protocol: TCP
+            - name: tcp7
+              containerPort: 6037
+              hostPort: 6037
+              protocol: TCP
+            - name: tcp8
+              containerPort: 6038
+              hostPort: 6038
+              protocol: TCP
+            - name: tcp9
+              containerPort: 6039
+              hostPort: 6039
+              protocol: TCP
+            - name: tcp10
+              containerPort: 6040
+              hostPort: 6040
+              protocol: TCP
+            - name: tcp11
+              containerPort: 6041
+              hostPort: 6041
+              protocol: TCP
+            - name: tcp12
+              containerPort: 6042
+              hostPort: 6042
+              protocol: TCP
+            - name: tcp13
+              containerPort: 6043
+              hostPort: 6043
+              protocol: TCP
+            - name: tcp14
+              containerPort: 6044
+              hostPort: 6044
+              protocol: TCP
+            - name: tcp15
+              containerPort: 6045
+              hostPort: 6045
+              protocol: TCP
+            - name: tcp16
+              containerPort: 6060
+              hostPort: 6060
+              protocol: TCP
+            
+            - name: udp0
+              containerPort: 6030
+              hostPort: 6030
+              protocol: UDP
+            - name: udp1
+              containerPort: 6031
+              hostPort: 6031
+              protocol: UDP
+            - name: udp2
+              containerPort: 6032
+              hostPort: 6032
+              protocol: UDP
+            - name: udp3
+              containerPort: 6033
+              hostPort: 6033
+              protocol: UDP
+            - name: udp4
+              containerPort: 6034
+              hostPort: 6034
+              protocol: UDP
+            - name: udp5
+              containerPort: 6035
+              hostPort: 6035
+              protocol: UDP
+            - name: udp6
+              containerPort: 6036
+              hostPort: 6036
+              protocol: UDP
+            - name: udp7
+              containerPort: 6037
+              hostPort: 6037
+              protocol: UDP
+            - name: udp8
+              containerPort: 6038
+              hostPort: 6038
+              protocol: UDP
+            - name: udp9
+              containerPort: 6039
+              hostPort: 6039
+              protocol: UDP
+          env:
+            - name: CLUSTER
+              value: "1"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SERVICE_NAME
+              value: global-tdengine
+            - name: STS_NAME
+              value: global-tdengine
+            - name: STS_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: TZ
+              value: "Europe/London"
+            - name: TAOS_SERVER_PORT
+              value: "6030"
+            - name: TAOS_FIRST_EP
+              value: "$(STS_NAME)-0.$(SERVICE_NAME).$(STS_NAMESPACE).svc.cluster.local:$(TAOS_SERVER_PORT)"
+            - name: TAOS_FQDN
+              value: "$(POD_NAME).$(SERVICE_NAME).$(STS_NAMESPACE).svc.cluster.local"
+          volumeMounts:
+            - name: global-tdengine-taosdata
+              mountPath: /var/lib/taos
+              readOnly: false
+            - name: global-tdengine-taoslog
+              mountPath: /var/log/taos
+              readOnly: false
+            - name: config
+              mountPath: "/etc/taos"
+              readOnly: true
+          readinessProbe:
+            exec:
+              command:
+              - taos
+              - -n
+              - startup
+              - -h
+              - "${POD_NAME}"
+            initialDelaySeconds: 5
+            timeoutSeconds: 5000
+          livenessProbe:
+            tcpSocket:
+              port: 6030
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+            runAsUser: 10001
+            runAsGroup: 10001
+            capabilities:
+              drop:
+                - ALL
+            # AllowedHostPaths:
+            # - pathPrefix: "/proc"
+            #   readOnly: true # 仅允许只读模式挂载
+            # - pathPrefix: "/sys"
+            #   readOnly: true # 仅允许只读模式挂载
+          resources:
+            limits:
+              cpu: 300m
+              memory: 256Mi
+            requests:
+              cpu: 300m
+              memory: 256Mi
+      volumes:
+        - name: config
+          emptyDir: {}
+        - name: global-tdengine-taoscfg
+          configMap:
+            name: global-tdengine-taoscfg
+  volumeClaimTemplates:
+    - metadata:
+        name: global-tdengine-taosdata
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        storageClassName: "scw-bssd"
+        resources:
+          requests:
+            storage: "5Gi"
+    - metadata:
+        name: global-tdengine-taoslog
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        storageClassName: "scw-bssd"
+        resources:
+          requests:
+            storage: "2Gi"
