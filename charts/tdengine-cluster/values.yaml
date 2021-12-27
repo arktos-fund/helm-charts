@@ -18,6 +18,8 @@ global:
     allowPrivilegeEscalation: false
     runAsUser: 10001
     runAsGroup: 10001
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
     capabilities:
       drop:
         - ALL
