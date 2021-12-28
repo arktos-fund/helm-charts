@@ -1,0 +1,20 @@
+apiVersion: v2
+appVersion: v0.1.0
+description: A Helm chart for Microservice for Kubernetes.
+name: microservice
+version: 0.0.1
+home: https://github.com/arktos-venture/helm-charts
+keywords:
+  - arktos-venture
+  - microservice
+maintainers:
+  - name: perriea
+dependencies:
+  - name: redis
+    version: 15.6.8
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+  - name: mongodb
+    version: 10.30.8
+    repository: https://charts.bitnami.com/bitnami
+    condition: mongodb.enabled

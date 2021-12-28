@@ -1,105 +1,74 @@
 apiVersion: v1
 entries:
-  hasura-graphql:
+  microservice:
   - apiVersion: v2
-    appVersion: v1.3.3
-    created: "2021-09-03T18:58:22.93366+02:00"
-    description: Hasura Helm chart for Kubernetes
-    digest: f04a456e8a933f7ff2718ea9d1bd09ca50b1fa439d5a78cacced1c0463bdc53c
-    name: hasura-graphql
+    appVersion: v0.1.0
+    created: "2021-12-28T21:55:29.229457+01:00"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.6.8
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.30.8
+    description: A Helm chart for Microservice for Kubernetes.
+    digest: 4c3785110e7427b173b8878e2add62a086bb1a71654977828e6f74d31bf44059
+    home: https://github.com/arktos-venture/helm-charts
+    keywords:
+    - arktos-venture
+    - microservice
+    maintainers:
+    - name: perriea
+    name: microservice
+    urls:
+    - https://helm-venture.universe.sh/microservice-0.0.1.tgz
+    version: 0.0.1
+  tdengine-adapter:
+  - apiVersion: v2
+    appVersion: 2.3.6.0
+    created: "2021-12-28T21:55:29.22975+01:00"
+    description: A Helm chart for Kubernetes
+    digest: 2907b876bd8c035d97b24bdabc0f955009a9f0c940b80078640a4edba9dc56a0
+    name: tdengine-adapter
     type: application
     urls:
-    - https://helm-venture.universe.sh/hasura-graphql-0.1.0.tgz
+    - https://helm-venture.universe.sh/tdengine-adapter-0.1.0.tgz
     version: 0.1.0
-  workers:
+  tdengine-cluster:
   - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-04T00:36:17.197891+02:00"
-    description: A Helm chart for Kubernetes Workers
-    digest: 3e4938ce519f97729b93e4bedc373dec632100936a1bfe21c98a15ef775a57cc
-    name: workers
+    appVersion: 2.3.6.0
+    created: "2021-12-28T21:55:29.230061+01:00"
+    description: TDengine Cluster Chart for Kubenetes
+    digest: 0b3d4e5a1db3fb05919c8659ba0635d5dceb647e2f3b71d110902ea63d517248
+    icon: https://www.taosdata.com/images/taosdata-logo.png
+    maintainers:
+    - email: linhe.huo@gmail.com
+      name: Huo Linhe
+      url: https://github.com/zitsen
+    - email: a.perrier89@gmail.com
+      name: Aurelien Perrier
+      url: https://github.com/perriea
+    name: tdengine-cluster
     type: application
     urls:
-    - https://helm-venture.universe.sh/workers-0.2.3.tgz
-    version: 0.2.3
+    - https://helm-venture.universe.sh/tdengine-cluster-0.3.0.tgz
+    version: 0.3.0
+  worker:
   - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-04T00:36:17.197571+02:00"
-    description: A Helm chart for Kubernetes Workers
-    digest: 57ec024708ad8db194b759a9074a58a00cdc1e6052b8e86433668ad5a0eec958
-    name: workers
-    type: application
+    appVersion: v0.1.0
+    created: "2021-12-28T21:55:29.230346+01:00"
+    description: A Helm chart for Worker for Kubernetes.
+    digest: 76417e2ccfc95868b5151803ef1eb62a4d5ff96cb4bd8c0e849f9932ea7cf3e2
+    home: https://github.com/arktos-venture/helm-charts
+    keywords:
+    - arktos-venture
+    - worker
+    maintainers:
+    - name: perriea
+    name: worker
     urls:
-    - https://helm-venture.universe.sh/workers-0.2.2.tgz
-    version: 0.2.2
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-03T23:44:22.326145+02:00"
-    description: A Helm chart for Kubernetes
-    digest: 9f964195dd10344f56a1de2b0c692700b966294cdb830373655a9428fe503ade
-    name: workers
-    type: application
-    urls:
-    - https://helm-venture.universe.sh/workers-0.2.1.tgz
-    version: 0.2.1
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-03T23:03:42.079562+02:00"
-    description: A Helm chart for Kubernetes
-    digest: f03f3fe3a2cbd19b5f5364a541da71d4de9cc7534da05ce248ba29f008169b8b
-    name: workers
-    type: application
-    urls:
-    - https://helm-venture.universe.sh/workers-0.2.0.tgz
-    version: 0.2.0
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-03T21:07:25.283327+02:00"
-    description: A Helm chart for Kubernetes
-    digest: f8c7e1ab583458cb048e09d31d526c976043450fd2106ad57f5a7157d5208118
-    name: workers
-    type: application
-    urls:
-    - https://helm-venture.universe.sh/workers-0.1.7.tgz
-    version: 0.1.7
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-03T18:58:22.936181+02:00"
-    description: A Helm chart for Kubernetes
-    digest: 9f3743d83982112040a015820b56163b56fbb40523d04e7fb3a5db744316b847
-    name: workers
-    type: application
-    urls:
-    - https://helm-venture.universe.sh/workers-0.1.6.tgz
-    version: 0.1.6
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-03T18:58:22.935363+02:00"
-    description: A Helm chart for Kubernetes
-    digest: 9223284410bc0406a4d94a7492dc541bf551105378a2498bd0be024edc340063
-    name: workers
-    type: application
-    urls:
-    - https://helm-venture.universe.sh/workers-0.1.5.tgz
-    version: 0.1.5
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-03T18:58:22.93481+02:00"
-    description: A Helm chart for Kubernetes
-    digest: dd40ff915a13cb74b67164867d7425b962f4585804b98b9bdfd3860da9d8b43b
-    name: workers
-    type: application
-    urls:
-    - https://helm-venture.universe.sh/workers-0.1.4.tgz
-    version: 0.1.4
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2021-09-03T18:58:22.934266+02:00"
-    description: A Helm chart for Kubernetes
-    digest: 12dd86dced6bb6cb8dc31b9fed67719797a249667d3fd5a3b3e0bc83f6a72fbe
-    name: workers
-    type: application
-    urls:
-    - https://helm-venture.universe.sh/workers-0.1.3.tgz
-    version: 0.1.3
-generated: "2021-09-04T00:36:17.191458+02:00"
+    - https://helm-venture.universe.sh/worker-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-12-28T21:55:29.221772+01:00"

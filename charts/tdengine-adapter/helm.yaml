@@ -1,0 +1,185 @@
+---
+# Source: tdengine-adapter/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: global-tdengine-adapter
+  labels:
+    helm.sh/chart: tdengine-adapter-0.1.0
+    app.kubernetes.io/name: tdengine-adapter
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.3.6.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: tdengine-adapter/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: global-tdengine-adapter-taoscfg
+  labels:
+    helm.sh/chart: tdengine-adapter-0.1.0
+    app.kubernetes.io/name: tdengine-adapter
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.3.6.0"
+    app.kubernetes.io/managed-by: Helm
+data: 
+  taos.cfg: |-
+    serverPort                6030
+  taosadapter.toml: |-
+    debug = false
+    port = 6041
+    logLevel = "info"
+    
+    [cors]
+    allowAllOrigins = true
+    
+    [pool]
+    maxConnect = 1000
+    maxIdle = 1000
+    idleTimeout = "1h"
+    
+    [ssl]
+    enable = false
+    
+    [log]
+    path = "/var/log/taos"
+    rotationCount = 30
+    rotationTime = "1h"
+    rotationSize = "1GB"
+    
+    [opentsdb]
+    enable = false
+    
+    [influxdb]
+    enable = false
+    
+    [statsd]
+    enable = false
+    
+    [collectd]
+    enable = false
+    
+    [opentsdb_telnet]
+    enable = false
+    
+    [node_exporter]
+    enable = false
+---
+# Source: tdengine-adapter/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: global-tdengine-adapter
+  labels:
+    helm.sh/chart: tdengine-adapter-0.1.0
+    app.kubernetes.io/name: tdengine-adapter
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.3.6.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: tdengine-adapter
+    app.kubernetes.io/instance: global
+---
+# Source: tdengine-adapter/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: global-tdengine-adapter
+  labels:
+    helm.sh/chart: tdengine-adapter-0.1.0
+    app.kubernetes.io/name: tdengine-adapter
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.3.6.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tdengine-adapter
+      app.kubernetes.io/instance: global
+  template:
+    metadata:
+      annotations:
+        checksum/config: 6169bb17dfa1391bd88e67c67f78b3fb13d785c19dd19d94f65fa2696837b9ca
+      labels:
+        app.kubernetes.io/name: tdengine-adapter
+        app.kubernetes.io/instance: global
+    spec:
+      serviceAccountName: global-tdengine-adapter
+      securityContext:
+        fsGroup: 10001
+      containers:
+        - name: tdengine-adapter
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 10001
+            runAsNonRoot: true
+            runAsUser: 10001
+          image: "quay.io/arktos-venture/tdengine-adapter:2.3.6.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 6041
+              protocol: TCP
+          # livenessProbe:
+            # httpGet:
+            #   path: /
+            #   port: http
+          # readinessProbe:
+            # httpGet:
+            #   path: /
+            #   port: http
+          volumeMounts:
+            - name: global-tdengine-adapter-taoscfg
+              mountPath: /etc/taos
+              readOnly: true
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      volumes:
+        - name: global-tdengine-adapter-taoscfg
+          configMap:
+            name: global-tdengine-adapter-taoscfg
+---
+# Source: tdengine-adapter/templates/hpa.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: global-tdengine-adapter
+  labels:
+    helm.sh/chart: tdengine-adapter-0.1.0
+    app.kubernetes.io/name: tdengine-adapter
+    app.kubernetes.io/instance: global
+    app.kubernetes.io/version: "2.3.6.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: global-tdengine-adapter
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
