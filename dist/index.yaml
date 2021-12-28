@@ -1,0 +1,74 @@
+apiVersion: v1
+entries:
+  microservice:
+  - apiVersion: v2
+    appVersion: v0.1.0
+    created: "2021-12-28T21:55:29.229457+01:00"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.6.8
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.30.8
+    description: A Helm chart for Microservice for Kubernetes.
+    digest: 4c3785110e7427b173b8878e2add62a086bb1a71654977828e6f74d31bf44059
+    home: https://github.com/arktos-venture/helm-charts
+    keywords:
+    - arktos-venture
+    - microservice
+    maintainers:
+    - name: perriea
+    name: microservice
+    urls:
+    - https://helm-venture.universe.sh/microservice-0.0.1.tgz
+    version: 0.0.1
+  tdengine-adapter:
+  - apiVersion: v2
+    appVersion: 2.3.6.0
+    created: "2021-12-28T21:55:29.22975+01:00"
+    description: A Helm chart for Kubernetes
+    digest: 2907b876bd8c035d97b24bdabc0f955009a9f0c940b80078640a4edba9dc56a0
+    name: tdengine-adapter
+    type: application
+    urls:
+    - https://helm-venture.universe.sh/tdengine-adapter-0.1.0.tgz
+    version: 0.1.0
+  tdengine-cluster:
+  - apiVersion: v2
+    appVersion: 2.3.6.0
+    created: "2021-12-28T21:55:29.230061+01:00"
+    description: TDengine Cluster Chart for Kubenetes
+    digest: 0b3d4e5a1db3fb05919c8659ba0635d5dceb647e2f3b71d110902ea63d517248
+    icon: https://www.taosdata.com/images/taosdata-logo.png
+    maintainers:
+    - email: linhe.huo@gmail.com
+      name: Huo Linhe
+      url: https://github.com/zitsen
+    - email: a.perrier89@gmail.com
+      name: Aurelien Perrier
+      url: https://github.com/perriea
+    name: tdengine-cluster
+    type: application
+    urls:
+    - https://helm-venture.universe.sh/tdengine-cluster-0.3.0.tgz
+    version: 0.3.0
+  worker:
+  - apiVersion: v2
+    appVersion: v0.1.0
+    created: "2021-12-28T21:55:29.230346+01:00"
+    description: A Helm chart for Worker for Kubernetes.
+    digest: 76417e2ccfc95868b5151803ef1eb62a4d5ff96cb4bd8c0e849f9932ea7cf3e2
+    home: https://github.com/arktos-venture/helm-charts
+    keywords:
+    - arktos-venture
+    - worker
+    maintainers:
+    - name: perriea
+    name: worker
+    urls:
+    - https://helm-venture.universe.sh/worker-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-12-28T21:55:29.221772+01:00"
