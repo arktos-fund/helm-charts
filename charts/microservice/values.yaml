@@ -65,27 +65,27 @@ app:
       format: fmt
       level: info
     timeout: 3s
-    data:
-      redis:
-        hostname: redis
-        port: 6379
-        database: 8
-        timeout: 1.5s
-      tdengine:
-        database: analysis
-        username: root
-        password: taosdata
-        timeout: 5s
-      mongodb:
-        hostnames: 
-          - mongodb:27017
-        database: brokers
-        timeout: 3s
-      services:
-        companies:
-          hostname: company
-          port: 11000
-          timeout: 3s
+    data: {}
+      # redis:
+      #   hostname: redis
+      #   port: 6379
+      #   database: 8
+      #   timeout: 1.5s
+      # tdengine:
+      #   database: analysis
+      #   username: root
+      #   password: taosdata
+      #   timeout: 5s
+      # mongodb:
+      #   hostnames: 
+      #     - mongodb:27017
+      #   database: brokers
+      #   timeout: 3s
+      # services:
+      #   companies:
+      #     hostname: company
+      #     port: 11000
+      #     timeout: 3s
 
   metrics:
     enabled: true
@@ -192,10 +192,10 @@ mongodb:
     existingSecret: ""
 
   systemLogVerbosity: 0
-  initdbScripts: 
-    my_init_script.sh: |
-      #!/bin/bash
-      echo "Do something."
+  initdbScripts: {}
+    # my_init_script.sh: |
+    #   #!/bin/bash
+    #   echo "Do something."
 
   startupProbe:
     enabled: false
