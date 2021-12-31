@@ -8,7 +8,8 @@ app:
     pullPolicy: IfNotPresent
     tag: ""
 
-  imagePullSecrets: []
+  imagePullSecrets:
+    - name: reg-internal
   nameOverride: ""
   fullnameOverride: ""
 

@@ -13,6 +13,10 @@ app:
         paths:
           - path: /grpc/v1/accounts
             pathType: ImplementationSpecific
+      - host: api.arktos-consulting.cloud
+        paths:
+          - path: /v1/accounts
+            pathType: ImplementationSpecific
 
   config:
     logger:
