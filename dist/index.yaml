@@ -3,7 +3,7 @@ entries:
   microservice:
   - apiVersion: v2
     appVersion: v0.1.0
-    created: "2021-12-30T00:15:02.761222+01:00"
+    created: "2021-12-31T17:34:56.355515+01:00"
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -14,7 +14,7 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: 10.30.8
     description: A Helm chart for Microservice for Kubernetes.
-    digest: 688dd660bdffb19ff7b4c3c24b68b6319418ba91dba376a3e695aebf735d2ab2
+    digest: f6860036ae4a4bfc6828e1e948a1f69ad84e6127091e8d812f95ce81fe70a316
     home: https://github.com/arktos-venture/helm-charts
     keywords:
     - arktos-venture
@@ -28,9 +28,9 @@ entries:
   tdengine-adapter:
   - apiVersion: v2
     appVersion: 2.3.6.0
-    created: "2021-12-30T00:15:02.761601+01:00"
+    created: "2021-12-31T17:34:56.355794+01:00"
     description: A Helm chart for Kubernetes
-    digest: e74e4c48ea848125c3cbb5587a1f6852841adb8395a9f85aecc9d946bf162375
+    digest: 488f4ff00c34be025d36082e8d189875d5fe38bc8fadbdb43df2f68ab6d4caf8
     name: tdengine-adapter
     type: application
     urls:
@@ -39,9 +39,9 @@ entries:
   tdengine-cluster:
   - apiVersion: v2
     appVersion: 2.3.6.0
-    created: "2021-12-30T00:15:02.761937+01:00"
+    created: "2021-12-31T17:34:56.356098+01:00"
     description: TDengine Cluster Chart for Kubenetes
-    digest: 629726bd7f50097aa975f2b1dcb633408297dd87254d511b8fe7a7068cbb5f1c
+    digest: 8015d075f9b19e8103115d15043c43ad8552dd21ae6f996735d0ee4fba34ed67
     icon: https://www.taosdata.com/images/taosdata-logo.png
     maintainers:
     - email: linhe.huo@gmail.com
@@ -58,9 +58,9 @@ entries:
   worker:
   - apiVersion: v2
     appVersion: v0.1.0
-    created: "2021-12-30T00:15:02.76225+01:00"
+    created: "2021-12-31T17:34:56.356376+01:00"
     description: A Helm chart for Worker for Kubernetes.
-    digest: db1d4ad4d07ba7abbb1a49f6cd23789b24537209a4e3b2e8217894f94e3f8be9
+    digest: 97e9ceddfa7c8958ca5075de5793ac76a2937b32bf475909bb8a398d83c25364
     home: https://github.com/arktos-venture/helm-charts
     keywords:
     - arktos-venture
@@ -71,4 +71,4 @@ entries:
     urls:
     - https://helm.arktos-consulting.cloud/worker-0.0.1.tgz
     version: 0.0.1
-generated: "2021-12-30T00:15:02.752128+01:00"
+generated: "2021-12-31T17:34:56.34734+01:00"
