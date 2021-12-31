@@ -3,7 +3,7 @@ entries:
   microservice:
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2021-12-31T23:58:45.334213+01:00"
+    created: "2022-01-01T00:21:53.940974+01:00"
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -25,12 +25,81 @@ entries:
     urls:
     - https://helm.arktos-consulting.cloud/microservice-0.0.1.tgz
     version: 0.0.1
+  mongodb:
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: 4.5.0
+    created: "2022-01-01T00:21:53.944096+01:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: NoSQL document-oriented database that stores JSON-like documents
+      with dynamic schemas, simplifying the integration of data in content-driven
+      applications.
+    digest: a04609e804b7de801f2f4240778f64e5b8281ac05d733565e80793f827ab50b4
+    home: https://github.com/bitnami/charts/tree/master/bitnami/mongodb
+    icon: https://bitnami.com/assets/stacks/mongodb/img/mongodb-stack-220x234.png
+    keywords:
+    - mongodb
+    - database
+    - nosql
+    - cluster
+    - replicaset
+    - replication
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: mongodb
+    sources:
+    - https://github.com/bitnami/bitnami-docker-mongodb
+    - https://mongodb.org
+    urls:
+    - https://helm.arktos-consulting.cloud/mongodb-10.30.8.tgz
+    version: 10.30.8
+  redis:
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: 6.2.6
+    created: "2022-01-01T00:21:53.947374+01:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Open source, advanced key-value store. It is often referred to as
+      a data structure server since keys can contain strings, hashes, lists, sets
+      and sorted sets.
+    digest: 3ecf06e0968a75b9b726795786467d616b852f9f3b08dcd2b80ef53ba6d415bd
+    home: https://github.com/bitnami/charts/tree/master/bitnami/redis
+    icon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
+    keywords:
+    - redis
+    - keyvalue
+    - database
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
+    name: redis
+    sources:
+    - https://github.com/bitnami/bitnami-docker-redis
+    - http://redis.io/
+    urls:
+    - https://helm.arktos-consulting.cloud/redis-15.6.8.tgz
+    version: 15.6.8
   tdengine-adapter:
   - apiVersion: v2
     appVersion: 2.3.6.0
-    created: "2021-12-31T23:58:45.334501+01:00"
+    created: "2022-01-01T00:21:53.947653+01:00"
     description: A Helm chart for Kubernetes
-    digest: a22423be48e269fd6507f2f99fd31b2b86c347df293460d53902eed17486b366
+    digest: 4f0e450ee2c86daa7334a003f6b0e30a3fc5331891ce3638b65c128ca66559d2
     name: tdengine-adapter
     type: application
     urls:
@@ -39,9 +108,9 @@ entries:
   tdengine-cluster:
   - apiVersion: v2
     appVersion: 2.3.6.0
-    created: "2021-12-31T23:58:45.334806+01:00"
+    created: "2022-01-01T00:21:53.947979+01:00"
     description: TDengine Cluster Chart for Kubenetes
-    digest: f86e91cb3cce903591063b0d3e4fbfc44fa9cdd5e4357c1c40232a0f87dfd459
+    digest: 889ad8d4133fa8ef9ba316fb716b486664f3f26d6ee51eb0c09d39d05555158e
     icon: https://www.taosdata.com/images/taosdata-logo.png
     maintainers:
     - email: linhe.huo@gmail.com
@@ -58,9 +127,9 @@ entries:
   worker:
   - apiVersion: v2
     appVersion: v0.1.0
-    created: "2021-12-31T23:58:45.335088+01:00"
+    created: "2022-01-01T00:21:53.948257+01:00"
     description: A Helm chart for Worker for Kubernetes.
-    digest: 3cdf32ed521f6f2407fb5ce1fde7cb105718cd55870ccd5c1d644a77bb6cff11
+    digest: 6863826762040c0ca71188559e5553d8945b9f0639edbcc67cf2e82987382836
     home: https://github.com/arktos-venture/helm-charts
     keywords:
     - arktos-venture
@@ -71,4 +140,4 @@ entries:
     urls:
     - https://helm.arktos-consulting.cloud/worker-0.0.1.tgz
     version: 0.0.1
-generated: "2021-12-31T23:58:45.326397+01:00"
+generated: "2022-01-01T00:21:53.932942+01:00"
