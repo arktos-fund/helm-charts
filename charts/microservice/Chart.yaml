@@ -12,9 +12,9 @@ maintainers:
 dependencies:
   - name: redis
     version: 15.6.8
-    repository: https://helm.arktos-consulting.cloud
+    repository: "file://../redis"
     condition: redis.enabled
   - name: mongodb
     version: 10.30.8
-    repository: https://helm.arktos-consulting.cloud
+    repository: "file://../mongodb"
     condition: mongodb.enabled
