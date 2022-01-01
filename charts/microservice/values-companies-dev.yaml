@@ -25,7 +25,7 @@ app:
       redis:
         hostname: companies-redis-master
         port: 6379
-        database: 8
+        database: 1
         timeout: 1.5s
       mongodb:
         hostnames: 
