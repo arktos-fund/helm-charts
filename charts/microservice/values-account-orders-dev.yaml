@@ -2,18 +2,18 @@
 
 app:
   image:
-    repository: rg.fr-par.scw.cloud/arktos-venture/countries
+    repository: rg.fr-par.scw.cloud/arktos-venture/account-orders
 
   ingress:
     enabled: true
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
-          - path: /grpc/v1/countries
+          - path: /grpc/v1/account/orders
             pathType: ImplementationSpecific
       - host: api.arktos-consulting.cloud
         paths:
-          - path: /v1/countries
+          - path: /v1/account/orders
             pathType: ImplementationSpecific
 
   config:
@@ -25,19 +25,21 @@ app:
       redis:
         hostname: redis-master.database
         port: 6379
-        database: 4
+        database: 2
         timeout: 1.5s
-      services:
-        http:
-          timeout: 3s
+      mongodb:
+        hostnames: 
+          - mongodb.database:27017
+        database: brokers
+        timeout: 3s
 
   resources:
     limits:
-      cpu: 50m
-      memory: 90Mi
+      cpu: 100m
+      memory: 100Mi
     requests:
-      cpu: 50m
-      memory: 90Mi
+      cpu: 100m
+      memory: 100Mi
 
   nodeSelector:
     k8s.scaleway.com/pool-name: app
