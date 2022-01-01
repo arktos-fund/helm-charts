@@ -29,6 +29,9 @@ app:
         port: 6379
         database: 8
         timeout: 1.5s
+      services:
+        http:
+          timeout: 3s
 
   resources:
     limits:
