@@ -61,6 +61,11 @@ app:
     #       name: backend-user
     #       key: backend-username
 
+  volumes: []
+    # - name: config
+    #   secret:
+    #     secretName: config
+
   config:
     logger:
       format: fmt

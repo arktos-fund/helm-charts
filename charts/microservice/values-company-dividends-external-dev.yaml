@@ -7,6 +7,23 @@ app:
   ingress:
     enabled: false
 
+  env:
+    - name: API_DEBUG
+      valueFrom:
+        secretKeyRef:
+          name: eodhistoricaldata
+          key: debug
+    - name: API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: eodhistoricaldata
+          key: token
+
+  volumes:
+    - name: eodhistoricaldata
+      secret:
+        secretName: eodhistoricaldata
+
   config:
     logger:
       format: fmt
