@@ -1,0 +1,90 @@
+# Default values for microservice.
+
+app:
+  image:
+    repository: rg.fr-par.scw.cloud/arktos-venture/countries
+    pullPolicy: IfNotPresent
+    tag: ""
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: api.arktos-consulting.cloud
+        paths:
+          - path: /grpc/v1/countries
+            pathType: ImplementationSpecific
+      - host: api.arktos-consulting.cloud
+        paths:
+          - path: /v1/countries
+            pathType: ImplementationSpecific
+
+  config:
+    logger:
+      format: fmt
+      level: warn
+    timeout: 3s
+    data:
+      redis:
+        hostname: accounts-redis-master
+        port: 6379
+        database: 8
+        timeout: 1.5s
+
+  resources:
+    limits:
+      cpu: 50m
+      memory: 90Mi
+    requests:
+      cpu: 50m
+      memory: 90Mi
+
+  nodeSelector:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
+
+redis:
+  enabled: true
+
+  image:
+    registry: docker.io
+    repository: bitnami/redis
+    tag: 6.2.6-debian-10-r53
+    pullSecrets: []
+    debug: false
+  
+  architecture: replication
+  auth:
+    enabled: false
+
+  master:
+    persistence:
+      enabled: false
+
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+  metrics:
+    enabled: true
+    image:
+      registry: docker.io
+      repository: bitnami/redis-exporter
+      tag: 1.31.4-debian-10-r11
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+
+    resources:
+      limits:
+        cpu: 10m
+        memory: 32Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+
+mongodb:
+  enabled: false
