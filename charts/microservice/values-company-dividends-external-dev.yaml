@@ -13,7 +13,7 @@ app:
         secretKeyRef:
           name: eodhistoricaldata
           key: debug
-    - name: API_KEY
+    - name: EOD_KEY
       valueFrom:
         secretKeyRef:
           name: eodhistoricaldata
