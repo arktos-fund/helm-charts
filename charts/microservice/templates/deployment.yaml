@@ -67,6 +67,9 @@ spec:
         - name: config
           secret:
             secretName: config-{{ .Release.Name }}
+      {{- with .Values.app.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.app.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

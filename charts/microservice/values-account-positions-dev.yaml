@@ -1,0 +1,48 @@
+# Default values for microservice.
+
+app:
+  image:
+    repository: rg.fr-par.scw.cloud/arktos-venture/account-positions
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: api.arktos-consulting.cloud
+        paths:
+          - path: /grpc/v1/accounts
+            pathType: ImplementationSpecific
+      - host: api.arktos-consulting.cloud
+        paths:
+          - path: /v1/accounts
+            pathType: ImplementationSpecific
+
+  config:
+    logger:
+      format: fmt
+      level: warn
+    timeout: 3s
+    data:
+      redis:
+        hostname: redis-master.database
+        port: 6379
+        database: 9
+        timeout: 1.5s
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+
+  nodeSelector:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
+
+redis:
+  enabled: false
+
+mongodb:
+  enabled: false
