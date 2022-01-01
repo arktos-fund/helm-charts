@@ -30,7 +30,7 @@ app:
       mongodb:
         hostnames: 
           - mongodb.database:27017
-        database: brokers
+        database: accounts
         timeout: 3s
 
   resources:
