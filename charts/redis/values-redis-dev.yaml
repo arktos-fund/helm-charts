@@ -7,7 +7,7 @@ image:
   
 architecture: replication
 auth:
-  enabled: true
+  enabled: false
   sentinel: false
   existingSecret: ""
   existingSecretPasswordKey: ""
