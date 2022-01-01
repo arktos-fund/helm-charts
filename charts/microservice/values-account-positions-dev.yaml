@@ -47,7 +47,7 @@ app:
     kubernetes.io/os: linux
 
 redis:
-  enabled: true
+  enabled: false
 
 mongodb:
   enabled: false
