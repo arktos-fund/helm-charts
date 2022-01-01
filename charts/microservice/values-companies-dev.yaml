@@ -29,8 +29,8 @@ app:
         timeout: 1.5s
       mongodb:
         hostnames: 
-          - mongodb:27017
-        database: brokers
+          - companies-mongodb:27017
+        database: companies
         timeout: 3s
 
   resources:
