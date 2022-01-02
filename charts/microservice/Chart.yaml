@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: v0.2.0
+appVersion: v0.2.1
 description: A Helm chart for Microservice for Kubernetes.
 name: microservice
 version: 0.0.2
