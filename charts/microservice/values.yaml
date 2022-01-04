@@ -39,11 +39,11 @@ app:
 
   ingress:
     enabled: false
-    className: "nginx"
+    className: "kong"
     annotations: {}
       # kubernetes.io/tls-acme: "true"
     hosts:
-      - host: venture.universe.sh
+      - host: api.arktos-consulting.cloud
         paths:
           - path: /grpc/v1/company
             pathType: ImplementationSpecific
