@@ -9,11 +9,11 @@ app:
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
-          - path: /grpc/v1/accounts
+          - path: /grpc/v1/account/positions
             pathType: ImplementationSpecific
       - host: api.arktos-consulting.cloud
         paths:
-          - path: /v1/accounts
+          - path: /v1/accounts/positions
             pathType: ImplementationSpecific
 
   config:
