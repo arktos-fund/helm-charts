@@ -34,6 +34,11 @@ app:
         username: root
         password: taosdata
         timeout: 3s
+      services:
+        companies:
+          hostname: companies-microservice.companies
+          port: 11000
+          timeout: 3s
 
   resources:
     limits:
