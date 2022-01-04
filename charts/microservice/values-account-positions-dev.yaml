@@ -27,6 +27,13 @@ app:
         port: 6379
         database: 9
         timeout: 1.5s
+      tdengine:
+        hostname: tdengine-adapter.database
+        port: 6041
+        database: investing_accounts
+        username: root
+        password: taosdata
+        timeout: 3s
 
   resources:
     limits:
