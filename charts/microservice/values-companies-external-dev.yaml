@@ -47,4 +47,4 @@ redis:
   enabled: false
 
 mongodb:
-  enabled: true
+  enabled: false
