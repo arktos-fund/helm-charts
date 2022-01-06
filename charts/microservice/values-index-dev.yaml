@@ -22,7 +22,7 @@ app:
       level: warn
     timeout: 3s
     data:
-      mongo:
+      mongodb:
         hostnames: 
           - mongodb.database:27017
         database: index
