@@ -2,7 +2,7 @@
 
 app:
   image:
-    repository: rg.fr-par.scw.cloud/arktos-venture/company-news
+    repository: rg.fr-par.scw.cloud/arktos-venture/companies-external
 
   ingress:
     enabled: false
@@ -29,20 +29,14 @@ app:
       format: fmt
       level: warn
     timeout: 3s
-    data:
-      services:
-        companies:
-          hostname: companies-microservice.companies
-          port: 11000
-          timeout: 3s
 
   resources:
     limits:
       cpu: 100m
-      memory: 100Mi
+      memory: 128Mi
     requests:
       cpu: 100m
-      memory: 100Mi
+      memory: 128Mi
 
   nodeSelector:
     k8s.scaleway.com/pool-name: app
@@ -53,4 +47,4 @@ redis:
   enabled: false
 
 mongodb:
-  enabled: false
+  enabled: true
