@@ -15,7 +15,7 @@ app:
     data:
       services:
         country:
-          hostname: countries-microservice.countries:11000
+          hostname: countries-microservice.countries
           port: 11000
           timeout: 3s
 
