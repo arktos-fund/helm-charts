@@ -29,6 +29,12 @@ app:
       format: fmt
       level: warn
     timeout: 3s
+    data:
+      redis:
+        hostname: redis
+        port: 6379
+        database: 11
+        timeout: 1.5s
 
   resources:
     limits:
