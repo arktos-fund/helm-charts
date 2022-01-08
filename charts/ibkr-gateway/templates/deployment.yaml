@@ -47,8 +47,15 @@ spec:
             httpGet:
               path: /
               port: http
+          volumeMounts:
+            - name: config
+              mountPath: /opt/ibc/
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config
+          secret:
+            secretName: {{ .Values.config }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

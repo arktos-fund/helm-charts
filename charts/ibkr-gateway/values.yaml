@@ -16,6 +16,8 @@ serviceAccount:
   annotations: {}
   name: ""
 
+config: "ibkr-credentials"
+
 podAnnotations: {}
 
 podSecurityContext: {}
