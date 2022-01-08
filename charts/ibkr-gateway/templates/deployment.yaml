@@ -50,6 +50,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /opt/ibc/config.ini
+              subPath: config.ini
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
