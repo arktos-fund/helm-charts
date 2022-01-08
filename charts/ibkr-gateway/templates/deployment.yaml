@@ -53,21 +53,21 @@ spec:
               path: /
               port: http
           volumeMounts:
-            - name: {{ .Values.config }}-config
+            - name: {{ include "ibkr-gateway.fullname" . }}-config
               mountPath: /opt/ibc/config.ini
               subPath: config.ini
-            - name: {{ .Values.config }}-nginx
+            - name: {{ include "ibkr-gateway.fullname" . }}-nginx
               mountPath: /usr/share/nginx/nginx.conf
               subPath: nginx.conf
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: {{ .Values.config }}-config
+        - name: {{ include "ibkr-gateway.fullname" . }}-config
           secret:
             secretName: {{ .Values.config }}
-        - name: {{ .Values.config }}-nginx
+        - name: {{ include "ibkr-gateway.fullname" . }}-nginx
           configMap:
-            name: {{ .Values.config }}-nginx
+            name: {{ include "ibkr-gateway.fullname" . }}-nginx
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
