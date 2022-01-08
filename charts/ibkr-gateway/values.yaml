@@ -16,6 +16,10 @@ serviceAccount:
   annotations: {}
   name: ""
 
+env:
+  - name: TWS_MAJOR_VRSN
+    value: "1012"
+
 config: "ibkr-credentials"
 
 podAnnotations: {}
