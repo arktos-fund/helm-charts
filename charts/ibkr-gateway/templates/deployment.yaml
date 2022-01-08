@@ -49,14 +49,13 @@ spec:
               port: http
           volumeMounts:
             - name: config
-              mountPath: /opt/ibc/
+              mountPath: /opt/ibc/config.ini
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: config
           secret:
             secretName: {{ .Values.config }}
-            defaultMode: 0744
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
