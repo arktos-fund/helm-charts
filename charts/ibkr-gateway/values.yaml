@@ -18,7 +18,9 @@ serviceAccount:
 
 env: []
 
-config: "ibkr-credentials"
+config: 
+  IbkrCredentials: "ibkr-credentials"
+  VncCredentials: "vnc-credentials"
 
 podAnnotations: {}
 

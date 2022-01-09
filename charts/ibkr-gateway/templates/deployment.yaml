@@ -36,6 +36,13 @@ spec:
           env:
             - name: TWS_MAJOR_VRSN
               value: {{ include "ibkr-gateway.version" . | quote }}
+          {{- if .Values.config.VncCredentials }}
+            - name: VNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.VncCredentials }}
+                  key: password
+          {{- end }}
           {{- with .Values.env }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -78,13 +85,18 @@ spec:
       volumes:
         - name: {{ include "ibkr-gateway.fullname" . }}-config
           secret:
-            secretName: {{ .Values.config }}
+            secretName: {{ required "credentials IBKR is required" .Values.config.IbkrCredentials }}
         - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
         - name: {{ include "ibkr-gateway.fullname" . }}-jts
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-jts
+      {{- if .Values.config.VncCredentials }}
+        - name: {{ include "ibkr-gateway.fullname" . }}-vnc
+          secret:
+            secretName: {{ .Values.config.VncCredentials }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
