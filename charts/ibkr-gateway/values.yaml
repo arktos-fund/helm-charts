@@ -39,7 +39,7 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 4001
+  port: 5000
 
 jvm:
   Xmx: "1024"
