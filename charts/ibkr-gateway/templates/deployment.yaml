@@ -79,9 +79,12 @@ spec:
         - name: {{ include "ibkr-gateway.fullname" . }}-config
           secret:
             secretName: {{ .Values.config }}
-        - name: {{ include "ibkr-gateway.fullname" . }}-vm
+        - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
           configMap:
-            name: {{ include "ibkr-gateway.fullname" . }}-vm
+            name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
+        - name: {{ include "ibkr-gateway.fullname" . }}-jts
+          configMap:
+            name: {{ include "ibkr-gateway.fullname" . }}-jts
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
