@@ -16,9 +16,7 @@ serviceAccount:
   annotations: {}
   name: ""
 
-env:
-  - name: TWS_MAJOR_VRSN
-    value: "1012"
+env: []
 
 config: "ibkr-credentials"
 
@@ -40,12 +38,14 @@ service:
   port: 4001
 
 jvm:
-  Xmx: "768m"
+  Xmx: "1024"
   XX:
     ConcGCThreads: 5
     InitiatingHeapOccupancyPercent: 70
     ParallelGCThreads: 20
     MaxGCPauseMillis: 200
+  installer:
+    uuid: "3046c7e3-ffbd-4699-a848-117342ff43ee"
 
 resources:
   limits:

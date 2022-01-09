@@ -36,14 +36,14 @@ metadata:
     {{- include "ibkr-gateway.labels" . | nindent 4 }}
 data:
   ibgateway.vmoptions: |-
-    -Xmx768m
+    -Xmx{{ .Values.jvm.Xmx | default "768" }}m
     -XX:+UseG1GC
-    -XX:MaxGCPauseMillis=200
-    -XX:ParallelGCThreads=20
-    -XX:ConcGCThreads=5
-    -XX:InitiatingHeapOccupancyPercent=70
-    -Dinstaller.uuid=3046c7e3-ffbd-4699-a848-117342ff43ee
-    -DvmOptionsPath=/home/trader/Jts/ibgateway/1012/ibgateway.vmoptions
+    -XX:MaxGCPauseMillis={{ .Values.jvm.XX.MaxGCPauseMillis | default "200" }}
+    -XX:ParallelGCThreads={{ .Values.jvm.XX.ParallelGCThreads | default "20" }}
+    -XX:ConcGCThreads={{ .Values.jvm.XX.ConcGCThreads | default "5" }}
+    -XX:InitiatingHeapOccupancyPercent={{ .Values.jvm.XX.InitiatingHeapOccupancyPercent | default "70" }}
+    -Dinstaller.uuid={{ required "UUID JVM requirement" .Values.jvm.installer.uuid }}
+    -DvmOptionsPath=/home/trader/Jts/ibgateway/{{ include "ibkr-gateway.version" . }}/ibgateway.vmoptions
     -Dsun.awt.nopixfmt=true
     -Dsun.java2d.noddraw=true
     -Dswing.boldMetal=false
