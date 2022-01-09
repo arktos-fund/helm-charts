@@ -1,17 +1,50 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "ibkr-gateway.fullname" . }}-nginx
+  name: {{ include "ibkr-gateway.fullname" . }}-jts
   labels:
     {{- include "ibkr-gateway.labels" . | nindent 4 }}
 data:
-  nginx.conf: |-
-    load_module /usr/lib/nginx/modules/ngx_stream_module.so;
-    worker_processes auto;
-    events { }
-    stream {
-      server {
-        listen 8888;
-        proxy_pass 127.0.0.1:4001;
-      }
-    }
+  jts.ini: |-
+    [IBGateway]
+    WriteDebug=false
+    TrustedIPs=0.0.0.0
+    RemotePortOrderRouting=4001
+    LocalServerPort=4000
+    ApiOnly=true
+
+    [Logon]
+    useRemoteSettings=false
+    TimeZone=Etc/UTC
+    tradingMode=l
+    colorPalletName=dark
+    Steps=15
+    Locale=en
+    UseSSL=true
+    s3store=true
+    displayedproxymsg=1
+    ibkrBranding=pro
+
+    [Communication]
+    Region=ch
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
+  labels:
+    {{- include "ibkr-gateway.labels" . | nindent 4 }}
+data:
+  ibgateway.vmoptions: |-
+    -Xmx768m
+    -XX:+UseG1GC
+    -XX:MaxGCPauseMillis=200
+    -XX:ParallelGCThreads=20
+    -XX:ConcGCThreads=5
+    -XX:InitiatingHeapOccupancyPercent=70
+    -Dinstaller.uuid=3046c7e3-ffbd-4699-a848-117342ff43ee
+    -DvmOptionsPath=/home/trader/Jts/ibgateway/1012/ibgateway.vmoptions
+    -Dsun.awt.nopixfmt=true
+    -Dsun.java2d.noddraw=true
+    -Dswing.boldMetal=false
+    -Dsun.locale.formatasdefault=true

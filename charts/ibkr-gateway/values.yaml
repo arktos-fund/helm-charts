@@ -3,9 +3,9 @@
 replicaCount: 1
 
 image:
-  repository: perriea/gateway
+  repository: quay.io/arktos-venture/ibkr-gateway
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "10.12.2g"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -37,7 +37,15 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 8888
+  port: 4001
+
+jvm:
+  Xmx: "768m"
+  XX:
+    ConcGCThreads: 5
+    InitiatingHeapOccupancyPercent: 70
+    ParallelGCThreads: 20
+    MaxGCPauseMillis: 200
 
 resources:
   limits:

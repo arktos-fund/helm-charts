@@ -1,9 +1,11 @@
-replicaCount: 1
+image:
+  repository: quay.io/arktos-venture/ibkr-gateway
+  tag: "10.12.2g"
 
 resources:
   limits:
-    cpu: 500m
-    memory: 1024Mi
+    cpu: 450m
+    memory: 1100Mi
   requests:
     cpu: 350m
-    memory: 728Mi
+    memory: 1024Mi
