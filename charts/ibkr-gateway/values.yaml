@@ -21,6 +21,8 @@ env: []
 config: 
   IbkrCredentials: "ibkr-credentials"
   VncCredentials: "vnc-credentials"
+  # live or paper
+  trading: "live"
 
 podAnnotations: {}
 
