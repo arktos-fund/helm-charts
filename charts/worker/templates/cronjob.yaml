@@ -51,8 +51,8 @@ spec:
               {{- end }}
               volumeMounts:
                 - name: {{ include "worker.fullname" . }}-config
-                  mountPath: /config/default.yaml
-                  subPath: default.yaml
+                  mountPath: /config.yaml
+                  subPath: config.yaml
               resources:
                 {{- toYaml .Values.app.resources | nindent 16 }}
           volumes:
