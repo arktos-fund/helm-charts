@@ -1,7 +1,7 @@
 # Default values for microservice.
 
 app:
-  schedule: "0 0 * * 2-6"
+  schedule: "*/1 1-23 * * 1-5"
 
   image:
     repository: quay.io/arktos-venture/account-company-positions
@@ -47,7 +47,7 @@ app:
     broker:
       ibkr:
         account: U7793609
-        hostname: ibkr-gateway.ibkr-u7793609
+        hostname: ibkr-gateway
         port: 5000
         timeout: 3
 
