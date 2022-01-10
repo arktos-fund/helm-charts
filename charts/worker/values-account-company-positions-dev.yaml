@@ -44,6 +44,7 @@ app:
         username: root
         password: taosdata
         timeout: 3s
+        ssl: false
     broker:
       ibkr:
         account: U7793609
