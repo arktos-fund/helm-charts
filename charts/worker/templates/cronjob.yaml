@@ -54,7 +54,7 @@ spec:
                   mountPath: /config/default.yaml
                   subPath: default.yaml
               resources:
-                {{- toYaml .Values.app.resources | nindent 14 }}
+                {{- toYaml .Values.app.resources | nindent 16 }}
           volumes:
             - name: {{ include "worker.fullname" . }}-config
               secret:
