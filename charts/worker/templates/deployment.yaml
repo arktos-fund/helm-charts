@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "worker.fullname" . }}
+  labels:
+    {{- include "worker.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ .Values.app.revisionHistoryLimit | default 3 }}
+  selector:
+    matchLabels:
+      {{- include "worker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      {{- with .Values.app.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "worker.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.app.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "worker.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.app.podSecurityContext | nindent 8 }}
+      containers:
+        - name: app
+          securityContext:
+            {{- toYaml .Values.app.securityContext | nindent 12 }}
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          {{- with .Values.app.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ include "worker.fullname" . }}-config
+              mountPath: /config.yaml
+              subPath: config.yaml
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}
+      volumes:
+        - name: {{ include "worker.fullname" . }}-config
+          secret:
+            secretName: {{ include "worker.fullname" . }}-config
+      {{- with .Values.app.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.app.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.app.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.app.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
