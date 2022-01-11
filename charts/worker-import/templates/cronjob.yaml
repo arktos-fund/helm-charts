@@ -1,0 +1,61 @@
+{{- $dot := . }}
+{{- range .Values.app.schedule }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $dot.Release.Name }}-{{ lower .exchange }}-{{ $dot.Chart.Name }}
+  labels:
+    {{- include "worker.labels" $dot | nindent 4 }}
+spec:
+  schedule: {{ .expression | quote }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") $dot | sha256sum }}
+      {{- with $dot.Values.app.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "worker.selectorLabels" $dot | nindent 8 }}
+  jobTemplate:
+    spec:
+      {{- with $dot.Values.app.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "worker.serviceAccountName" $dot }}
+      securityContext:
+        {{- toYaml $dot.Values.app.podSecurityContext | nindent 8 }}
+      containers:
+        - name: app
+          securityContext:
+            {{- toYaml $dot.Values.app.securityContext | nindent 12 }}
+          image: "{{ $dot.Values.app.image.repository }}:{{ $dot.Values.app.image.tag | default $dot.Chart.AppVersion }}"
+          imagePullPolicy: {{ $dot.Values.app.image.pullPolicy }}
+          {{- with $dot.Values.app.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config/default.yaml
+          resources:
+            {{- toYaml $dot.Values.app.resources | nindent 12 }}
+      volumes:
+        - name: config
+          secret:
+            secretName: config-{{ $dot.Release.Name }}
+      {{- with $dot.Values.app.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $dot.Values.app.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $dot.Values.app.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
