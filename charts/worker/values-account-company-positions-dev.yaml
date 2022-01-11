@@ -2,16 +2,17 @@
 
 app:
   image:
-    repository: quay.io/arktos-venture/account-company-positions
+    repository: rg.fr-par.scw.cloud/arktos-venture/account-company-positions
     pullPolicy: IfNotPresent
     tag: "0.0.1"
 
-  imagePullSecrets: []
+  imagePullSecrets:
+    - name: reg-internal
   nameOverride: ""
   fullnameOverride: ""
 
   serviceAccount:
-    create: false
+    create: true
     annotations: {}
     name: ""
 
@@ -52,11 +53,11 @@ app:
 
   resources:
     limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 50m
+      memory: 64Mi
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 50m
+      memory: 64Mi
 
   nodeSelector:
     k8s.scaleway.com/pool-name: app
