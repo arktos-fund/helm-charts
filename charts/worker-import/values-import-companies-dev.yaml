@@ -2,20 +2,24 @@
 
 app:
   schedule:
-    - expression: "0 0 * * 2-6"
+    - expression: "0 3 10 * *"
       exchange: NASDAQ
-    - expression: "0 3 * * 2-6"
+    - expression: "0 3 9 * *"
       exchange: NYSE
-    - expression: "0 19 * * 1-5"
+    - expression: "0 21 20 * *"
       exchange: PA
-    - expression: "45 19 * * 1-5"
+    - expression: "1 21 * * *"
       exchange: BR
-    - expression: "50 19 * * 1-5"
+    - expression: "4 21 * * *"
       exchange: AS
-    - expression: "0 18 * * 1-5"
+    - expression: "4 28 * * *"
       exchange: LSE
-    - expression: "0 18 * * 1-5"
+    - expression: "0 10 * * *"
       exchange: LS
+    - expression: "15 5 * * *"
+      exchange: SHG
+    - expression: "15 6 * * *"
+      exchange: SHE
 
   image:
     repository: rg.fr-par.scw.cloud/arktos-venture/add-companies
