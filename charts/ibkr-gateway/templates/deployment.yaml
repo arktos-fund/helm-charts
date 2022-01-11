@@ -59,8 +59,9 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
-            tcpSocket:
-              port: {{ .Values.service.port }}
+            httpGet:
+              path: /healthz
+              port: http
             initialDelaySeconds: 500
             periodSeconds: 30
             timeoutSeconds: 3
