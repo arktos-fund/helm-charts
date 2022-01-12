@@ -5,7 +5,7 @@ replicaCount: 1
 image:
   repository: quay.io/arktos-venture/ibkr-gateway
   pullPolicy: IfNotPresent
-  tag: "10.12.2g"
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -16,12 +16,15 @@ serviceAccount:
   annotations: {}
   name: ""
 
-env: []
+env:
+  - name: VNC_SERVER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: vnc-credentials
+        key: password
 
 config: 
   IbkrCredentials: "ibkr-credentials"
-  VncCredentials: "vnc-credentials"
-  # live or paper
   trading: "live"
 
 podAnnotations: {}
@@ -42,7 +45,7 @@ service:
   port: 5000
 
 jvm:
-  Xmx: "1024"
+  Xmx: "768"
   XX:
     ConcGCThreads: 5
     InitiatingHeapOccupancyPercent: 70
@@ -54,10 +57,10 @@ jvm:
 resources:
   limits:
     cpu: 300m
-    memory: 1100Mi
+    memory: 780Mi
   requests:
     cpu: 300m
-    memory: 728Mi
+    memory: 780Mi
 
 nodeSelector:
   k8s.scaleway.com/pool-name: app

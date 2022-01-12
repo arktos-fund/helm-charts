@@ -33,19 +33,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: TRADING_MODE
-              value: {{ .Values.config.trading | quote }}
-            - name: TWS_MAJOR_VRSN
-              value: {{ include "ibkr-gateway.version" . | quote }}
-          {{- if .Values.config.VncCredentials }}
-            - name: VNC_SERVER_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.config.VncCredentials }}
-                  key: password
-          {{- end }}
           {{- with .Values.env }}
+          env:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
@@ -86,6 +75,9 @@ spec:
             - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
               mountPath: /home/trader/Jts/ibgateway/{{ include "ibkr-gateway.version" . }}/ibgateway.vmoptions
               subPath: ibgateway.vmoptions
+            - name: {{ include "ibkr-gateway.fullname" . }}-proxy
+              mountPath: /home/trader/proxy.yaml
+              subPath: proxy.yaml
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
@@ -98,11 +90,9 @@ spec:
         - name: {{ include "ibkr-gateway.fullname" . }}-jts
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-jts
-      {{- if .Values.config.VncCredentials }}
-        - name: {{ include "ibkr-gateway.fullname" . }}-vnc
-          secret:
-            secretName: {{ .Values.config.VncCredentials }}
-      {{- end }}
+        - name: {{ include "ibkr-gateway.fullname" . }}-proxy
+          configMap:
+            name: {{ include "ibkr-gateway.fullname" . }}-proxy
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -8,11 +8,6 @@ data:
   jts.ini: |-
     [IBGateway]
     WriteDebug=false
-    TrustedIPs=127.0.0.1
-    MainWindow.Height=550
-    MainWindow.Width=700
-    RemotePortOrderRouting=4001
-    LocalServerPort=4000
     ApiOnly=true
 
     [Logon]
@@ -20,8 +15,6 @@ data:
     TimeZone=Etc/UTC
     Locale=en
     UseSSL=true
-    s3store=true
-    displayedproxymsg=1
 
     [Communication]
     Region=ch
@@ -46,3 +39,26 @@ data:
     -Dsun.java2d.noddraw=true
     -Dswing.boldMetal=false
     -Dsun.locale.formatasdefault=true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ibkr-gateway.fullname" . }}-proxy
+  labels:
+    {{- include "ibkr-gateway.labels" . | nindent 4 }}
+data:
+  proxy.yaml: |-
+    logOptions:
+      level: info
+      format: json
+    socket:
+      listen:
+        protocol: tcp4
+        address: 0.0.0.0:5000
+      destination: 
+        protocol: tcp6
+        address: 127.0.0.1:{{ if eq .Values.config.trading "live" }}4001{{ else }}4002{{ end }}
+      timeout: 3s
+    health:
+      listen: 0.0.0.0:3000
+      timeout: 3s
