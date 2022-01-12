@@ -47,7 +47,7 @@ app:
     broker:
       ibkr:
         account: U7793609
-        hostname: ibkr-gateway
+        hostname: ibkr-gateway-0.ibkr-gateway.broker-ibkr-u7793609.svc.cluster.local
         port: 5000
         timeout: 3
 
