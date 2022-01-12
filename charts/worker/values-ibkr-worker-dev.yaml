@@ -37,7 +37,7 @@ app:
       level: info
     data:
       redis:
-        hostname: redis.database
+        hostname: redis-master.database
         port: 6379
         database: 7
         read_timeout: 0.2s
