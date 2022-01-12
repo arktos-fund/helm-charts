@@ -10,7 +10,6 @@ spec:
   selector:
     matchLabels:
       {{- include "ibkr-gateway.selectorLabels" . | nindent 6 }}
-  serviceName: {{ include "ibkr-gateway.fullname" . }}
   template:
     metadata:
       annotations:
