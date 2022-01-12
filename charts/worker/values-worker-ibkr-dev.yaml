@@ -2,7 +2,7 @@
 
 app:
   image:
-    repository: rg.nl-ams.scw.cloud/arktos-venture/worker-account-currency-positions
+    repository: rg.nl-ams.scw.cloud/arktos-venture/worker-ibkr
     pullPolicy: IfNotPresent
     tag: "0.0.1"
 
@@ -36,6 +36,18 @@ app:
       format: fmt
       level: info
     data:
+      redis:
+        hostname: redis.database
+        port: 6379
+        database: 7
+        read_timeout: 0.2s
+        write_timeout: 0.2s
+      mongodb:
+        hostname: mongodb.database
+        port: 27017
+        database: companies
+        read_timeout: 2s
+        write_timeout: 2s
       tdengine:
         hostname: tdengine-cluster.database
         port: 6041
@@ -53,11 +65,11 @@ app:
 
   resources:
     limits:
-      cpu: 50m
-      memory: 64Mi
+      cpu: 100m
+      memory: 128Mi
     requests:
-      cpu: 50m
-      memory: 64Mi
+      cpu: 100m
+      memory: 128Mi
 
   nodeSelector:
     k8s.scaleway.com/pool-name: app
