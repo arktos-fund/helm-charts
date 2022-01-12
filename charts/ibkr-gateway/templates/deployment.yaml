@@ -69,9 +69,6 @@ spec:
             - name: {{ include "ibkr-gateway.fullname" . }}-config
               mountPath: /opt/ibc/config.ini
               subPath: config.ini
-            - name: {{ include "ibkr-gateway.fullname" . }}-jts
-              mountPath: /home/trader/Jts/jts.ini
-              subPath: jts.ini
             - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
               mountPath: /home/trader/Jts/ibgateway/{{ include "ibkr-gateway.version" . }}/ibgateway.vmoptions
               subPath: ibgateway.vmoptions
@@ -87,9 +84,6 @@ spec:
         - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
-        - name: {{ include "ibkr-gateway.fullname" . }}-jts
-          configMap:
-            name: {{ include "ibkr-gateway.fullname" . }}-jts
         - name: {{ include "ibkr-gateway.fullname" . }}-proxy
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-proxy
