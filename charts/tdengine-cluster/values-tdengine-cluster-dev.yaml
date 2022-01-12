@@ -11,7 +11,7 @@ taosd:
 
   taoscfg: |
     keepColumnName  1
-    http  0
+    http  1
     monitor 1
     enableRecordSql 0
     enableCoreFile  1
