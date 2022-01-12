@@ -39,7 +39,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: {{ include "worker.fullname" . }}-config
-              mountPath: /config.yaml
+              mountPath: /home/noroot/config.yaml
               subPath: config.yaml
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
