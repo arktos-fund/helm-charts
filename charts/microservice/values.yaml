@@ -4,9 +4,9 @@ app:
   replicaCount: 1
 
   image:
-    repository: rg.fr-par.scw.cloud/arktos-venture/grpc-apis/company
+    repository: rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company
     pullPolicy: IfNotPresent
-    tag: "0.2.1"
+    tag: "0.2.2"
 
   imagePullSecrets:
     - name: reg-internal

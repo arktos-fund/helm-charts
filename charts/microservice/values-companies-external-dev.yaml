@@ -2,7 +2,7 @@
 
 app:
   image:
-    repository: rg.fr-par.scw.cloud/arktos-venture/companies-external
+    repository: rg.nl-ams.scw.cloud/arktos-venture/companies-external
 
   ingress:
     enabled: false

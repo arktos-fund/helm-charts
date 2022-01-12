@@ -22,7 +22,7 @@ app:
       exchange: SHE
 
   image:
-    repository: rg.fr-par.scw.cloud/arktos-venture/add-companies
+    repository: rg.nl-ams.scw.cloud/arktos-venture/add-companies
     pullPolicy: IfNotPresent
     tag: "0.0.1"
 

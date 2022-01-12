@@ -18,7 +18,7 @@ app:
       exchange: LS
 
   image:
-    repository: rg.fr-par.scw.cloud/arktos-venture/grpc-apis/company
+    repository: rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company
     pullPolicy: IfNotPresent
     tag: ""
 

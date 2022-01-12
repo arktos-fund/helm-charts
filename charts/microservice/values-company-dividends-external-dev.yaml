@@ -2,7 +2,7 @@
 
 app:
   image:
-    repository: rg.fr-par.scw.cloud/arktos-venture/company-dividends-external
+    repository: rg.nl-ams.scw.cloud/arktos-venture/company-dividends-external
 
   ingress:
     enabled: false

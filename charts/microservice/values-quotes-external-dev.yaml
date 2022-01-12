@@ -2,7 +2,7 @@
 
 app:
   image:
-    repository: rg.fr-par.scw.cloud/arktos-venture/quotes-external
+    repository: rg.nl-ams.scw.cloud/arktos-venture/quotes-external
 
   ingress:
     enabled: false
