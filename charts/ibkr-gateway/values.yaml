@@ -28,6 +28,32 @@ config:
   IbkrCredentials: "ibkr-credentials"
   trading: "live"
 
+worker:
+  logger:
+    format: fmt
+    level: info
+  data:
+    redis:
+      hostname: redis-master.database
+      port: 6379
+      database: 7
+      read_timeout: 0.2s
+      write_timeout: 0.2s
+    mongodb:
+      hostname: mongodb.database
+      port: 27017
+      database: companies
+      read_timeout: 2s
+      write_timeout: 2s
+    tdengine:
+      hostname: tdengine-cluster.database
+      port: 6041
+      database: invest_accounts
+      username: root
+      password: taosdata
+      timeout: 3s
+      ssl: false
+
 podAnnotations: {}
 
 podSecurityContext:

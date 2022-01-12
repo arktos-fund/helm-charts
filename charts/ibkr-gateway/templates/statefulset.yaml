@@ -14,7 +14,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/gateway: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/worker: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -29,7 +30,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: gateway
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -80,6 +81,22 @@ spec:
               subPath: proxy.yaml
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - name: worker
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "rg.nl-ams.scw.cloud/arktos-venture/worker-ibkr:0.0.1"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: {{ include "ibkr-gateway.fullname" . }}-worker
+              mountPath: /home/noroot/config.yaml
+              subPath: config.yaml
+          resources:
+            limits:
+              cpu: 200m
+              memory: 96Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
       volumes:
         - name: {{ include "ibkr-gateway.fullname" . }}-config
           secret:
@@ -90,6 +107,9 @@ spec:
         - name: {{ include "ibkr-gateway.fullname" . }}-proxy
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-proxy
+        - name: {{ include "ibkr-gateway.fullname" . }}-worker
+          secret:
+            secretName: {{ include "ibkr-gateway.fullname" . }}-worker
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

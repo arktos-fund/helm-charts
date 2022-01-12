@@ -1,0 +1,266 @@
+---
+# Source: ibkr-gateway/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana-ibkr-gateway
+  labels:
+    helm.sh/chart: ibkr-gateway-0.1.1
+    app.kubernetes.io/name: ibkr-gateway
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "10.12.2g"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: ibkr-gateway/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grafana-ibkr-gateway-worker
+  labels:
+    helm.sh/chart: ibkr-gateway-0.1.1
+    app.kubernetes.io/name: ibkr-gateway
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "10.12.2g"
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+stringData:
+  config.yaml: |-
+    ---
+    logger:
+        format: fmt
+        level: info
+    data:
+      redis:
+        database: 7
+        hostname: redis-master.database
+        port: 6379
+        read_timeout: 0.2s
+        write_timeout: 0.2s
+      mongo:
+        database: companies
+        hostname: mongodb.database
+        port: 27017
+        read_timeout: 2s
+        write_timeout: 2s
+      tdengine:
+        database: invest_accounts
+        hostname: tdengine-cluster.database
+        password: taosdata
+        port: 6041
+        ssl: false
+        timeout: 3s
+        username: root
+    broker:
+      ibkr:
+        account: U7793609
+        hostname: 127.0.0.1
+        port: 5000
+        timeout: 3
+---
+# Source: ibkr-gateway/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-ibkr-gateway-vmoptions
+  labels:
+    helm.sh/chart: ibkr-gateway-0.1.1
+    app.kubernetes.io/name: ibkr-gateway
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "10.12.2g"
+    app.kubernetes.io/managed-by: Helm
+data:
+  ibgateway.vmoptions: |-
+    -Xmx768m
+    -XX:+UseG1GC
+    -XX:MaxGCPauseMillis=200
+    -XX:ParallelGCThreads=20
+    -XX:ConcGCThreads=5
+    -XX:InitiatingHeapOccupancyPercent=70
+    -Dinstaller.uuid=3046c7e3-ffbd-4699-a848-117342ff43ee
+    -DvmOptionsPath=/home/trader/Jts/ibgateway/late/ibgateway.vmoptions
+    -Dsun.awt.nopixfmt=true
+    -Dsun.java2d.noddraw=true
+    -Dswing.boldMetal=false
+    -Dsun.locale.formatasdefault=true
+---
+# Source: ibkr-gateway/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-ibkr-gateway-proxy
+  labels:
+    helm.sh/chart: ibkr-gateway-0.1.1
+    app.kubernetes.io/name: ibkr-gateway
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "10.12.2g"
+    app.kubernetes.io/managed-by: Helm
+data:
+  proxy.yaml: |-
+    logOptions:
+      level: info
+      format: json
+    socket:
+      listen:
+        protocol: tcp4
+        address: 0.0.0.0:5000
+      destination: 
+        protocol: tcp6
+        address: localhost:4001
+      timeout: 3s
+    health:
+      listen: 0.0.0.0:3000
+      timeout: 3s
+---
+# Source: ibkr-gateway/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-ibkr-gateway
+  labels:
+    helm.sh/chart: ibkr-gateway-0.1.1
+    app.kubernetes.io/name: ibkr-gateway
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "10.12.2g"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: socket
+      protocol: TCP
+      name: socket
+  selector:
+    app.kubernetes.io/name: ibkr-gateway
+    app.kubernetes.io/instance: grafana
+---
+# Source: ibkr-gateway/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: grafana-ibkr-gateway
+  labels:
+    helm.sh/chart: ibkr-gateway-0.1.1
+    app.kubernetes.io/name: ibkr-gateway
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "10.12.2g"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ibkr-gateway
+      app.kubernetes.io/instance: grafana
+  serviceName: grafana-ibkr-gateway
+  template:
+    metadata:
+      annotations:
+        checksum/gateway: 143abbaae201c06d981512d351b13c47a13b2ea9cceb0d34a02433bbcca93fa6
+        checksum/worker: 672772b16e39d7c4c4f0edfd581ffc41dffbb467182879e57343c5fdd5d54069
+      labels:
+        app.kubernetes.io/name: ibkr-gateway
+        app.kubernetes.io/instance: grafana
+    spec:
+      serviceAccountName: grafana-ibkr-gateway
+      securityContext:
+        fsGroup: 10001
+      containers:
+        - name: gateway
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 10001
+          image: "quay.io/arktos-venture/ibkr-gateway:latest"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: VNC_SERVER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: vnc-credentials
+          ports:
+            - name: vnc
+              containerPort: 6080
+              protocol: TCP
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+            - name: socket
+              containerPort: 5000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 500
+            periodSeconds: 20
+            timeoutSeconds: 3
+            successThreshold: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 45
+            periodSeconds: 15
+            timeoutSeconds: 3
+            successThreshold: 3
+            failureThreshold: 3
+          volumeMounts:
+            - name: grafana-ibkr-gateway-config
+              mountPath: /opt/ibc/config.ini
+              subPath: config.ini
+            - name: grafana-ibkr-gateway-vmoptions
+              mountPath: /home/trader/Jts/ibgateway/late/ibgateway.vmoptions
+              subPath: ibgateway.vmoptions
+            - name: grafana-ibkr-gateway-proxy
+              mountPath: /home/trader/proxy.yaml
+              subPath: proxy.yaml
+          resources:
+            limits:
+              cpu: 300m
+              memory: 780Mi
+            requests:
+              cpu: 300m
+              memory: 780Mi
+        - name: worker
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 10001
+          image: "rg.nl-ams.scw.cloud/arktos-venture/worker-ibkr:0.0.1"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: grafana-ibkr-gateway-worker
+              mountPath: /home/noroot/config.yaml
+              subPath: config.yaml
+          resources:
+            limits:
+              cpu: 200m
+              memory: 96Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+      volumes:
+        - name: grafana-ibkr-gateway-config
+          secret:
+            secretName: ibkr-credentials
+        - name: grafana-ibkr-gateway-vmoptions
+          configMap:
+            name: grafana-ibkr-gateway-vmoptions
+        - name: grafana-ibkr-gateway-proxy
+          configMap:
+            name: grafana-ibkr-gateway-proxy
+        - name: grafana-ibkr-gateway-worker
+          secret:
+            secretName: grafana-ibkr-gateway-worker
+      nodeSelector:
+        k8s.scaleway.com/pool-name: app
+        kubernetes.io/arch: amd64
+        kubernetes.io/os: linux
