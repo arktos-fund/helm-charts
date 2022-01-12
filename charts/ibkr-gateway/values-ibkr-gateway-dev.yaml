@@ -1,6 +1,6 @@
 image:
   repository: quay.io/arktos-venture/ibkr-gateway
-  tag: "10.12.2g"
+  tag: "10.12.2h"
 
 jvm:
   Xmx: "1024"
