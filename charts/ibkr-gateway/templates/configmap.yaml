@@ -36,7 +36,7 @@ data:
         address: 0.0.0.0:5000
       destination: 
         protocol: tcp6
-        address: 127.0.0.1:{{ if eq .Values.config.trading "live" }}4001{{ else }}4002{{ end }}
+        address: localhost:{{ if eq .Values.config.trading "live" }}4001{{ else }}4002{{ end }}
       timeout: 3s
     health:
       listen: 0.0.0.0:3000
