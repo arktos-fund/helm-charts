@@ -2,6 +2,9 @@ image:
   repository: quay.io/arktos-venture/ibkr-gateway
   tag: "10.12.2h"
 
+imagePullSecrets:
+  - name: reg-internal
+
 jvm:
   Xmx: "1024"
   XX:
