@@ -23,6 +23,7 @@ env:
         name: vnc-credentials
         key: password
 
+debug: false
 config: 
   IbkrCredentials: "ibkr-credentials"
   trading: "live"
