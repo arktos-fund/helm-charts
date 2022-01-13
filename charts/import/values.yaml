@@ -1,9 +1,9 @@
 # Default values for microservice.
 
 global:
-  concurrencyPolicy: 1
+  concurrencyPolicy: Replace
   failedJobsHistoryLimit: 2
-  successfulJobsHistoryLimit: 0
+  successfulJobsHistoryLimit: 1
 
 schedule:
   - expression: "0 0 * * 2-6"
