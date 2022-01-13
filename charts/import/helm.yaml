@@ -1,0 +1,385 @@
+---
+# Source: worker-import-companies/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: config-grafana
+  labels:
+    helm.sh/chart: worker-import-companies-0.0.1
+    app.kubernetes.io/name: worker-import-companies
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  default.yaml: |
+    ---
+    logger:
+        format: fmt
+        level: info
+    data:
+      tdengine:
+        database: invest_accounts
+        hostname: tdengine
+        password: taosdata
+        port: 6041
+        ssl: false
+        timeout: 3s
+        username: root
+---
+# Source: worker-import-companies/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: grafana-nasdaq-worker-import-companies
+  labels:
+    helm.sh/chart: worker-import-companies-0.0.1
+    app.kubernetes.io/name: worker-import-companies
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  schedule: "0 0 * * 2-6"
+  template:
+    metadata:
+      annotations:
+        checksum/config: 01d5c8aa092ee955b9894b08b5d84ff0312de533fd4fc8498e46d45ba8f0c78f
+      labels:
+        app.kubernetes.io/name: worker-import-companies
+        app.kubernetes.io/instance: grafana
+  jobTemplate:
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: app
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company:v0.1.0"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: /config/default.yaml
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      volumes:
+        - name: config
+          secret:
+            secretName: config-grafana
+---
+# Source: worker-import-companies/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: grafana-nyse-worker-import-companies
+  labels:
+    helm.sh/chart: worker-import-companies-0.0.1
+    app.kubernetes.io/name: worker-import-companies
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  schedule: "0 3 * * 2-6"
+  template:
+    metadata:
+      annotations:
+        checksum/config: 01d5c8aa092ee955b9894b08b5d84ff0312de533fd4fc8498e46d45ba8f0c78f
+      labels:
+        app.kubernetes.io/name: worker-import-companies
+        app.kubernetes.io/instance: grafana
+  jobTemplate:
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: app
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company:v0.1.0"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: /config/default.yaml
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      volumes:
+        - name: config
+          secret:
+            secretName: config-grafana
+---
+# Source: worker-import-companies/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: grafana-pa-worker-import-companies
+  labels:
+    helm.sh/chart: worker-import-companies-0.0.1
+    app.kubernetes.io/name: worker-import-companies
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  schedule: "0 19 * * 1-5"
+  template:
+    metadata:
+      annotations:
+        checksum/config: 01d5c8aa092ee955b9894b08b5d84ff0312de533fd4fc8498e46d45ba8f0c78f
+      labels:
+        app.kubernetes.io/name: worker-import-companies
+        app.kubernetes.io/instance: grafana
+  jobTemplate:
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: app
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company:v0.1.0"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: /config/default.yaml
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      volumes:
+        - name: config
+          secret:
+            secretName: config-grafana
+---
+# Source: worker-import-companies/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: grafana-br-worker-import-companies
+  labels:
+    helm.sh/chart: worker-import-companies-0.0.1
+    app.kubernetes.io/name: worker-import-companies
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  schedule: "45 19 * * 1-5"
+  template:
+    metadata:
+      annotations:
+        checksum/config: 01d5c8aa092ee955b9894b08b5d84ff0312de533fd4fc8498e46d45ba8f0c78f
+      labels:
+        app.kubernetes.io/name: worker-import-companies
+        app.kubernetes.io/instance: grafana
+  jobTemplate:
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: app
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company:v0.1.0"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: /config/default.yaml
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      volumes:
+        - name: config
+          secret:
+            secretName: config-grafana
+---
+# Source: worker-import-companies/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: grafana-as-worker-import-companies
+  labels:
+    helm.sh/chart: worker-import-companies-0.0.1
+    app.kubernetes.io/name: worker-import-companies
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  schedule: "50 19 * * 1-5"
+  template:
+    metadata:
+      annotations:
+        checksum/config: 01d5c8aa092ee955b9894b08b5d84ff0312de533fd4fc8498e46d45ba8f0c78f
+      labels:
+        app.kubernetes.io/name: worker-import-companies
+        app.kubernetes.io/instance: grafana
+  jobTemplate:
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: app
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company:v0.1.0"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: /config/default.yaml
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      volumes:
+        - name: config
+          secret:
+            secretName: config-grafana
+---
+# Source: worker-import-companies/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: grafana-lse-worker-import-companies
+  labels:
+    helm.sh/chart: worker-import-companies-0.0.1
+    app.kubernetes.io/name: worker-import-companies
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  schedule: "0 18 * * 1-5"
+  template:
+    metadata:
+      annotations:
+        checksum/config: 01d5c8aa092ee955b9894b08b5d84ff0312de533fd4fc8498e46d45ba8f0c78f
+      labels:
+        app.kubernetes.io/name: worker-import-companies
+        app.kubernetes.io/instance: grafana
+  jobTemplate:
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: app
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company:v0.1.0"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: /config/default.yaml
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      volumes:
+        - name: config
+          secret:
+            secretName: config-grafana
+---
+# Source: worker-import-companies/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: grafana-ls-worker-import-companies
+  labels:
+    helm.sh/chart: worker-import-companies-0.0.1
+    app.kubernetes.io/name: worker-import-companies
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  schedule: "0 18 * * 1-5"
+  template:
+    metadata:
+      annotations:
+        checksum/config: 01d5c8aa092ee955b9894b08b5d84ff0312de533fd4fc8498e46d45ba8f0c78f
+      labels:
+        app.kubernetes.io/name: worker-import-companies
+        app.kubernetes.io/instance: grafana
+  jobTemplate:
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: app
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company:v0.1.0"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: /config/default.yaml
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      volumes:
+        - name: config
+          secret:
+            secretName: config-grafana
