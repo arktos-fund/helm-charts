@@ -16,6 +16,18 @@ app:
           - path: /v1/exchanges
             pathType: ImplementationSpecific
 
+  env:
+    - name: API_DEBUG
+      valueFrom:
+        secretKeyRef:
+          name: eodhistoricaldata
+          key: debug
+    - name: EOD_KEY
+      valueFrom:
+        secretKeyRef:
+          name: eodhistoricaldata
+          key: token
+
   config:
     logger:
       format: fmt
