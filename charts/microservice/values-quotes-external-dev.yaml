@@ -4,9 +4,6 @@ app:
   image:
     repository: rg.nl-ams.scw.cloud/arktos-venture/quotes-external
 
-  ingress:
-    enabled: false
-
   env:
     - name: API_DEBUG
       valueFrom:

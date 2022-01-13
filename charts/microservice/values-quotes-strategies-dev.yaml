@@ -5,16 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/quotes-strategies
 
   ingress:
-    enabled: true
-    hosts:
-      - host: api.arktos-consulting.cloud
-        paths:
-          - path: /grpc/v1/strategies
-            pathType: ImplementationSpecific
-      - host: api.arktos-consulting.cloud
-        paths:
-          - path: /v1/strategies
-            pathType: ImplementationSpecific
+    enabled: false
 
   config:
     logger:
