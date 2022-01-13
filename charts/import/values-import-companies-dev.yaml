@@ -1,11 +1,23 @@
 # Default values for microservice.
 
 schedule:
-  - expression: "30 0 * * 2-6"
-    exchange: ALL
+  - expression: "0 0 * * 2-6"
+    exchange: NASDAQ
+  - expression: "0 3 * * 2-6"
+    exchange: NYSE
+  - expression: "0 19 * * 1-5"
+    exchange: PA
+  - expression: "45 19 * * 1-5"
+    exchange: BR
+  - expression: "50 19 * * 1-5"
+    exchange: AS
+  - expression: "0 18 * * 1-5"
+    exchange: LSE
+  - expression: "0 18 * * 1-5"
+    exchange: LS
 
 image:
-  repository: rg.nl-ams.scw.cloud/arktos-venture/add-currency-quotes
+  repository: rg.nl-ams.scw.cloud/arktos-venture/add-company-quotes
   pullPolicy: IfNotPresent
   tag: "0.0.1"
 

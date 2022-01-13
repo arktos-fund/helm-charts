@@ -1,5 +1,5 @@
 {{- $dot := . }}
-{{- range .Values.app.schedule }}
+{{- range .Values.schedule }}
 ---
 apiVersion: batch/v1
 kind: CronJob
@@ -8,54 +8,63 @@ metadata:
   labels:
     {{- include "worker.labels" $dot | nindent 4 }}
 spec:
+  concurrencyPolicy: {{ $dot.Values.global.concurrencyPolicy }}
+  failedJobsHistoryLimit: {{ $dot.Values.global.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ $dot.Values.global.successfulJobsHistoryLimit }}
   schedule: {{ .expression | quote }}
   template:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") $dot | sha256sum }}
-      {{- with $dot.Values.app.podAnnotations }}
+      {{- with $dot.Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "worker.selectorLabels" $dot | nindent 8 }}
   jobTemplate:
     spec:
-      {{- with $dot.Values.app.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "worker.serviceAccountName" $dot }}
-      securityContext:
-        {{- toYaml $dot.Values.app.podSecurityContext | nindent 8 }}
-      containers:
-        - name: app
-          securityContext:
-            {{- toYaml $dot.Values.app.securityContext | nindent 12 }}
-          image: "{{ $dot.Values.app.image.repository }}:{{ $dot.Values.app.image.tag | default $dot.Chart.AppVersion }}"
-          imagePullPolicy: {{ $dot.Values.app.image.pullPolicy }}
-          {{- with $dot.Values.app.env }}
-          env:
+      template:
+        metadata:
+          labels:
+            app: {{ $dot.Release.Name }}
+            cron: {{ $dot.Release.Name }}-{{ lower .exchange }}-{{ $dot.Chart.Name }}
+        spec:
+          {{- with $dot.Values.imagePullSecrets }}
+          imagePullSecrets:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          volumeMounts:
+          serviceAccountName: {{ include "worker.serviceAccountName" $dot }}
+          securityContext:
+            {{- toYaml $dot.Values.podSecurityContext | nindent 12 }}
+          containers:
+            - name: app
+              securityContext:
+                {{- toYaml $dot.Values.securityContext | nindent 16 }}
+              image: "{{ $dot.Values.image.repository }}:{{ $dot.Values.image.tag | default $dot.Chart.AppVersion }}"
+              imagePullPolicy: {{ $dot.Values.image.pullPolicy }}
+              {{- with $dot.Values.env }}
+              env:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              volumeMounts:
+                - name: config
+                  mountPath: /config/default.yaml
+              resources:
+                {{- toYaml $dot.Values.resources | nindent 16 }}
+          volumes:
             - name: config
-              mountPath: /config/default.yaml
-          resources:
-            {{- toYaml $dot.Values.app.resources | nindent 12 }}
-      volumes:
-        - name: config
-          secret:
-            secretName: config-{{ $dot.Release.Name }}
-      {{- with $dot.Values.app.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with $dot.Values.app.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with $dot.Values.app.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+              secret:
+                secretName: config-{{ $dot.Release.Name }}
+          {{- with $dot.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $dot.Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $dot.Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
 {{- end }}
