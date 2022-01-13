@@ -38,7 +38,7 @@ spec:
                 {{- toYaml $dot.Values.securityContext | nindent 16 }}
               image: "{{ $dot.Values.image.repository }}:{{ $dot.Values.image.tag | default $dot.Chart.AppVersion }}"
               imagePullPolicy: {{ $dot.Values.image.pullPolicy }}
-              args: ["-conf", "/config/default.yaml"]
+              args: ["--conf", "/config/default.yaml"]
               {{- with $dot.Values.env }}
               env:
                 {{- toYaml . | nindent 16 }}
