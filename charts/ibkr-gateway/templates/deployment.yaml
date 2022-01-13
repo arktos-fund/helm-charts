@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "ibkr-gateway.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 3 }}
   selector:
     matchLabels:
@@ -14,26 +14,25 @@ spec:
     metadata:
       annotations:
         checksum/gateway: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        checksum/worker: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.gateway.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "ibkr-gateway.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.gateway.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.gateway.podSecurityContext | nindent 8 }}
       containers:
         - name: gateway
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- with .Values.env }}
+            {{- toYaml .Values.gateway.securityContext | nindent 12 }}
+          image: "{{ .Values.gateway.image.repository }}:{{ .Values.gateway.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.gateway.image.pullPolicy }}
+          {{- with .Values.gateway.env }}
           env:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -45,9 +44,9 @@ spec:
               containerPort: 3000
               protocol: TCP
             - name: socket
-              containerPort: {{ .Values.service.port }}
+              containerPort: 5000
               protocol: TCP
-          {{- if eq .Values.debug false }}
+          {{- if eq .Values.gateway.debug false }}
           livenessProbe:
             httpGet:
               path: /healthz
@@ -78,36 +77,35 @@ spec:
               mountPath: /home/trader/proxy.yaml
               subPath: proxy.yaml
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-        - name: worker
+            {{- toYaml .Values.gateway.resources | nindent 12 }}
+        {{- range .Values.sidecars.containers }}
+        - name: {{ .name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "rg.nl-ams.scw.cloud/arktos-venture/worker-ibkr:0.0.1"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+            {{- toYaml .securityContext | nindent 12 }}
+          image: {{ .image | quote }}
+          imagePullPolicy: {{ .pullPolicy }}
+          {{- with .volumeMounts }}
           volumeMounts:
-            - name: {{ include "ibkr-gateway.fullname" . }}-worker
-              mountPath: /home/noroot/config.yaml
-              subPath: config.yaml
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .volumeMounts }}
           resources:
-            limits:
-              cpu: 200m
-              memory: 96Mi
-            requests:
-              cpu: 100m
-              memory: 64Mi
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        {{- end }}
       volumes:
         - name: {{ include "ibkr-gateway.fullname" . }}-config
           secret:
-            secretName: {{ required "credentials IBKR is required" .Values.config.IbkrCredentials }}
+            secretName: {{ required "credentials IBKR is required" .Values.gateway.config.IbkrCredentials }}
         - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
         - name: {{ include "ibkr-gateway.fullname" . }}-proxy
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-proxy
-        - name: {{ include "ibkr-gateway.fullname" . }}-worker
-          secret:
-            secretName: {{ include "ibkr-gateway.fullname" . }}-worker
+        {{- with .Values.sidecars.volumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

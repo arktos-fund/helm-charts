@@ -1,93 +1,90 @@
 # Default values for ibkr-gateway.
 
-replicaCount: 1
-
-image:
-  repository: quay.io/arktos-venture/ibkr-gateway
-  pullPolicy: IfNotPresent
-  tag: "latest"
-
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
 serviceAccount:
   create: true
   annotations: {}
   name: ""
 
-env:
-  - name: VNC_SERVER_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: vnc-credentials
-        key: password
+gateway:
+  image:
+    repository: quay.io/arktos-venture/ibkr-gateway
+    pullPolicy: IfNotPresent
+    tag: "latest"
 
-debug: false
-config: 
-  IbkrCredentials: "ibkr-credentials"
-  trading: "live"
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
 
-worker:
-  logger:
-    format: fmt
-    level: info
-  data:
-    redis:
-      hostname: redis-master.database
-      port: 6379
-      database: 7
-      read_timeout: 0.2s
-      write_timeout: 0.2s
-    mongodb:
-      hostname: mongodb.database
-      port: 27017
-      database: companies
-      read_timeout: 2s
-      write_timeout: 2s
-    tdengine:
-      hostname: tdengine-cluster.database
-      port: 6041
-      database: invest_accounts
-      username: root
-      password: taosdata
-      timeout: 3s
-      ssl: false
+  env:
+    - name: VNC_SERVER_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: vnc-credentials
+          key: password
 
-podAnnotations: {}
+  debug: false
+  config: 
+    IbkrCredentials: "ibkr-credentials"
+    trading: "live"
 
-podSecurityContext:
-  fsGroup: 10001
+  podAnnotations: {}
+  podSecurityContext:
+    fsGroup: 10001
 
-securityContext:
-  capabilities:
-    drop:
-    - ALL
-  readOnlyRootFilesystem: false
-  runAsNonRoot: true
-  runAsUser: 10001
+  securityContext:
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 10001
 
-service:
-  type: ClusterIP
-  port: 5000
+  jvm:
+    Xmx: "768"
+    XX:
+      ConcGCThreads: 5
+      InitiatingHeapOccupancyPercent: 70
+      ParallelGCThreads: 20
+      MaxGCPauseMillis: 200
+    installer:
+      uuid: "3046c7e3-ffbd-4699-a848-117342ff43ee"
 
-jvm:
-  Xmx: "768"
-  XX:
-    ConcGCThreads: 5
-    InitiatingHeapOccupancyPercent: 70
-    ParallelGCThreads: 20
-    MaxGCPauseMillis: 200
-  installer:
-    uuid: "3046c7e3-ffbd-4699-a848-117342ff43ee"
+  resources:
+    limits:
+      cpu: 300m
+      memory: 780Mi
+    requests:
+      cpu: 300m
+      memory: 780Mi
 
-resources:
-  limits:
-    cpu: 300m
-    memory: 780Mi
-  requests:
-    cpu: 300m
-    memory: 780Mi
+sidecars:
+  volumes:
+    - name: data-worker-config
+      secret:
+        secretName: data-worker-config
+
+  containers:
+    - name: data-worker-config
+      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-worker:0.0.1"
+      imagePullPolicy: Always
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: false
+        runAsNonRoot: true
+        runAsUser: 10001
+      volumeMounts:
+        - name: data-worker-config
+          mountPath: /home/noroot/config.yaml
+          subPath: config.yaml
+      resources:
+        limits:
+          cpu: 50m
+          memory: 64Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
 
 nodeSelector:
   k8s.scaleway.com/pool-name: app

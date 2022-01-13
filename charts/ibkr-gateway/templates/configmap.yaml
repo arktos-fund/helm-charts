@@ -6,13 +6,13 @@ metadata:
     {{- include "ibkr-gateway.labels" . | nindent 4 }}
 data:
   ibgateway.vmoptions: |-
-    -Xmx{{ .Values.jvm.Xmx | default "768" }}m
+    -Xmx{{ .Values.gateway.jvm.Xmx | default "768" }}m
     -XX:+UseG1GC
-    -XX:MaxGCPauseMillis={{ .Values.jvm.XX.MaxGCPauseMillis | default "200" }}
-    -XX:ParallelGCThreads={{ .Values.jvm.XX.ParallelGCThreads | default "20" }}
-    -XX:ConcGCThreads={{ .Values.jvm.XX.ConcGCThreads | default "5" }}
-    -XX:InitiatingHeapOccupancyPercent={{ .Values.jvm.XX.InitiatingHeapOccupancyPercent | default "70" }}
-    -Dinstaller.uuid={{ required "UUID JVM requirement" .Values.jvm.installer.uuid }}
+    -XX:MaxGCPauseMillis={{ .Values.gateway.jvm.XX.MaxGCPauseMillis | default "200" }}
+    -XX:ParallelGCThreads={{ .Values.gateway.jvm.XX.ParallelGCThreads | default "20" }}
+    -XX:ConcGCThreads={{ .Values.gateway.jvm.XX.ConcGCThreads | default "5" }}
+    -XX:InitiatingHeapOccupancyPercent={{ .Values.gateway.jvm.XX.InitiatingHeapOccupancyPercent | default "70" }}
+    -Dinstaller.uuid={{ required "UUID JVM requirement" .Values.gateway.jvm.installer.uuid }}
     -DvmOptionsPath=/home/trader/Jts/ibgateway/{{ include "ibkr-gateway.version" . }}/ibgateway.vmoptions
     -Dsun.awt.nopixfmt=true
     -Dsun.java2d.noddraw=true
@@ -36,7 +36,7 @@ data:
         address: 0.0.0.0:5000
       destination: 
         protocol: tcp6
-        address: localhost:{{ if eq .Values.config.trading "live" }}4001{{ else }}4002{{ end }}
+        address: localhost:{{ if eq .Values.gateway.config.trading "live" }}4001{{ else }}4002{{ end }}
       timeout: 3s
     health:
       listen: 0.0.0.0:3000

@@ -34,8 +34,8 @@ Create chart name and version as used by the chart label.
 Extract version of IB Gateway
 */}}
 {{- define "ibkr-gateway.version" -}}
-{{- if .Values.image.tag }}
-{{- printf "%s" .Values.image.tag | replace "." "" | trunc 4 }}
+{{- if .Values.gateway.image.tag }}
+{{- printf "%s" .Values.gateway.image.tag | replace "." "" | trunc 4 }}
 {{- else }}
 {{- printf "%s" .Chart.AppVersion | replace "." "" | trunc 4 }}
 {{- end }}
