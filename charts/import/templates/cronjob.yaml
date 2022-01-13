@@ -38,6 +38,7 @@ spec:
                 {{- toYaml $dot.Values.securityContext | nindent 16 }}
               image: "{{ $dot.Values.image.repository }}:{{ $dot.Values.image.tag | default $dot.Chart.AppVersion }}"
               imagePullPolicy: {{ $dot.Values.image.pullPolicy }}
+              args: ["-conf", "/config/default.yaml"]
               {{- with $dot.Values.env }}
               env:
                 {{- toYaml . | nindent 16 }}
@@ -45,6 +46,7 @@ spec:
               volumeMounts:
                 - name: config
                   mountPath: /config/default.yaml
+                  subPath: default.yaml
               resources:
                 {{- toYaml $dot.Values.resources | nindent 16 }}
           volumes:
