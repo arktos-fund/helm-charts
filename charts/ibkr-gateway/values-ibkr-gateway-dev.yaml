@@ -60,12 +60,12 @@ gateway:
 
 sidecars:
   volumes:
-    - name: data-worker-config
+    - name: ibkr-worker-config
       secret:
-        secretName: data-worker-config
+        secretName: ibkr-worker-config
 
   containers:
-    - name: data-worker-config
+    - name: worker
       image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-worker:0.0.1"
       imagePullPolicy: Always
       securityContext:
@@ -76,7 +76,7 @@ sidecars:
         runAsNonRoot: true
         runAsUser: 10001
       volumeMounts:
-        - name: data-worker-config
+        - name: ibkr-worker-config
           mountPath: /home/noroot/config.yaml
           subPath: config.yaml
       resources:
