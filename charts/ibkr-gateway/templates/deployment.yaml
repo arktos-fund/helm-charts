@@ -83,7 +83,7 @@ spec:
           securityContext:
             {{- toYaml .securityContext | nindent 12 }}
           image: {{ .image | quote }}
-          imagePullPolicy: {{ .pullPolicy }}
+          imagePullPolicy: {{ .imagePullPolicy }}
           {{- with .volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
