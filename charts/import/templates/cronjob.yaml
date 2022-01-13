@@ -12,22 +12,17 @@ spec:
   failedJobsHistoryLimit: {{ $dot.Values.global.failedJobsHistoryLimit }}
   successfulJobsHistoryLimit: {{ $dot.Values.global.successfulJobsHistoryLimit }}
   schedule: {{ .expression | quote }}
-  template:
-    metadata:
-      annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") $dot | sha256sum }}
-      {{- with $dot.Values.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      labels:
-        {{- include "worker.selectorLabels" $dot | nindent 8 }}
   jobTemplate:
     spec:
       template:
         metadata:
+          annotations:
+            checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") $dot | sha256sum }}
+          {{- with $dot.Values.podAnnotations }}
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
           labels:
-            app: {{ $dot.Release.Name }}
-            cron: {{ $dot.Release.Name }}-{{ lower .exchange }}-{{ $dot.Chart.Name }}
+            {{- include "worker.selectorLabels" $dot | nindent 8 }}
         spec:
           {{- with $dot.Values.imagePullSecrets }}
           imagePullSecrets:
