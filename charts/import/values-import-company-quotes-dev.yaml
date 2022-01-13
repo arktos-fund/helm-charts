@@ -32,7 +32,7 @@ config:
     tdengine:
       hostname: tdengine-cluster.database
       port: 6041
-      database: invest_accounts
+      database: analysis
       username: root
       password: taosdata
       timeout: 3s

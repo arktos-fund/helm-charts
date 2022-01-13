@@ -29,14 +29,11 @@ config:
     format: fmt
     level: warn
   data:
-    tdengine:
-      hostname: tdengine-cluster.database
-      port: 6041
-      database: invest_accounts
-      username: root
-      password: taosdata
-      timeout: 3s
-      ssl: false
+    redis:
+      hostname: redis-master.database
+      port: 6379
+      database: 1
+      timeout: 1.5s
     services:
       exchange:
         hostname: exchanges-microservice.exchanges
