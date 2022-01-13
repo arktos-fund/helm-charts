@@ -4,6 +4,8 @@ global:
   concurrencyPolicy: Replace
   failedJobsHistoryLimit: 2
   successfulJobsHistoryLimit: 1
+  backoffLimit: 4
+  restartPolicy: Never
 
 schedule:
   - expression: "0 0 * * 2-6"

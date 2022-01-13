@@ -31,6 +31,7 @@ spec:
           serviceAccountName: {{ include "worker.serviceAccountName" $dot }}
           securityContext:
             {{- toYaml $dot.Values.podSecurityContext | nindent 12 }}
+          restartPolicy: {{ $dot.Values.global.restartPolicy }}
           containers:
             - name: app
               securityContext:
@@ -62,4 +63,5 @@ spec:
           tolerations:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+      backoffLimit: {{ $dot.Values.global.backoffLimit }}
 {{- end }}
