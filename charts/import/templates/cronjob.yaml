@@ -19,10 +19,10 @@ spec:
           annotations:
             checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") $dot | sha256sum }}
           {{- with $dot.Values.podAnnotations }}
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           labels:
-            {{- include "worker.selectorLabels" $dot | nindent 8 }}
+            {{- include "worker.selectorLabels" $dot | nindent 12 }}
         spec:
           {{- with $dot.Values.imagePullSecrets }}
           imagePullSecrets:
