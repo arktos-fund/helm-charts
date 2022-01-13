@@ -39,8 +39,8 @@ config:
         hostname: exchanges-microservice.exchanges
         port: 11000
         timeout: 3s
-      quotes:
-        hostname: quotes-external-microservice.quotes
+      companies:
+        hostname: companies-microservice.companies
         port: 11000
         timeout: 3s
 
