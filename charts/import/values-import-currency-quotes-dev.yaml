@@ -5,7 +5,7 @@ schedule:
     exchange: ALL
 
 image:
-  repository: rg.nl-ams.scw.cloud/arktos-venture/add-currency-quotes
+  repository: rg.nl-ams.scw.cloud/arktos-venture/import-currency-quotes
   pullPolicy: IfNotPresent
   tag: "0.0.1"
 

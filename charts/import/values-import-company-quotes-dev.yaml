@@ -17,7 +17,7 @@ schedule:
     exchange: LS
 
 image:
-  repository: rg.nl-ams.scw.cloud/arktos-venture/add-company-quotes
+  repository: rg.nl-ams.scw.cloud/arktos-venture/import-company-quotes
   pullPolicy: IfNotPresent
   tag: "0.0.1"
 
