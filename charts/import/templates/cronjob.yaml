@@ -39,8 +39,10 @@ spec:
               image: "{{ $dot.Values.image.repository }}:{{ $dot.Values.image.tag | default $dot.Chart.AppVersion }}"
               imagePullPolicy: {{ $dot.Values.image.pullPolicy }}
               args: ["--conf", "/config/default.yaml"]
-              {{- with $dot.Values.env }}
               env:
+                - name: EXCHANGE
+                  value: {{ upper .exchange | quote }}
+              {{- with $dot.Values.env }}
                 {{- toYaml . | nindent 16 }}
               {{- end }}
               volumeMounts:
