@@ -44,7 +44,7 @@ config:
         port: 11000
         timeout: 3s
       companies:
-        hostname: companies-microservice.companies
+        hostname: companies-external-microservice.companies
         port: 11000
         timeout: 3s
 
