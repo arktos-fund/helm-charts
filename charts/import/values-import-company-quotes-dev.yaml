@@ -23,7 +23,7 @@ schedule:
 image:
   repository: rg.nl-ams.scw.cloud/arktos-venture/import-company-quotes
   pullPolicy: IfNotPresent
-  tag: "0.0.4"
+  tag: "0.0.5"
 
 imagePullSecrets:
   - name: reg-internal
