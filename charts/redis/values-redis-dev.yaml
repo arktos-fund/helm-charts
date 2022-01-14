@@ -16,9 +16,15 @@ master:
   persistence:
     enabled: false
 
+  disableCommands: []
+
   resources:
-    limits: {}
-    requests: {}
+    limits:
+      cpu: 250m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
   
 replica:
   replicaCount: 1
@@ -27,19 +33,21 @@ replica:
     enabled: false
   
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 10
     targetCPU: "80"
     # targetMemory: "80"
+  
+  disableCommands: []
 
-    resources:
-      limits:
-        cpu: 250m
-        memory: 256Mi
-      requests:
-        cpu: 100m
-        memory: 256Mi
+  resources:
+    limits:
+      cpu: 250m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
 
   metrics:
     enabled: true
