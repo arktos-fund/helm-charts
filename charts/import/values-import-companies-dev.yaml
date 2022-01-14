@@ -13,11 +13,11 @@ schedule:
     exchange: AS
   - expression: "0 8 * * 6"
     exchange: LSE
-  - expression: 0 6 * * 6"
+  - expression: "0 6 * * 6"
     exchange: LS
-  - expression: 0 16 * * 5"
+  - expression: "0 16 * * 5"
     exchange: SHE
-  - expression: 0 12 * * 5"
+  - expression: "0 12 * * 5"
     exchange: SHG
 
 image:
