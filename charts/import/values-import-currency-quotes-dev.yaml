@@ -15,7 +15,7 @@ imagePullSecrets:
 config:
   logger:
     format: fmt
-    level: warn
+    level: info
   data:
     tdengine:
       hostname: tdengine-cluster.database

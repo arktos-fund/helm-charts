@@ -31,7 +31,7 @@ imagePullSecrets:
 config:
   logger:
     format: fmt
-    level: warn
+    level: info
   data:
     redis:
       hostname: redis-master.database
