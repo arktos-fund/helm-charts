@@ -15,6 +15,10 @@ schedule:
     exchange: LSE
   - expression: "0 18 * * 1-5"
     exchange: LS
+  - expression: 30 10 * * 1-5"
+    exchange: SHE
+  - expression: 0 13 * * 1-5"
+    exchange: SHG
 
 image:
   repository: rg.nl-ams.scw.cloud/arktos-venture/import-company-quotes
