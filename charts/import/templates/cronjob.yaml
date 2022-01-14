@@ -4,7 +4,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ $dot.Chart.Name }}-{{ lower .exchange }}
+  name: {{ $dot.Release.Name }}-{{ lower .exchange }}
   labels:
     {{- include "worker.labels" $dot | nindent 4 }}
 spec:
