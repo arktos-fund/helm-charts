@@ -54,7 +54,7 @@ spec:
           volumes:
             - name: config
               secret:
-                secretName: config-{{ $dot.Release.Name }}
+                secretName: {{ $dot.Release.Name }}-config
           {{- with $dot.Values.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 12 }}
