@@ -34,9 +34,9 @@ config:
     level: info
   data:
     redis:
-      hostname: redis-master.database
+      hostname: companies-redis-master
       port: 6379
-      database: 1
+      database: 2
       timeout: 1.5s
     services:
       exchanges:
