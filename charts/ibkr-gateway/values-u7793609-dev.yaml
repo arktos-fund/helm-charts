@@ -65,8 +65,29 @@ sidecars:
         secretName: ibkr-worker-config
 
   containers:
-    - name: worker
-      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-worker:0.0.2"
+    - name: positions-worker
+      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-positions-worker:0.0.1"
+      imagePullPolicy: Always
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: false
+        runAsNonRoot: true
+        runAsUser: 10001
+      volumeMounts:
+        - name: ibkr-worker-config
+          mountPath: /home/noroot/config.yaml
+          subPath: config.yaml
+      resources:
+        limits:
+          cpu: 50m
+          memory: 64Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+    - name: companies-worker
+      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-companies-worker:0.0.1"
       imagePullPolicy: Always
       securityContext:
         capabilities:
