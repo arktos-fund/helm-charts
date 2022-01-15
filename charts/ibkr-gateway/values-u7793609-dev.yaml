@@ -60,9 +60,12 @@ gateway:
 
 sidecars:
   volumes:
-    - name: ibkr-worker-config
+    - name: ibkr-positions-worker-config
       secret:
-        secretName: ibkr-worker-config
+        secretName: ibkr-positions-worker-config
+    - name: ibkr-companies-worker-config
+      secret:
+        secretName: ibkr-companies-worker-config
 
   containers:
     - name: positions-worker
@@ -76,7 +79,7 @@ sidecars:
         runAsNonRoot: true
         runAsUser: 10001
       volumeMounts:
-        - name: ibkr-worker-config
+        - name: ibkr-positions-worker-config
           mountPath: /home/noroot/config.yaml
           subPath: config.yaml
       resources:
@@ -97,7 +100,7 @@ sidecars:
         runAsNonRoot: true
         runAsUser: 10001
       volumeMounts:
-        - name: ibkr-worker-config
+        - name: ibkr-companies-worker-config
           mountPath: /home/noroot/config.yaml
           subPath: config.yaml
       resources:
