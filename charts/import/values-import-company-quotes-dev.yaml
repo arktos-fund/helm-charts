@@ -1,0 +1,83 @@
+# Default values for microservice.
+
+schedule:
+  # America 
+  # USA, Canada
+  - expression: "0 0 * * 2-6"
+    exchange: NASDAQ
+  - expression: "0 3 * * 2-6"
+    exchange: NYSE
+  - expression: "0 6 * * 2-6"
+    exchange: TO
+  # Europe 
+  # France, Belgium, Netherland, Portugal, UK, Germany, Spain
+  - expression: "0 19 * * 1-5"
+    exchange: PA
+  - expression: "45 19 * * 1-5"
+    exchange: BR
+  - expression: "50 19 * * 1-5"
+    exchange: AS
+  - expression: "0 18 * * 1-5"
+    exchange: LSE
+  - expression: "0 18 * * 1-5"
+    exchange: LS
+  - expression: "30 18 * * 1-5"
+    exchange: F
+  - expression: "30 18 * * 1-5"
+    exchange: MC
+  - expression: "0 20 * * 1-5"
+    exchange: LSE
+  # Asia
+  # China, Hong-Kong, Singapor
+  - expression: "30 10 * * 1-5"
+    exchange: SHE
+  - expression: "0 13 * * 1-5"
+    exchange: SHG
+  - expression: "30 14 * * 1-5"
+    exchange: HK
+  - expression: "45 15 * * 1-5"
+    exchange: SG
+
+image:
+  repository: rg.nl-ams.scw.cloud/arktos-venture/import-company-quotes
+  pullPolicy: IfNotPresent
+  tag: "0.0.6"
+
+imagePullSecrets:
+  - name: reg-internal
+
+config:
+  logger:
+    format: fmt
+    level: info
+  data:
+    tdengine:
+      hostname: tdengine-cluster.database
+      port: 6041
+      database: analysis
+      username: root
+      password: taosdata
+      timeout: 3s
+      ssl: false
+    services:
+      exchanges:
+        hostname: exchanges-microservice.exchanges
+        port: 11000
+        timeout: 3s
+      quotes:
+        hostname: quotes-external-microservice.quotes
+        port: 11000
+        timeout: 3s
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector:
+  k8s.scaleway.com/pool-name: app
+  kubernetes.io/arch: amd64
+  kubernetes.io/os: linux

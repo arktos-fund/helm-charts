@@ -1,0 +1,167 @@
+# Default values for microservice.
+
+app:
+  image:
+    repository: rg.nl-ams.scw.cloud/arktos-venture/companies
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: api.arktos-consulting.cloud
+        paths:
+          - path: /grpc/v1/companies
+            pathType: ImplementationSpecific
+      - host: api.arktos-consulting.cloud
+        paths:
+          - path: /v1/companies
+            pathType: ImplementationSpecific
+
+  config:
+    logger:
+      format: fmt
+      level: warn
+    timeout: 3s
+    data:
+      redis:
+        hostname: companies-redis-master
+        port: 6379
+        database: 1
+        timeout: 1.5s
+      mongodb:
+        hostnames: 
+          - companies-mongodb:27017
+        database: companies
+        timeout: 3s
+
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+
+  nodeSelector:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
+
+redis:
+  enabled: true
+
+  image:
+    registry: docker.io
+    repository: bitnami/redis
+    tag: 6.2.6-debian-10-r53
+    pullSecrets: []
+    debug: false
+  
+  architecture: replication
+  auth:
+    enabled: false
+
+  master:
+    persistence:
+      enabled: false
+
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+  metrics:
+    enabled: true
+    image:
+      registry: docker.io
+      repository: bitnami/redis-exporter
+      tag: 1.31.4-debian-10-r11
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+
+    resources:
+      limits:
+        cpu: 10m
+        memory: 32Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+
+mongodb:
+  enabled: true
+
+  serviceAccount:
+    create: false
+
+  image:
+    registry: docker.io
+    repository: bitnami/mongodb
+    tag: 4.4.10-debian-10-r44
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+    debug: false
+
+  auth:
+    enabled: false
+    rootUser: root
+    rootPassword: ""
+    usernames: []
+    passwords: []
+    databases: []
+    existingSecret: ""
+
+  systemLogVerbosity: 0
+  initdbScripts: {}
+    # my_init_script.sh: |
+    #   #!/bin/bash
+    #   echo "Do something."
+
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 30
+
+  pdb:
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 5Gi
+
+  arbiter:
+    enabled: false
+
+  metrics:
+    enabled: true
+    image:
+      registry: docker.io
+      repository: bitnami/mongodb-exporter
+      tag: 0.11.2-debian-10-r354
+      pullSecrets: []
+
+    serviceMonitor:
+      enabled: true
+
+    resources:
+      limits:
+        cpu: 30m
+        memory: 56Mi
+      requests:
+        cpu: 30m
+        memory: 56Mi
+
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi

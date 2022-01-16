@@ -1,0 +1,65 @@
+# Default values for microservice.
+
+app:
+  image:
+    repository: rg.nl-ams.scw.cloud/arktos-venture/exchanges
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: api.arktos-consulting.cloud
+        paths:
+          - path: /grpc/v1/exchanges
+            pathType: ImplementationSpecific
+      - host: api.arktos-consulting.cloud
+        paths:
+          - path: /v1/exchanges
+            pathType: ImplementationSpecific
+
+  env:
+    - name: API_DEBUG
+      valueFrom:
+        secretKeyRef:
+          name: eodhistoricaldata
+          key: debug
+    - name: EOD_KEY
+      valueFrom:
+        secretKeyRef:
+          name: eodhistoricaldata
+          key: token
+
+  config:
+    logger:
+      format: fmt
+      level: warn
+    timeout: 3s
+    data:
+      redis:
+        hostname: redis-master.database
+        port: 6379
+        database: 3
+        timeout: 1.5s
+      mongodb:
+        hostnames: 
+          - mongodb.database:27017
+        database: exchanges
+        timeout: 3s
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+
+  nodeSelector:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
+
+redis:
+  enabled: false
+
+mongodb:
+  enabled: false

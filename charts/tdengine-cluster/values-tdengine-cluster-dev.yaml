@@ -1,0 +1,50 @@
+global:
+  image:
+    prefix: quay.io/arktos-venture/tdengine
+    pullPolicy: Always
+    tag: "2.3.6.0"
+
+  imagePullSecrets: []
+
+taosd:
+  replicaCount: 3
+
+  taoscfg: |
+    keepColumnName  1
+    http  1
+    monitor 1
+    enableRecordSql 0
+    enableCoreFile  1
+    stream  0
+
+  storage:
+    className: "scw-bssd"
+    dataSize: "10Gi"
+    logSize: "2Gi"
+
+  resources:
+    limits:
+      cpu: 300m
+      memory: 256Mi
+    requests:
+      cpu: 300m
+      memory: 256Mi
+
+  nodeSelectors:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
+
+arbitrator:
+  resources:
+    limits:
+      cpu: 20m
+      memory: 16Mi
+    requests:
+      cpu: 20m
+      memory: 16Mi
+
+  nodeSelectors:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux

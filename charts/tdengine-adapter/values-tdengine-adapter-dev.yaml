@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: quay.io/arktos-venture/tdengine-adapter
+  pullPolicy: IfNotPresent
+  tag: "2.3.6.0"
+
+imagePullSecrets: []
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector:
+  k8s.scaleway.com/pool-name: app
+  kubernetes.io/arch: amd64
+  kubernetes.io/os: linux

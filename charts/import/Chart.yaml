@@ -1,0 +1,11 @@
+apiVersion: v2
+appVersion: v0.1.0
+description: A Helm chart for Worker for Kubernetes.
+name: import
+version: 0.0.1
+home: https://github.com/arktos-venture/helm-charts
+keywords:
+  - arktos-venture
+  - worker
+maintainers:
+  - name: perriea

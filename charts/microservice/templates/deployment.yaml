@@ -50,14 +50,16 @@ spec:
             httpGet:
               path: /healthz
               port: http
-            failureThreshold: 30
-            periodSeconds: 10
+            failureThreshold: 3
+            periodSeconds: 15
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /healthz
               port: http
-            failureThreshold: 30
+            failureThreshold: 3
             periodSeconds: 10
+            timeoutSeconds: 5
           volumeMounts:
             - name: config
               mountPath: /config/default.yaml
@@ -67,6 +69,9 @@ spec:
         - name: config
           secret:
             secretName: config-{{ .Release.Name }}
+      {{- with .Values.app.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.app.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

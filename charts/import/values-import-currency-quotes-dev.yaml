@@ -1,0 +1,45 @@
+# Default values for microservice.
+
+schedule:
+  - expression: "30 0 * * 2-6"
+    exchange: ALL
+
+image:
+  repository: rg.nl-ams.scw.cloud/arktos-venture/import-currency-quotes
+  pullPolicy: IfNotPresent
+  tag: "0.0.4"
+
+imagePullSecrets:
+  - name: reg-internal
+
+config:
+  logger:
+    format: fmt
+    level: info
+  data:
+    tdengine:
+      hostname: tdengine-cluster.database
+      port: 6041
+      database: analysis
+      username: root
+      password: taosdata
+      timeout: 3s
+      ssl: false
+    services:
+      quotes:
+        hostname: quotes-external-microservice.quotes
+        port: 11000
+        timeout: 3s
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector:
+  k8s.scaleway.com/pool-name: app
+  kubernetes.io/arch: amd64
+  kubernetes.io/os: linux

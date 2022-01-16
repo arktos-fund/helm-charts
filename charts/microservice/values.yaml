@@ -4,9 +4,9 @@ app:
   replicaCount: 1
 
   image:
-    repository: rg.fr-par.scw.cloud/arktos-venture/grpc-apis/company
+    repository: rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company
     pullPolicy: IfNotPresent
-    tag: ""
+    tag: "0.2.2"
 
   imagePullSecrets:
     - name: reg-internal
@@ -39,11 +39,11 @@ app:
 
   ingress:
     enabled: false
-    className: "nginx"
+    className: "kong"
     annotations: {}
       # kubernetes.io/tls-acme: "true"
     hosts:
-      - host: venture.universe.sh
+      - host: api.arktos-consulting.cloud
         paths:
           - path: /grpc/v1/company
             pathType: ImplementationSpecific
@@ -60,6 +60,11 @@ app:
     #     secretKeyRef:
     #       name: backend-user
     #       key: backend-username
+
+  volumes: []
+    # - name: config
+    #   secret:
+    #     secretName: config
 
   config:
     logger:
@@ -106,7 +111,10 @@ app:
     targetCPUUtilizationPercentage: 70
     targetMemoryUtilizationPercentage: 80
 
-  nodeSelector: {}
+  nodeSelector:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
 
   tolerations: []
 

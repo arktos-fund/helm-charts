@@ -1,0 +1,71 @@
+{{- $dot := . }}
+{{- range .Values.schedule }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $dot.Release.Name }}-{{ lower .exchange }}
+  labels:
+    {{- include "worker.labels" $dot | nindent 4 }}
+spec:
+  concurrencyPolicy: {{ $dot.Values.global.concurrencyPolicy }}
+  failedJobsHistoryLimit: {{ $dot.Values.global.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ $dot.Values.global.successfulJobsHistoryLimit }}
+  schedule: {{ .expression | quote }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") $dot | sha256sum }}
+          {{- with $dot.Values.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            {{- include "worker.selectorLabels" $dot | nindent 12 }}
+        spec:
+          {{- with $dot.Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "worker.serviceAccountName" $dot }}
+          securityContext:
+            {{- toYaml $dot.Values.podSecurityContext | nindent 12 }}
+          restartPolicy: {{ $dot.Values.global.restartPolicy }}
+          containers:
+            - name: app
+              securityContext:
+                {{- toYaml $dot.Values.securityContext | nindent 16 }}
+              image: "{{ $dot.Values.image.repository }}:{{ $dot.Values.image.tag | default $dot.Chart.AppVersion }}"
+              imagePullPolicy: {{ $dot.Values.image.pullPolicy }}
+              args: ["--conf", "/config/default.yaml"]
+              env:
+                - name: EXCHANGE
+                  value: {{ upper .exchange | quote }}
+              {{- with $dot.Values.env }}
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              volumeMounts:
+                - name: config
+                  mountPath: /config/default.yaml
+                  subPath: default.yaml
+              resources:
+                {{- toYaml $dot.Values.resources | nindent 16 }}
+          volumes:
+            - name: config
+              secret:
+                secretName: {{ $dot.Release.Name }}-config
+          {{- with $dot.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $dot.Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $dot.Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      backoffLimit: {{ $dot.Values.global.backoffLimit }}
+{{- end }}
