@@ -6,8 +6,8 @@ schedule:
     exchange: NASDAQ
   - expression: "15 0 * * 0"
     exchange: NYSE
-  # - expression: "30 0 * * 0"
-  #   exchange: TO
+  - expression: "30 0 * * 0"
+    exchange: TO
   # Europe 
   # France, Belgium, Netherland, Portugal, UK, Germany, Spain
   - expression: "0 0 * * 6"
