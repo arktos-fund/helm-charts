@@ -22,8 +22,9 @@ schedule:
     exchange: F
   - expression: "15 1 * * 6"
     exchange: MC
-  - expression: "30 1 * * 6"
-    exchange: LU
+  # Not supported by IBKR ... 
+  # - expression: "30 1 * * 6"
+  #   exchange: LU
   - expression: "45 1 * * 6"
     exchange: LSE
   # Asia (China, Hong-Kong, Singapor)
