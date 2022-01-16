@@ -39,11 +39,11 @@ app:
         port: 6379
         database: 3
         timeout: 1.5s
-      mongodb:
-        hostnames: 
-          - mongodb.database:27017
-        database: exchanges
-        timeout: 3s
+      services:
+        companies:
+          hostname: companies-microservice.companies
+          port: 11000
+          timeout: 3s
 
   resources:
     limits:
