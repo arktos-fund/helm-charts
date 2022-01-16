@@ -41,7 +41,7 @@ gateway:
     runAsUser: 10001
 
   jvm:
-    Xmx: "1024"
+    Xmx: "1350"
     XX:
       ConcGCThreads: 5
       InitiatingHeapOccupancyPercent: 70
@@ -52,11 +52,11 @@ gateway:
 
   resources:
     limits:
-      cpu: 400m
-      memory: 1030Mi
+      cpu: 350m
+      memory: 1400Mi
     requests:
       cpu: 350m
-      memory: 770Mi
+      memory: 1400Mi
 
 sidecars:
   volumes:
