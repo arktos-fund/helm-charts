@@ -19,13 +19,13 @@ schedule:
     exchange: AS
   - expression: "0 18 * * 1-5"
     exchange: LSE
-  # - expression: "0 18 * * 1-5"
-  #   exchange: LS
-  # - expression: "0 1 * * 6"
-  #   exchange: F
-  # - expression: "15 1 * * 6"
-  #   exchange: MC
-  - expression: "30 1 * * 6"
+  - expression: "0 18 * * 1-5"
+    exchange: LS
+  - expression: "30 18 * * 1-5"
+    exchange: F
+  - expression: "30 18 * * 1-5"
+    exchange: MC
+  - expression: "0 20 * * 1-5"
     exchange: LSE
   # Asia
   # China, Hong-Kong, Singapor
