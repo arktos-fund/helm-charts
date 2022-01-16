@@ -71,7 +71,10 @@ taosd:
       cpu: 300m
       memory: 256Mi
 
-  nodeSelectors: {}
+  nodeSelectors:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
   affinity: {}
   tolerations: {}
 

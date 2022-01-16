@@ -55,7 +55,10 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
+nodeSelector:
+  k8s.scaleway.com/pool-name: app
+  kubernetes.io/arch: amd64
+  kubernetes.io/os: linux
 
 tolerations: []
 

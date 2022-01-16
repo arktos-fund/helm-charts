@@ -391,7 +391,10 @@ affinity: {}
 ## @param nodeSelector MongoDB&reg; Node labels for pod assignment
 ## ref: https://kubernetes.io/docs/user-guide/node-selection/
 ##
-nodeSelector: {}
+nodeSelector:
+  k8s.scaleway.com/pool-name: app
+  kubernetes.io/arch: amd64
+  kubernetes.io/os: linux
 ## @param tolerations MongoDB&reg; Tolerations for pod assignment
 ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
 ##
@@ -1091,7 +1094,10 @@ arbiter:
   ## @param arbiter.nodeSelector Arbiter Node labels for pod assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
-  nodeSelector: {}
+  nodeSelector:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
   ## @param arbiter.tolerations Arbiter Tolerations for pod assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
@@ -1348,7 +1354,10 @@ hidden:
   ## @param hidden.nodeSelector Hidden node Node labels for pod assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
-  nodeSelector: {}
+  nodeSelector:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
   ## @param hidden.tolerations Hidden node Tolerations for pod assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
