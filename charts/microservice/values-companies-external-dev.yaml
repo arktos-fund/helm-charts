@@ -35,6 +35,11 @@ app:
         port: 6379
         database: 11
         timeout: 1.5s
+      services:
+        exchanges:
+          hostname: exchanges-microservice.exchanges
+          port: 11000
+          timeout: 3s
 
   resources:
     limits:
