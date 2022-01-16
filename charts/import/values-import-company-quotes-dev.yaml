@@ -18,8 +18,6 @@ schedule:
   - expression: "50 19 * * 1-5"
     exchange: AS
   - expression: "0 18 * * 1-5"
-    exchange: LSE
-  - expression: "0 18 * * 1-5"
     exchange: LS
   - expression: "30 18 * * 1-5"
     exchange: F
