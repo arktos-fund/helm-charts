@@ -59,11 +59,11 @@ config:
       exchanges:
         hostname: exchanges-microservice.exchanges
         port: 11000
-        timeout: 3s
+        timeout: 10s
       companies:
         hostname: companies-external-microservice.companies
         port: 11000
-        timeout: 3s
+        timeout: 10s
 
 resources:
   limits:
