@@ -43,7 +43,7 @@ app:
         companies:
           hostname: companies-microservice.companies
           port: 11000
-          timeout: 3s
+          timeout: 10s
 
   resources:
     limits:
