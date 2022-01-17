@@ -25,7 +25,13 @@ app:
     logger:
       format: fmt
       level: warn
-    timeout: 5s
+    timeout: 10s
+    data:
+      services:
+        exchanges:
+          hostname: exchanges-microservice.exchanges
+          port: 11000
+          timeout: 10s
 
   resources:
     limits:
