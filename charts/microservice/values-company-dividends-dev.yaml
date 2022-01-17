@@ -20,7 +20,7 @@ app:
     logger:
       format: fmt
       level: warn
-    timeout: 3s
+    timeout: 5s
     data:
       tdengine:
         hostname: tdengine-adapter.database

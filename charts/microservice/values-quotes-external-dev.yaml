@@ -25,7 +25,7 @@ app:
     logger:
       format: fmt
       level: warn
-    timeout: 3s
+    timeout: 5s
 
   resources:
     limits:

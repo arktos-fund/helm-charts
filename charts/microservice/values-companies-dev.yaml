@@ -20,7 +20,7 @@ app:
     logger:
       format: fmt
       level: warn
-    timeout: 3s
+    timeout: 10s
     data:
       redis:
         hostname: companies-redis-master
