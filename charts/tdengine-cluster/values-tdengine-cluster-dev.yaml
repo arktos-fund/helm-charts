@@ -2,7 +2,7 @@ global:
   image:
     prefix: quay.io/arktos-venture/tdengine
     pullPolicy: Always
-    tag: "2.3.6.0"
+    tag: "2.4.0.0"
 
   imagePullSecrets: []
 
