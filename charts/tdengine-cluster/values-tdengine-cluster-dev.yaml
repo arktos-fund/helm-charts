@@ -24,11 +24,11 @@ taosd:
 
   resources:
     limits:
-      cpu: 800m
-      memory: 1200Mi
+      cpu: 500m
+      memory: 1400Mi
     requests:
-      cpu: 800m
-      memory: 1024Mi
+      cpu: 500m
+      memory: 1300Mi
 
   nodeSelectors:
     k8s.scaleway.com/pool-name: app
