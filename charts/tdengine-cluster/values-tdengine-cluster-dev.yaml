@@ -13,10 +13,10 @@ taosd:
     keepColumnName  1
     http            1
     httpMaxThreads  4
-    monitor         1
+    monitor         0
     monitorInterval 30
     enableRecordSql 0
-    enableCoreFile  1
+    enableCoreFile  0
     stream          0
     balance         1
     quorum          2
