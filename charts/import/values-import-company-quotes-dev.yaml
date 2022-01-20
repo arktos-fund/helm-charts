@@ -55,7 +55,7 @@ config:
     tdengine:
       hostname: tdengine-cluster.database
       port: 6041
-      database: analysis
+      database: companies
       username: root
       password: taosdata
       timeout: 3s
