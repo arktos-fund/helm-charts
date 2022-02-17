@@ -30,6 +30,10 @@ app:
       services:
         http:
           timeout: 3s
+        exchanges:
+          hostname: exchanges-microservice.exchanges
+          port: 11000
+          timeout: 3s
 
   resources:
     limits:

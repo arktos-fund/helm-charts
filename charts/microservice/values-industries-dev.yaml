@@ -25,7 +25,7 @@ app:
       redis:
         hostname: redis-master.database
         port: 6379
-        database: 5
+        database: 15
         timeout: 1.5s
 
   resources:

@@ -22,20 +22,19 @@ app:
       level: warn
     timeout: 10s
     data:
-      tdengine:
-        hostname: tdengine-adapter.database
-        port: 6041
-        database: analysis
-        username: root
-        password: taosdata
+      postgres:
+        hostname: postgres
+        port: 5432
+        debug: true
+        database: postgres
+        schema: company_quotes
+        username: postgres
+        password: example
+        ssl: "disable"
         timeout: 3s
       services:
         companies:
           hostname: companies-microservice.companies
-          port: 11000
-          timeout: 3s
-        countries:
-          hostname: countries-microservice.countries
           port: 11000
           timeout: 3s
 

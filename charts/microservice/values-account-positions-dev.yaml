@@ -15,13 +15,21 @@ app:
         port: 6379
         database: 9
         timeout: 1.5s
-      tdengine:
-        hostname: tdengine-adapter.database
-        port: 6041
-        database: investing_accounts
-        username: root
-        password: taosdata
+      postgres:
+        hostname: postgres
+        port: 5432
+        debug: true
+        database: postgres
+        schema: account_positions
+        username: postgres
+        password: example
+        ssl: "disable"
         timeout: 3s
+      services:
+        accounts:
+          hostname: accounts
+          port: 11000
+          timeout: 3s
 
   resources:
     limits:

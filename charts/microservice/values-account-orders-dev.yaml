@@ -10,21 +10,32 @@ app:
       level: warn
     timeout: 3s
     data:
+      postgres:
+        hostname: postgres
+        port: 5432
+        debug: true
+        database: postgres
+        schema: account_positions
+        username: postgres
+        password: example
+        ssl: "disable"
+        timeout: 3s
       redis:
         hostname: redis-master.database
         port: 6379
         database: 10
         timeout: 1.5s
-      tdengine:
-        hostname: tdengine-adapter.database
-        port: 6041
-        database: investing_accounts
-        username: root
-        password: taosdata
-        timeout: 3s
       services:
         companies:
           hostname: companies-microservice.companies
+          port: 11000
+          timeout: 3s
+        accounts:
+          hostname: accounts
+          port: 11000
+          timeout: 3s
+        notifications:
+          hostname: account-notifications
           port: 11000
           timeout: 3s
 

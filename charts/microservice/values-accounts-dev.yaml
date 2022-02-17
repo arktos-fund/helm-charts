@@ -27,10 +27,15 @@ app:
         port: 6379
         database: 2
         timeout: 1.5s
-      mongodb:
-        hostnames: 
-          - mongodb.database:27017
-        database: accounts
+      postgres:
+        debug: true
+        hostname: postgres
+        port: 5432
+        database: postgres
+        schema: accounts
+        username: postgres
+        password: example
+        ssl: "disable"
         timeout: 3s
 
   resources:

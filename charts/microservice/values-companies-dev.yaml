@@ -23,14 +23,19 @@ app:
     timeout: 10s
     data:
       redis:
-        hostname: companies-redis-master
+        hostname: redis
         port: 6379
         database: 1
         timeout: 1.5s
-      mongodb:
-        hostnames: 
-          - companies-mongodb:27017
-        database: companies
+      postgres:
+        hostname: postgres
+        port: 5432
+        debug: true
+        database: postgres
+        schema: companies
+        username: postgres
+        password: example
+        ssl: "disable"
         timeout: 3s
 
   resources:

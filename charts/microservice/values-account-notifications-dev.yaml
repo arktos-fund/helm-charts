@@ -22,13 +22,26 @@ app:
       level: warn
     timeout: 3s
     data:
-      tdengine:
-        hostname: tdengine-adapter.database
-        port: 6041
-        database: notifications
-        username: root
-        password: taosdata
+      redis:
+        hostname: redis-master.database
+        port: 6379
+        database: 13
+        timeout: 1.5s
+      postgres:
+        hostname: postgres
+        port: 5432
+        debug: true
+        database: postgres
+        schema: accounts
+        username: postgres
+        password: example
+        ssl: "disable"
         timeout: 3s
+      services:
+        accounts:
+          hostname: accounts
+          port: 11000
+          timeout: 3s
 
   resources:
     limits:
