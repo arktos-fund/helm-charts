@@ -40,12 +40,12 @@ app:
         database: 5
         timeout: 1.5s
       postgres:
-        hostname: postgres
+        hostname: ext-postgres-data
         port: 5432
-        debug: true
-        database: postgres
+        debug: false
+        database: eod
         schema: exchanges
-        username: postgres
+        username: user_ro_eod
         password: example
         ssl: "disable"
         timeout: 3s

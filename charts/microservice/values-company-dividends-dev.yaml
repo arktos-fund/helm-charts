@@ -22,12 +22,15 @@ app:
       level: warn
     timeout: 5s
     data:
-      tdengine:
-        hostname: tdengine-adapter.database
-        port: 6041
-        database: investing_accounts
-        username: root
-        password: taosdata
+      postgres:
+        hostname: ext-postgres-data
+        port: 5432
+        debug: false
+        database: eod
+        schema: company_dividends
+        username: user_ro_eod
+        password: example
+        ssl: "disable"
         timeout: 3s
       services:
         companies:
