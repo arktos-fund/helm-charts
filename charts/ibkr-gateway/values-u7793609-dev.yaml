@@ -9,7 +9,7 @@ gateway:
   image:
     repository: quay.io/arktos-venture/ibkr-gateway
     pullPolicy: IfNotPresent
-    tag: "10.12.2h"
+    tag: "10.14.1a"
 
   imagePullSecrets:
   - name: reg-internal
