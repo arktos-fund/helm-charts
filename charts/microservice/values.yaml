@@ -82,6 +82,16 @@ app:
       #   username: root
       #   password: taosdata
       #   timeout: 5s
+      # postgres:
+      #   debug: false
+      #   hostname: ext-postgres-data
+      #   port: 5432
+      #   database: eod
+      #   schema: accounts
+      #   username: user_rw_eod
+      #   password: example
+      #   ssl: "disable"
+      #   timeout: 3s
       # mongodb:
       #   hostnames: 
       #     - mongodb:27017
