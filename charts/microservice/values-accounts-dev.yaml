@@ -93,6 +93,3 @@ redis:
       requests:
         cpu: 10m
         memory: 32Mi
-
-mongodb:
-  enabled: false

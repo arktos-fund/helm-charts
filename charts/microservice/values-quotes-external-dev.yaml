@@ -48,6 +48,3 @@ app:
 
 redis:
   enabled: false
-
-mongodb:
-  enabled: false

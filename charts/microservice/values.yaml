@@ -187,9 +187,6 @@ redis:
       limits: {}
       requests: {}
 
-mongodb:
-  enabled: false
-
   serviceAccount:
     create: false
 

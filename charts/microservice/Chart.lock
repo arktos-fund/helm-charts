@@ -2,8 +2,5 @@ dependencies:
 - name: redis
   repository: file://../redis
   version: 15.6.8
-- name: mongodb
-  repository: file://../mongodb
-  version: 10.30.8
-digest: sha256:e3d5760b58f558d8309babcdef173b78edfff78589ed06092b193581e2f5c67f
-generated: "2022-01-01T00:53:03.213014+01:00"
+digest: sha256:732a0b4f16671a7c69aec637f08023177dd1d3424663db8fa128f88af7387c66
+generated: "2022-02-18T22:10:33.973787+01:00"
