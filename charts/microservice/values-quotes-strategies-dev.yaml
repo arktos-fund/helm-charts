@@ -4,9 +4,6 @@ app:
   image:
     repository: rg.nl-ams.scw.cloud/arktos-venture/quotes-strategies
 
-  ingress:
-    enabled: false
-
   config:
     logger:
       format: fmt

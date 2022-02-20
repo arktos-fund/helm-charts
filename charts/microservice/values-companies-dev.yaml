@@ -5,7 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/companies
 
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
