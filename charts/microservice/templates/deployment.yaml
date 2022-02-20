@@ -68,7 +68,11 @@ spec:
       volumes:
         - name: config
           secret:
+          {{- if eq .Values.app.config.secret "" }}
             secretName: config-{{ .Release.Name }}
+          {{- else }}
+            secretName: {{ .Values.app.config.secret }}
+          {{- end }}
       {{- with .Values.app.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

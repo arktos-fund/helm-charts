@@ -67,6 +67,10 @@ app:
     #     secretName: config
 
   config:
+    # Secret already exist
+    secret: ""
+
+    # Create new secret
     logger:
       format: fmt
       level: info
