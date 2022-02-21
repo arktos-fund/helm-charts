@@ -18,26 +18,6 @@ app:
 
   config:
     secret: "companies"
-    logger:
-      format: fmt
-      level: warn
-    timeout: 10s
-    data:
-      redis:
-        hostname: redis
-        port: 6379
-        database: 1
-        timeout: 1.5s
-      postgres:
-        hostname: ext-postgres-data
-        port: 5432
-        debug: false
-        database: eod
-        schema: companies
-        username: user_ro_eod
-        password: example
-        ssl: "disable"
-        timeout: 3s
 
   resources:
     limits:

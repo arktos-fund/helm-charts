@@ -17,26 +17,7 @@ app:
             pathType: ImplementationSpecific
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      redis:
-        hostname: accounts-redis-master
-        port: 6379
-        database: 2
-        timeout: 1.5s
-      postgres:
-        debug: false
-        hostname: ext-postgres-data
-        port: 5432
-        database: eod
-        schema: accounts
-        username: user_rw_eod
-        password: example
-        ssl: "disable"
-        timeout: 3s
+    secret: "accounts"
 
   resources:
     limits:
