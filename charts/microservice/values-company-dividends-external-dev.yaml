@@ -25,10 +25,7 @@ app:
         secretName: eodhistoricaldata
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 5s
+    secret: "company-dividends-external"
 
   resources:
     limits:
