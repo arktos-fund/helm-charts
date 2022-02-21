@@ -64,6 +64,7 @@ spec:
             - name: config
               readOnly: true
               mountPath: /config/default.yaml
+              subPath: "default.yaml"
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
       volumes:
@@ -75,7 +76,7 @@ spec:
             secretName: microservices
             items:
               - key: {{ .Values.app.config.secret }}
-                path: {{ .Values.app.config.secret }}
+                path: default.yaml
           {{- end }}
       {{- with .Values.app.volumes }}
         {{- toYaml . | nindent 8 }}
