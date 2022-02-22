@@ -17,16 +17,7 @@ app:
             pathType: ImplementationSpecific
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      redis:
-        hostname: redis-master.database
-        port: 6379
-        database: 15
-        timeout: 1.5s
+    secret: "industries"
 
   resources:
     limits:
