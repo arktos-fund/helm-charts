@@ -22,16 +22,7 @@ app:
         secretName: eodhistoricaldata
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 10s
-    data:
-      services:
-        exchanges:
-          hostname: exchanges-microservice.exchanges
-          port: 11000
-          timeout: 10s
+    secret: "quotes-external"
 
   resources:
     limits:

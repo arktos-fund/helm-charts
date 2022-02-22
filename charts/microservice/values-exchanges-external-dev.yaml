@@ -2,30 +2,42 @@
 
 app:
   image:
-    repository: rg.nl-ams.scw.cloud/arktos-venture/quotes
+    repository: rg.nl-ams.scw.cloud/arktos-venture/exchanges-external
 
   ingress:
     enabled: false
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
-          - path: /grpc/v1/quotes
+          - path: /grpc/v1/exchanges
             pathType: ImplementationSpecific
       - host: api.arktos-consulting.cloud
         paths:
-          - path: /v1/quotes
+          - path: /v1/exchanges
             pathType: ImplementationSpecific
 
+  env:
+    - name: API_DEBUG
+      valueFrom:
+        secretKeyRef:
+          name: eodhistoricaldata
+          key: debug
+    - name: EOD_KEY
+      valueFrom:
+        secretKeyRef:
+          name: eodhistoricaldata
+          key: token
+
   config:
-    secret: "quotes"
+    secret: "exchanges-external"
 
   resources:
     limits:
       cpu: 100m
-      memory: 256Mi
+      memory: 100Mi
     requests:
       cpu: 100m
-      memory: 256Mi
+      memory: 100Mi
 
   nodeSelector:
     k8s.scaleway.com/pool-name: app
