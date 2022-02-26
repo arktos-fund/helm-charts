@@ -88,19 +88,24 @@ spec:
             {{- toYaml .securityContext | nindent 12 }}
           image: {{ .image | quote }}
           imagePullPolicy: {{ .imagePullPolicy }}
-          {{- with .volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+            - name: ibkr-{{ .name }}-worker
+              mountPath: /home/noroot/config.yaml
+              subPath: config.yaml
           {{- with .resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
         {{- end }}
       volumes:
-        - name: {{ include "ibkr-gateway.fullname" . }}-config
+        {{- range .Values.sidecars.containers }}
+        - name: ibkr-{{ .name }}-worker
           secret:
-            secretName: {{ required "credentials IBKR is required" .Values.gateway.config.IbkrCredentials }}
+            secretName: ibkr-workers
+            items:
+              - key: {{ .name }}
+                path: config.yaml
+        {{- end }}
         - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
