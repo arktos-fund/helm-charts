@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/gateway: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       {{- with .Values.gateway.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -24,6 +24,8 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      serviceAccountName: {{ include "ibkr-gateway.serviceAccountName" . }}
+      automountServiceAccountToken: false
       securityContext:
         {{- toYaml .Values.gateway.podSecurityContext | nindent 8 }}
       containers:
@@ -38,28 +40,28 @@ spec:
           {{- end }}
           ports:
             - name: vnc
-              containerPort: 6080
-              protocol: TCP
-            - name: http
-              containerPort: 3000
+              containerPort: 5900
               protocol: TCP
             - name: socket
+              containerPort: {{ if .Values.gateway.config.live }}4001{{ else }}4002{{ end }}
+              protocol: TCP
+          {{- if .Values.gateway.config.proxy }}
+            - name: tunnel-socket
               containerPort: 5000
               protocol: TCP
+          {{- end }}
           {{- if eq .Values.gateway.debug false }}
           livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
+            tcpSocket:  
+              port: {{ if .Values.gateway.config.live }}4001{{ else }}4002{{ end }}
             initialDelaySeconds: 500
             periodSeconds: 20
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 3
           readinessProbe:
-            httpGet:
-              path: /healthz
-              port: http
+            tcpSocket:  
+              port: {{ if .Values.gateway.config.live }}4001{{ else }}4002{{ end }}
             initialDelaySeconds: 45
             periodSeconds: 15
             timeoutSeconds: 3

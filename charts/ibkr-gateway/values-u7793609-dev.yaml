@@ -1,15 +1,8 @@
-# Default values for ibkr-gateway.
-
-serviceAccount:
-  create: true
-  annotations: {}
-  name: ""
-
 gateway:
   image:
     repository: quay.io/arktos-venture/ibkr-gateway
     pullPolicy: IfNotPresent
-    tag: "10.14.1a"
+    tag: "10.14.1b"
 
   imagePullSecrets:
   - name: reg-internal
@@ -26,7 +19,8 @@ gateway:
   debug: false
   config: 
     IbkrCredentials: "ibkr-credentials"
-    trading: "live"
+    proxy: false
+    live: true
 
   podAnnotations: {}
   podSecurityContext:
