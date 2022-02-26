@@ -98,6 +98,12 @@ spec:
           {{- end }}
         {{- end }}
       volumes:
+        - name: {{ include "ibkr-gateway.fullname" . }}-config
+          secret:
+            secretName: ibkr-gateway
+            items:
+              - key: config.ini
+                path: config.ini
         {{- range .Values.sidecars.containers }}
         - name: ibkr-{{ .name }}-worker
           secret:

@@ -15,16 +15,16 @@ gateway:
   nameOverride: ""
   fullnameOverride: ""
 
-  env:
-    - name: VNC_SERVER_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: vnc-credentials
-          key: password
+  env: []
+    # - name: VNC_SERVER_PASSWORD
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: ibkr-gateway
+    #       key: vnc-password
 
   debug: false
   config: 
-    IbkrCredentials: "ibkr-credentials"
+    IbkrCredentials: "ibkr-gateway"
     proxy: false
     live: true
 
