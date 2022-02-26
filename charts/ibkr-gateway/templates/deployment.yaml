@@ -73,7 +73,7 @@ spec:
               mountPath: /opt/ibc/config.ini
               subPath: config.ini
             - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
-              mountPath: /home/trader/Jts/ibgateway/{{ .Values.gateway.config.major | default (include "ibkr-gateway.version" .) }}/ibgateway.vmoptions
+              mountPath: /home/trader/Jts/ibgateway/{{ include "ibkr-gateway.version" . }}/ibgateway.vmoptions
               subPath: ibgateway.vmoptions
             {{- if .Values.gateway.config.proxy }}
             - name: {{ include "ibkr-gateway.fullname" . }}-proxy

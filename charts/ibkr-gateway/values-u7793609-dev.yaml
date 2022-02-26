@@ -19,7 +19,6 @@ gateway:
   debug: false
   config: 
     IbkrCredentials: "ibkr-credentials"
-    major: "1012"
     proxy: false
     live: true
 
