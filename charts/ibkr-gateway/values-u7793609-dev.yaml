@@ -72,10 +72,6 @@ sidecars:
         readOnlyRootFilesystem: false
         runAsNonRoot: true
         runAsUser: 10001
-      volumeMounts:
-        - name: ibkr-positions-worker-config
-          mountPath: /home/noroot/config.yaml
-          subPath: config.yaml
       resources:
         limits:
           cpu: 50m
@@ -93,10 +89,6 @@ sidecars:
         readOnlyRootFilesystem: false
         runAsNonRoot: true
         runAsUser: 10001
-      volumeMounts:
-        - name: ibkr-companies-worker-config
-          mountPath: /home/noroot/config.yaml
-          subPath: config.yaml
       resources:
         limits:
           cpu: 50m
