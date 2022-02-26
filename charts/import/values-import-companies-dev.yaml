@@ -46,24 +46,7 @@ imagePullSecrets:
   - name: reg-internal
 
 config:
-  logger:
-    format: fmt
-    level: info
-  data:
-    redis:
-      hostname: companies-redis-master
-      port: 6379
-      database: 2
-      timeout: 1.5s
-    services:
-      exchanges:
-        hostname: exchanges-microservice.exchanges
-        port: 11000
-        timeout: 10s
-      companies:
-        hostname: companies-external-microservice.companies
-        port: 11000
-        timeout: 10s
+  secret: "companies"
 
 resources:
   limits:

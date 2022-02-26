@@ -48,27 +48,7 @@ imagePullSecrets:
   - name: reg-internal
 
 config:
-  logger:
-    format: fmt
-    level: info
-  data:
-    tdengine:
-      hostname: tdengine-cluster.database
-      port: 6041
-      database: companies
-      username: root
-      password: taosdata
-      timeout: 3s
-      ssl: false
-    services:
-      exchanges:
-        hostname: exchanges-microservice.exchanges
-        port: 11000
-        timeout: 10s
-      quotes:
-        hostname: quotes-external-microservice.quotes
-        port: 11000
-        timeout: 10s
+  secret: "company-quotes"
 
 resources:
   limits:

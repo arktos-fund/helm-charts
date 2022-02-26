@@ -60,6 +60,7 @@ env: []
   #       key: backend-username
 
 config:
+  secret: ""
   logger:
     format: fmt
     level: info
