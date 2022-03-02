@@ -47,6 +47,7 @@ spec:
               {{- end }}
               volumeMounts:
                 - name: config
+                  readOnly: true
                   mountPath: /config/default.yaml
                   subPath: default.yaml
               resources:

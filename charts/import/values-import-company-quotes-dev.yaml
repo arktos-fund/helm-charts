@@ -23,6 +23,8 @@ schedule:
     exchange: F
   - expression: "30 18 * * 1-5"
     exchange: MC
+  - expression: "0 19 * * 1-5"
+    exchange: MI
   # Not supported by IBKR ... 
   # - expression: "45 18 * * 1-5"
   #   exchange: LU
