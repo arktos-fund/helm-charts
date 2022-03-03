@@ -52,11 +52,11 @@ config:
 
 resources:
   limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 80m
+    memory: 96Mi
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 80m
+    memory: 96Mi
 
 nodeSelector:
   k8s.scaleway.com/pool-name: app
