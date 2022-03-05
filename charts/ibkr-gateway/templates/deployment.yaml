@@ -88,6 +88,11 @@ spec:
             {{- toYaml .securityContext | nindent 12 }}
           image: {{ .image | quote }}
           imagePullPolicy: {{ .imagePullPolicy }}
+          {{- with .env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
           volumeMounts:
             - name: ibkr-{{ .name }}-worker
               mountPath: /home/noroot/config.yaml

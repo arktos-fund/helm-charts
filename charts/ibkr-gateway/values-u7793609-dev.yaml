@@ -89,10 +89,13 @@ sidecars:
         readOnlyRootFilesystem: false
         runAsNonRoot: true
         runAsUser: 10001
+      env:
+        - name: MAX_THREAD
+          value: "50"
       resources:
         limits:
-          cpu: 50m
-          memory: 64Mi
+          cpu: 80m
+          memory: 80Mi
         requests:
           cpu: 50m
           memory: 64Mi
