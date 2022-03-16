@@ -25,21 +25,7 @@ app:
         secretName: eodhistoricaldata
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 5s
-    data:
-      redis:
-        hostname: redis-master.database
-        port: 6379
-        database: 11
-        timeout: 1.5s
-      services:
-        exchanges:
-          hostname: exchanges-microservice.exchanges
-          port: 11000
-          timeout: 3s
+    secret: "companies-external"
 
   resources:
     limits:
