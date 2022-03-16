@@ -1,0 +1,26 @@
+global:
+  cron:
+    concurrencyPolicy: Replace
+    startingDeadlineSeconds: 7200
+    failedJobsHistoryLimit: 1
+    successfulJobsHistoryLimit: 0
+  image:
+    imagePullPolicy: Always
+    imagePullSecrets:
+      - name: reg-internal
+
+repositories:
+  company_quotes:
+    image: rg.nl-ams.scw.cloud/arktos-venture/import-company-quotes
+    tag: 0.2.8
+  analytics_trends:
+    image: rg.nl-ams.scw.cloud/arktos-venture/analytics-trends
+    tag: 0.0.8
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+imports:
+  quotes: {}

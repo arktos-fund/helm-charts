@@ -1,0 +1,115 @@
+{{- $dot := . }}
+{{- range $k, $v := .Values.imports.quotes }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: {{ $dot.Release.Name }}-{{ $k }}
+  labels:
+    {{- include "worker.labels" $dot | nindent 4 }}
+spec:
+  schedule: {{ $v.schedule | quote }}
+  timezone: "Europe/Paris"
+  concurrencyPolicy: {{ $dot.Values.global.cron.concurrencyPolicy | quote }}
+  startingDeadlineSeconds: {{ $dot.Values.global.cron.startingDeadlineSeconds }}
+  successfulJobsHistoryLimit: {{ $dot.Values.global.cron.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ $dot.Values.global.cron.failedJobsHistoryLimit }}
+  workflowSpec:
+    entrypoint: main
+    {{- with $dot.Values.global.image.imagePullSecrets }}
+    imagePullSecrets:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    templates:
+      - name: main
+        steps:
+          - - name: company-quotes
+              template: quotes
+              arguments:
+                parameters: 
+                  - {name: exchange, value: "{{`{{item}}`}}"}
+              withItems: {{ $v.exchanges | toJson  }}
+          - - name: company-strategies
+              template: strategies
+              arguments:
+                parameters: 
+                  - {name: exchange, value: "{{`{{item}}`}}"}
+              withItems: {{ $v.exchanges | toJson  }}
+      - name: quotes
+        inputs:
+          parameters:
+            - name: exchange
+        container:
+          image: "{{ $dot.Values.repositories.company_quotes.image }}:{{ $dot.Values.repositories.company_quotes.tag }}"
+          imagePullPolicy: {{ $dot.Values.global.image.imagePullPolicy }}
+          command: ["./go"]
+          args: 
+            - "--conf"
+            - "/config/default.yaml"
+          env:
+            - name: EXCHANGE
+              value: "{{`{{inputs.parameters.exchange}}`}}"
+          volumeMounts:
+            - name: config-imports-company-quotes
+              readOnly: true
+              mountPath: /config/default.yaml
+              subPath: default.yaml
+          resources:
+            limits:
+              cpu: 80m
+              memory: 96Mi
+            requests:
+              cpu: 80m
+              memory: 96Mi
+      - name: strategies
+        inputs:
+          parameters:
+            - name: exchange
+        container:
+          image: "{{ $dot.Values.repositories.analytics_trends.image }}:{{ $dot.Values.repositories.analytics_trends.tag }}"
+          imagePullPolicy: IfNotPresent
+          command: ["./go"]
+          args: 
+            - "--conf"
+            - "/config/default.yaml"
+          env:
+            - name: EXCHANGE
+              value: "{{`{{inputs.parameters.exchange}}`}}"
+          volumeMounts:
+            - name: config-analytics-trends
+              readOnly: true
+              mountPath: /config/default.yaml
+              subPath: default.yaml
+          resources:
+            limits:
+              cpu: 80m
+              memory: 96Mi
+            requests:
+              cpu: 80m
+              memory: 96Mi
+    volumes:
+      - name: config-imports-company-quotes
+        secret:
+          secretName: imports
+          items:
+            - key: company-quotes
+              path: default.yaml
+      - name: config-analytics-trends
+        secret:
+          secretName: analytics
+          items:
+            - key: trends
+              path: default.yaml
+  {{- with $dot.Values.imports.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $dot.Values.imports.affinity }}
+  affinity:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $dot.Values.imports.tolerations }}
+  tolerations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
