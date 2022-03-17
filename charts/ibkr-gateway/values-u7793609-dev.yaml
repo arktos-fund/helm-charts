@@ -47,10 +47,10 @@ gateway:
   resources:
     limits:
       cpu: 350m
-      memory: 1400Mi
+      memory: 2100Mi
     requests:
       cpu: 350m
-      memory: 1400Mi
+      memory: 2100Mi
 
 sidecars:
   volumes:
