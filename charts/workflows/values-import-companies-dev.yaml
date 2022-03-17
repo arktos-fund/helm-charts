@@ -1,10 +1,10 @@
 # Default values for microservice.
 
 imports:
-  company_quotes:
+  companies:
     north-america:
       enabled: true
-      schedule: "50 23 * * 1-5"
+      schedule: "0 16 * * 1"
       exchanges:
         - NASDAQ
         - NYSE
@@ -20,7 +20,7 @@ imports:
 
     south-europe:
       enabled: true
-      schedule: "30 17 * * 1-5"
+      schedule: "0 10 * * 2"
       exchanges: 
         - LS
         - MI
@@ -36,7 +36,7 @@ imports:
 
     central-europe:
       enabled: true
-      schedule: "0 17 * * 1-5"
+      schedule: "0 12 * * 3"
       exchanges:
         - PA
         - BR
@@ -53,7 +53,7 @@ imports:
 
     north-europe:
       enabled: true
-      schedule: "0 18 * * 1-5"
+      schedule: "0 14 * * 4"
       exchanges:
         - LSE
 
@@ -67,7 +67,7 @@ imports:
 
     central-asia:
       enabled: true
-      schedule: "30 10 * * 1-5"
+      schedule: "0 4 * * 5"
       exchanges: 
         - SHE
         - SHG
@@ -83,7 +83,7 @@ imports:
 
     south-asia:
       enabled: true
-      schedule: "0 11 * * 1-5"
+      schedule: "0 6 * * 6"
       exchanges:
         - SG
 

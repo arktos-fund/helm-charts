@@ -1,0 +1,77 @@
+{{- $dot := . }}
+{{- range $k, $v := .Values.imports.companies }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: {{ $dot.Release.Name }}-{{ $k }}
+  labels:
+    {{- include "worker.labels" $dot | nindent 4 }}
+spec:
+  schedule: {{ $v.schedule | quote }}
+  timezone: "Europe/Paris"
+  concurrencyPolicy: {{ $dot.Values.global.cron.concurrencyPolicy | quote }}
+  startingDeadlineSeconds: {{ $dot.Values.global.cron.startingDeadlineSeconds }}
+  successfulJobsHistoryLimit: {{ $dot.Values.global.cron.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ $dot.Values.global.cron.failedJobsHistoryLimit }}
+  workflowSpec:
+    entrypoint: main
+    {{- with $dot.Values.global.image.imagePullSecrets }}
+    imagePullSecrets:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    templates:
+      - name: main
+        steps:
+          - - name: company-quotes
+              template: quotes
+              arguments:
+                parameters: 
+                  - {name: exchange, value: "{{`{{item}}`}}"}
+              withItems: {{ $v.exchanges | toJson  }}
+      - name: quotes
+        inputs:
+          parameters:
+            - name: exchange
+        container:
+          image: "{{ $dot.Values.repositories.companies.image }}:{{ $dot.Values.repositories.companies.tag }}"
+          imagePullPolicy: {{ $dot.Values.global.image.imagePullPolicy }}
+          command: ["./go"]
+          args: 
+            - "--conf"
+            - "/config/default.yaml"
+          env:
+            - name: EXCHANGE
+              value: "{{`{{inputs.parameters.exchange}}`}}"
+          volumeMounts:
+            - name: config-imports-companies
+              readOnly: true
+              mountPath: /config/default.yaml
+              subPath: default.yaml
+          resources:
+            limits:
+              cpu: 80m
+              memory: 96Mi
+            requests:
+              cpu: 80m
+              memory: 96Mi
+    volumes:
+      - name: config-imports-companies
+        secret:
+          secretName: imports
+          items:
+            - key: companies
+              path: default.yaml
+  {{- with $dot.Values.imports.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $dot.Values.imports.affinity }}
+  affinity:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $dot.Values.imports.tolerations }}
+  tolerations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

@@ -1,5 +1,5 @@
 {{- $dot := . }}
-{{- range $k, $v := .Values.imports.quotes }}
+{{- range $k, $v := .Values.imports.company_quotes }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
@@ -39,6 +39,8 @@ spec:
         inputs:
           parameters:
             - name: exchange
+        retryStrategy:
+          limit: {{ $dot.Values.global.cron.retry | default 1 }}
         container:
           image: "{{ $dot.Values.repositories.company_quotes.image }}:{{ $dot.Values.repositories.company_quotes.tag }}"
           imagePullPolicy: {{ $dot.Values.global.image.imagePullPolicy }}
@@ -65,6 +67,8 @@ spec:
         inputs:
           parameters:
             - name: exchange
+        retryStrategy:
+          limit: {{ $dot.Values.global.cron.retry | default 1 }}
         container:
           image: "{{ $dot.Values.repositories.analytics_trends.image }}:{{ $dot.Values.repositories.analytics_trends.tag }}"
           imagePullPolicy: IfNotPresent

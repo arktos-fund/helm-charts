@@ -4,12 +4,16 @@ global:
     startingDeadlineSeconds: 7200
     failedJobsHistoryLimit: 1
     successfulJobsHistoryLimit: 0
+    retry: 3
   image:
     imagePullPolicy: Always
     imagePullSecrets:
       - name: reg-internal
 
 repositories:
+  companies:
+    image: rg.nl-ams.scw.cloud/arktos-venture/import-companies
+    tag: 0.2.8
   company_quotes:
     image: rg.nl-ams.scw.cloud/arktos-venture/import-company-quotes
     tag: 0.2.8
@@ -23,4 +27,5 @@ serviceAccount:
   name: ""
 
 imports:
-  quotes: {}
+  company_quotes: {}
+  companies: {}
