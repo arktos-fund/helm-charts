@@ -3,14 +3,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: microservice
-  namespace: argocd
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
   generators:
   - git:
       repoURL: https://github.com/arktos-venture/applicationset.git
-      revision: master      
+      revision: main      
       files:   
       - path: "microservices/**/{{ .Values.environment }}/config.json"                 
   template:
@@ -34,5 +33,5 @@ spec:
             - values.yaml
             - "values-{{ .Values.environment }}-{{`{{customValuesPostfix}}`}}.yaml"  
       destination:
-        server: '{{`{{server}}`}}'
+        server: https://kubernetes.default.svc
         namespace: ibgateway
