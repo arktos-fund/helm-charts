@@ -27,7 +27,7 @@ spec:
       source:
         repoURL: 'https://github.com/arktos-venture/helm-charts.git'
         targetRevision: HEAD
-        path: charts/microservices
+        path: charts/microservice
         helm:
           valueFiles:
             - values.yaml
