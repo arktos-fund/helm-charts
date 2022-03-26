@@ -9,15 +9,15 @@ spec:
   generators:
   - git:
       repoURL: https://github.com/arktos-venture/applicationset.git
-      revision: main      
-      files:   
-      - path: "ibgateway/**/{{ .Values.environment }}/config.json"                 
+      revision: main
+      files:
+      - path: "ibgateway/**/{{ .Values.environment }}/config.json"
   template:
     metadata:
-      name: '{{`{{serviceName}}-{{path.basename}}`}}'      
+      name: '{{`{{serviceName}}-{{path.basename}}`}}'
     spec:
       project: '{{`{{argocdProject}}`}}'
-      syncPolicy:       
+      syncPolicy:
         automated:
           prune: true
           selfHeal: false
@@ -31,7 +31,7 @@ spec:
         helm:
           valueFiles:
             - values.yaml
-            - "values-{{ .Values.environment }}-{{`{{customValuesPostfix}}`}}.yaml"  
+            - "values-{{ .Values.environment }}-{{`{{customValuesPostfix}}`}}.yaml"
       destination:
         server: https://kubernetes.default.svc
         namespace: ibgateway

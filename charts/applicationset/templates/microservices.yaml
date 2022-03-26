@@ -9,12 +9,12 @@ spec:
   generators:
   - git:
       repoURL: https://github.com/arktos-venture/applicationset.git
-      revision: main      
-      files:   
-      - path: "microservices/**/{{ .Values.environment }}/config.json"                 
+      revision: main
+      files:
+      - path: "microservices/**/{{ .Values.environment }}/config.json"          
   template:
     metadata:
-      name: '{{`{{serviceName}}-{{path.basename}}`}}'      
+      name: '{{`{{serviceName}}-{{path.basename}}`}}'
     spec:
       project: '{{`{{argocdProject}}`}}'
       syncPolicy:       
@@ -31,7 +31,7 @@ spec:
         helm:
           valueFiles:
             - values.yaml
-            - "values-{{ .Values.environment }}-{{`{{serviceName}}`}}.yaml"  
+            - "values-{{ .Values.environment }}-{{`{{serviceName}}`}}.yaml"
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{`{{namespace}}`}}'
