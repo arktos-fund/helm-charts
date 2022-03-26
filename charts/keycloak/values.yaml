@@ -17,6 +17,7 @@ image:
 
 # Image pull secrets for the Pod
 imagePullSecrets: []
+# - name: myRegistrKeySecretName
 
 # Mapping between IPs and hostnames that will be injected as entries in the Pod's hosts files
 hostAliases: []
@@ -101,15 +102,15 @@ command: []
 args: []
 
 # Additional environment variables for Keycloak
-extraEnv:
-  - name: KEYCLOAK_LOGLEVEL
-    value: DEBUG
-  - name: WILDFLY_LOGLEVEL
-    value: DEBUG
-  - name: CACHE_OWNERS_COUNT
-    value: "2"
-  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
-    value: "2"
+extraEnv: ""
+  # - name: KEYCLOAK_LOGLEVEL
+  #   value: DEBUG
+  # - name: WILDFLY_LOGLEVEL
+  #   value: DEBUG
+  # - name: CACHE_OWNERS_COUNT
+  #   value: "2"
+  # - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
+  #   value: "2"
 
 # Additional environment variables for Keycloak mapped from Secret or ConfigMap
 extraEnvFrom: ""
@@ -185,13 +186,13 @@ startupProbe: |
   periodSeconds: 5
 
 # Pod resource requests and limits
-resources:
-  requests:
-    cpu: "500m"
-    memory: "1024Mi"
-  limits:
-    cpu: "500m"
-    memory: "1024Mi"
+resources: {}
+  # requests:
+  #   cpu: "500m"
+  #   memory: "1024Mi"
+  # limits:
+  #   cpu: "500m"
+  #   memory: "1024Mi"
 
 # Startup scripts to run before Keycloak starts up
 startupScripts:
@@ -380,7 +381,7 @@ pgchecker:
 
 postgresql:
   # If `true`, the Postgresql dependency is enabled
-  enabled: false
+  enabled: true
   # PostgreSQL User to create
   postgresqlUsername: keycloak
   # PostgreSQL Password for the new user
@@ -393,7 +394,7 @@ postgresql:
 
 serviceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
-  enabled: true
+  enabled: false
   # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
   namespace: ""
   # Optionally sets a namespace for the ServiceMonitor
@@ -413,7 +414,7 @@ serviceMonitor:
 
 extraServiceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
-  enabled: true
+  enabled: false
   # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
   namespace: ""
   # Optionally sets a namespace for the ServiceMonitor
@@ -465,11 +466,11 @@ autoscaling:
   # If `true`, a autoscaling/v2beta2 HorizontalPodAutoscaler resource is created (requires Kubernetes 1.18 or above)
   # Autoscaling seems to be most reliable when using KUBE_PING service discovery (see README for details)
   # This disables the `replicas` field in the StatefulSet
-  enabled: true
+  enabled: false
   # Additional HorizontalPodAutoscaler labels
   labels: {}
   # The minimum and maximum number of replicas for the Keycloak StatefulSet
-  minReplicas: 1
+  minReplicas: 3
   maxReplicas: 10
   # The metrics to use for scaling
   metrics:
