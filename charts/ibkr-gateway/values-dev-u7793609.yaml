@@ -2,7 +2,7 @@ gateway:
   image:
     repository: quay.io/arktos-venture/ibkr-gateway
     pullPolicy: IfNotPresent
-    tag: "10.14.1b"
+    tag: "10.14.1e"
 
   imagePullSecrets:
   - name: reg-internal
@@ -35,7 +35,7 @@ gateway:
     runAsUser: 10001
 
   jvm:
-    Xmx: "1350"
+    Xmx: "2000"
     XX:
       ConcGCThreads: 5
       InitiatingHeapOccupancyPercent: 70
@@ -63,7 +63,7 @@ sidecars:
 
   containers:
     - name: positions
-      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-positions-worker:0.0.1"
+      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-positions-worker:0.1.5"
       imagePullPolicy: Always
       securityContext:
         capabilities:
@@ -80,7 +80,7 @@ sidecars:
           cpu: 50m
           memory: 64Mi
     - name: companies
-      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-companies-worker:0.0.1"
+      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-companies-worker:0.1.5"
       imagePullPolicy: Always
       securityContext:
         capabilities:
