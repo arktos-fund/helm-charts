@@ -4,7 +4,7 @@ imports:
   companies:
     north-america:
       enabled: true
-      schedule: "0 16 * * 1"
+      schedule: "0 15 * * 1-5"
       exchanges:
         - NASDAQ
         - NYSE
@@ -20,7 +20,7 @@ imports:
 
     south-europe:
       enabled: true
-      schedule: "0 10 * * 2"
+      schedule: "0 8 * * 1-5"
       exchanges: 
         - LS
         - MI
@@ -36,12 +36,10 @@ imports:
 
     central-europe:
       enabled: true
-      schedule: "0 12 * * 3"
+      schedule: "0 9 * * 1-5"
       exchanges:
-        - PA
-        - BR
-        - AS
         - F
+        - XETRA
            
       resources:
         limits:
@@ -51,12 +49,15 @@ imports:
           cpu: 80m
           memory: 96Mi
 
-    north-europe:
+    west-europe:
       enabled: true
-      schedule: "0 14 * * 4"
+      schedule: "0 8 * * 1-5"
       exchanges:
+        - PA
+        - BR
+        - AS
         - LSE
-
+           
       resources:
         limits:
           cpu: 80m
@@ -67,7 +68,7 @@ imports:
 
     central-asia:
       enabled: true
-      schedule: "0 4 * * 5"
+      schedule: "30 2 * * 1-5"
       exchanges: 
         - SHE
         - SHG
@@ -83,7 +84,7 @@ imports:
 
     south-asia:
       enabled: true
-      schedule: "0 6 * * 6"
+      schedule: "30 3 * * 1-5"
       exchanges:
         - SG
 

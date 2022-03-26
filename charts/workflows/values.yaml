@@ -13,13 +13,16 @@ global:
 repositories:
   companies:
     image: rg.nl-ams.scw.cloud/arktos-venture/import-companies
-    tag: 0.2.8
+    tag: 0.2.9
   company_quotes:
     image: rg.nl-ams.scw.cloud/arktos-venture/import-company-quotes
-    tag: 0.2.8
+    tag: 0.2.9
   analytics_trends:
     image: rg.nl-ams.scw.cloud/arktos-venture/analytics-trends
-    tag: 0.0.8
+    tag: 0.0.9
+  analytics_quotes_ratios:
+    image: rg.nl-ams.scw.cloud/arktos-venture/analytics-quotes-ratios
+    tag: 0.0.9
 
 serviceAccount:
   create: false

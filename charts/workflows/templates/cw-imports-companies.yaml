@@ -23,13 +23,13 @@ spec:
     templates:
       - name: main
         steps:
-          - - name: company-quotes
-              template: quotes
+          - - name: import-companies
+              template: companies
               arguments:
                 parameters: 
                   - {name: exchange, value: "{{`{{item}}`}}"}
               withItems: {{ $v.exchanges | toJson  }}
-      - name: quotes
+      - name: companies
         inputs:
           parameters:
             - name: exchange

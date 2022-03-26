@@ -28,13 +28,19 @@ spec:
               arguments:
                 parameters: 
                   - {name: exchange, value: "{{`{{item}}`}}"}
-              withItems: {{ $v.exchanges | toJson  }}
+              withItems: {{ $v.exchanges | toJson }}
           - - name: company-strategies
               template: strategies
               arguments:
                 parameters: 
                   - {name: exchange, value: "{{`{{item}}`}}"}
-              withItems: {{ $v.exchanges | toJson  }}
+              withItems: {{ $v.exchanges | toJson }}
+            - name: company-stats
+              template: stats
+              arguments:
+                parameters: 
+                  - {name: exchange, value: "{{`{{item}}`}}"}
+              withItems: {{ $v.exchanges | toJson }}
       - name: quotes
         inputs:
           parameters:
@@ -71,7 +77,7 @@ spec:
           limit: {{ $dot.Values.global.cron.retry | default 1 }}
         container:
           image: "{{ $dot.Values.repositories.analytics_trends.image }}:{{ $dot.Values.repositories.analytics_trends.tag }}"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: {{ $dot.Values.global.image.imagePullPolicy }}
           command: ["./go"]
           args: 
             - "--conf"
@@ -81,6 +87,34 @@ spec:
               value: "{{`{{inputs.parameters.exchange}}`}}"
           volumeMounts:
             - name: config-analytics-trends
+              readOnly: true
+              mountPath: /config/default.yaml
+              subPath: default.yaml
+          resources:
+            limits:
+              cpu: 80m
+              memory: 96Mi
+            requests:
+              cpu: 80m
+              memory: 96Mi
+      - name: stats
+        inputs:
+          parameters:
+            - name: exchange
+        retryStrategy:
+          limit: {{ $dot.Values.global.cron.retry | default 1 }}
+        container:
+          image: "{{ $dot.Values.repositories.analytics_quotes_ratios.image }}:{{ $dot.Values.repositories.analytics_quotes_ratios.tag }}"
+          imagePullPolicy: {{ $dot.Values.global.image.imagePullPolicy }}
+          command: ["./go"]
+          args: 
+            - "--conf"
+            - "/config/default.yaml"
+          env:
+            - name: EXCHANGE
+              value: "{{`{{inputs.parameters.exchange}}`}}"
+          volumeMounts:
+            - name: config-analytics-stats
               readOnly: true
               mountPath: /config/default.yaml
               subPath: default.yaml
@@ -103,6 +137,12 @@ spec:
           secretName: analytics
           items:
             - key: trends
+              path: default.yaml
+      - name: config-analytics-stats
+        secret:
+          secretName: analytics
+          items:
+            - key: company-stats
               path: default.yaml
   {{- with $dot.Values.imports.nodeSelector }}
   nodeSelector:
