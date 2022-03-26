@@ -1,20 +1,38 @@
-{{- if .Values.microservices }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: microservice
+  namespace: argocd
 spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+  - git:
+      repoURL: https://github.com/arktos-venture/applicationset.git
+      revision: master      
+      files:   
+      - path: "microservices/**/{{ .Values.environment }}/config.json"                 
   template:
     metadata:
-      name: '{{`{{name}}`}}'
+      name: '{{`{{serviceName}}-{{path.basename}}`}}'      
     spec:
-      project: '{{`{{project}}`}}'
+      project: '{{`{{argocdProject}}`}}'
+      syncPolicy:       
+        automated:
+          prune: true
+          selfHeal: false
+          allowEmpty: false
+        syncOptions:
+          - CreateNamespace=true
       source:
-        repoURL: git@github.com:arktos-venture/applicationset.git
+        repoURL: 'https://github.com/arktos-venture/helm-charts.git'
         targetRevision: HEAD
-        path: 'microservices/{{`{{name}}`}}/{{`{{env}}`}}'
+        path: chart/microservices
+        helm:
+          valueFiles:
+            - values.yaml
+            - "values-{{ .Values.environment }}-{{`{{customValuesPostfix}}`}}.yaml"  
       destination:
         server: '{{`{{server}}`}}'
         namespace: ibgateway
-{{- end }}

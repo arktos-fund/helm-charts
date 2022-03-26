@@ -1,20 +1,38 @@
-{{- if .Values.ibgateway }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: ibgateway
+  namespace: argocd
 spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+  - git:
+      repoURL: https://github.com/arktos-venture/applicationset.git
+      revision: master      
+      files:   
+      - path: "ibgateway/**/{{ .Values.environment }}/config.json"                 
   template:
     metadata:
-      name: '{{`{{name}}`}}'
+      name: '{{`{{serviceName}}-{{path.basename}}`}}'      
     spec:
-      project: ibgateway
+      project: '{{`{{argocdProject}}`}}'
+      syncPolicy:       
+        automated:
+          prune: true
+          selfHeal: false
+          allowEmpty: false
+        syncOptions:
+          - CreateNamespace=true
       source:
-        repoURL: git@github.com:arktos-venture/applicationset.git
+        repoURL: 'https://github.com/arktos-venture/helm-charts.git'
         targetRevision: HEAD
-        path: 'ibgateway/{{`{{name}}`}}/{{`{{env}}`}}'
+        path: chart/ibkr-gateway
+        helm:
+          valueFiles:
+            - values.yaml
+            - "values-{{ .Values.environment }}-{{`{{customValuesPostfix}}`}}.yaml"  
       destination:
         server: '{{`{{server}}`}}'
         namespace: ibgateway
-{{- end }}
