@@ -1,4 +1,4 @@
-extraEnv:
+extraEnv: |
   - name: KEYCLOAK_LOGLEVEL
     value: WARN
   - name: WILDFLY_LOGLEVEL
