@@ -1,0 +1,96 @@
+# Default values for microservice.
+
+imports:
+  company_quotes:
+    north-america:
+      schedule: "50 23 * * 1-5"
+      exchanges:
+        - NASDAQ
+        - NYSE
+        - TO
+        
+      resources:
+        limits:
+          cpu: 80m
+          memory: 96Mi
+        requests:
+          cpu: 80m
+          memory: 96Mi 
+
+    south-europe:
+      schedule: "30 18 * * 1-5"
+      exchanges: 
+        - LS
+        - MI
+        - MC
+
+      resources:
+        limits:
+          cpu: 80m
+          memory: 96Mi
+        requests:
+          cpu: 80m
+          memory: 96Mi  
+
+    central-europe:
+      schedule: "30 18 * * 1-5"
+      exchanges:
+        - XETRA
+        - F
+           
+      resources:
+        limits:
+          cpu: 80m
+          memory: 96Mi
+        requests:
+          cpu: 80m
+          memory: 96Mi
+
+    west-europe:
+      schedule: "0 18 * * 1-5"
+      exchanges:
+        - PA
+        - BR
+        - AS
+        - LSE
+
+      resources:
+        limits:
+          cpu: 80m
+          memory: 96Mi
+        requests:
+          cpu: 80m
+          memory: 96Mi
+
+    central-asia:
+      schedule: "30 10 * * 1-5"
+      exchanges: 
+        - SHE
+        - SHG
+        - HK
+
+      resources:
+        limits:
+          cpu: 80m
+          memory: 96Mi
+        requests:
+          cpu: 80m
+          memory: 96Mi
+
+    south-asia:
+      schedule: "0 12 * * 1-5"
+      exchanges:
+        - SG
+
+      resources:
+        limits:
+          cpu: 80m
+          memory: 96Mi
+        requests:
+          cpu: 80m
+          memory: 96Mi
+
+  nodeSelector:
+    k8s.scaleway.com/pool-name: app
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux

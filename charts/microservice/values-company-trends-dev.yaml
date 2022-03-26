@@ -8,16 +8,7 @@ app:
     enabled: false
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      services:
-        companies:
-          hostname: companies-microservice.companies
-          port: 11000
-          timeout: 3s
+    secret: "company-trends"
 
   resources:
     limits:
@@ -33,7 +24,4 @@ app:
     kubernetes.io/os: linux
 
 redis:
-  enabled: false
-
-mongodb:
   enabled: false

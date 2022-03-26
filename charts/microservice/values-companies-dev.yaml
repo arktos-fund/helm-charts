@@ -5,7 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/companies
 
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
@@ -17,21 +17,7 @@ app:
             pathType: ImplementationSpecific
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      redis:
-        hostname: companies-redis-master
-        port: 6379
-        database: 1
-        timeout: 1.5s
-      mongodb:
-        hostnames: 
-          - companies-mongodb:27017
-        database: companies
-        timeout: 3s
+    secret: "companies"
 
   resources:
     limits:
@@ -88,80 +74,3 @@ redis:
       requests:
         cpu: 10m
         memory: 32Mi
-
-mongodb:
-  enabled: true
-
-  serviceAccount:
-    create: false
-
-  image:
-    registry: docker.io
-    repository: bitnami/mongodb
-    tag: 4.4.10-debian-10-r44
-    pullPolicy: IfNotPresent
-    pullSecrets: []
-    debug: false
-
-  auth:
-    enabled: false
-    rootUser: root
-    rootPassword: ""
-    usernames: []
-    passwords: []
-    databases: []
-    existingSecret: ""
-
-  systemLogVerbosity: 0
-  initdbScripts: {}
-    # my_init_script.sh: |
-    #   #!/bin/bash
-    #   echo "Do something."
-
-  startupProbe:
-    enabled: true
-    initialDelaySeconds: 5
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 30
-
-  pdb:
-    create: false
-    minAvailable: 1
-    maxUnavailable: ""
-
-  persistence:
-    enabled: true
-    storageClass: ""
-    size: 5Gi
-
-  arbiter:
-    enabled: false
-
-  metrics:
-    enabled: true
-    image:
-      registry: docker.io
-      repository: bitnami/mongodb-exporter
-      tag: 0.11.2-debian-10-r354
-      pullSecrets: []
-
-    serviceMonitor:
-      enabled: true
-
-    resources:
-      limits:
-        cpu: 30m
-        memory: 56Mi
-      requests:
-        cpu: 30m
-        memory: 56Mi
-
-  resources:
-    limits:
-      cpu: 200m
-      memory: 256Mi
-    requests:
-      cpu: 200m
-      memory: 256Mi

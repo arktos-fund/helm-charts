@@ -5,7 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/accounts
 
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
@@ -17,21 +17,7 @@ app:
             pathType: ImplementationSpecific
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      redis:
-        hostname: accounts-redis-master
-        port: 6379
-        database: 2
-        timeout: 1.5s
-      mongodb:
-        hostnames: 
-          - mongodb.database:27017
-        database: accounts
-        timeout: 3s
+    secret: "accounts"
 
   resources:
     limits:
@@ -88,6 +74,3 @@ redis:
       requests:
         cpu: 10m
         memory: 32Mi
-
-mongodb:
-  enabled: false

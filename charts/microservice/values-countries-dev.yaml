@@ -5,7 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/countries
 
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
@@ -30,6 +30,10 @@ app:
       services:
         http:
           timeout: 3s
+        exchanges:
+          hostname: exchanges-microservice.exchanges
+          port: 11000
+          timeout: 3s
 
   resources:
     limits:
@@ -45,7 +49,4 @@ app:
     kubernetes.io/os: linux
 
 redis:
-  enabled: false
-
-mongodb:
   enabled: false

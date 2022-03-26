@@ -2,7 +2,7 @@ global:
   image:
     prefix: quay.io/arktos-venture/tdengine
     pullPolicy: Always
-    tag: "2.3.6.0"
+    tag: "2.4.0.0"
 
   imagePullSecrets: []
 
@@ -11,11 +11,17 @@ taosd:
 
   taoscfg: |
     keepColumnName  1
-    http  1
-    monitor 1
+    http            1
+    httpMaxThreads  4
+    monitor         0
+    monitorInterval 30
     enableRecordSql 0
-    enableCoreFile  1
-    stream  0
+    enableCoreFile  0
+    stream          0
+    balance         1
+    quorum          2
+    comp            2
+    replica         3
 
   storage:
     className: "scw-bssd"
@@ -24,11 +30,11 @@ taosd:
 
   resources:
     limits:
-      cpu: 300m
-      memory: 256Mi
+      cpu: 500m
+      memory: 2000Mi
     requests:
-      cpu: 300m
-      memory: 256Mi
+      cpu: 500m
+      memory: 1700Mi
 
   nodeSelectors:
     k8s.scaleway.com/pool-name: app

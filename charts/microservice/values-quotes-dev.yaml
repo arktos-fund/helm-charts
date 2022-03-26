@@ -5,7 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/quotes
 
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
@@ -17,27 +17,7 @@ app:
             pathType: ImplementationSpecific
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      tdengine:
-        hostname: tdengine-adapter.database
-        port: 6041
-        database: analysis
-        username: root
-        password: taosdata
-        timeout: 3s
-      services:
-        companies:
-          hostname: companies-microservice.companies
-          port: 11000
-          timeout: 3s
-        countries:
-          hostname: countries-microservice.countries
-          port: 11000
-          timeout: 3s
+    secret: "quotes"
 
   resources:
     limits:
@@ -53,7 +33,4 @@ app:
     kubernetes.io/os: linux
 
 redis:
-  enabled: false
-
-mongodb:
   enabled: false

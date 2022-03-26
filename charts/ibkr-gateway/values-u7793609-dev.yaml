@@ -1,15 +1,8 @@
-# Default values for ibkr-gateway.
-
-serviceAccount:
-  create: true
-  annotations: {}
-  name: ""
-
 gateway:
   image:
     repository: quay.io/arktos-venture/ibkr-gateway
     pullPolicy: IfNotPresent
-    tag: "10.12.2h"
+    tag: "10.14.1b"
 
   imagePullSecrets:
   - name: reg-internal
@@ -20,13 +13,14 @@ gateway:
     - name: VNC_SERVER_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: vnc-credentials
-          key: password
+          name: ibkr-gateway
+          key: vnc-password
 
   debug: false
   config: 
     IbkrCredentials: "ibkr-credentials"
-    trading: "live"
+    proxy: false
+    live: true
 
   podAnnotations: {}
   podSecurityContext:
@@ -53,10 +47,10 @@ gateway:
   resources:
     limits:
       cpu: 350m
-      memory: 1400Mi
+      memory: 2100Mi
     requests:
       cpu: 350m
-      memory: 1400Mi
+      memory: 2100Mi
 
 sidecars:
   volumes:
@@ -68,7 +62,7 @@ sidecars:
         secretName: ibkr-companies-worker-config
 
   containers:
-    - name: positions-worker
+    - name: positions
       image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-positions-worker:0.0.1"
       imagePullPolicy: Always
       securityContext:
@@ -78,10 +72,6 @@ sidecars:
         readOnlyRootFilesystem: false
         runAsNonRoot: true
         runAsUser: 10001
-      volumeMounts:
-        - name: ibkr-positions-worker-config
-          mountPath: /home/noroot/config.yaml
-          subPath: config.yaml
       resources:
         limits:
           cpu: 50m
@@ -89,7 +79,7 @@ sidecars:
         requests:
           cpu: 50m
           memory: 64Mi
-    - name: companies-worker
+    - name: companies
       image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-companies-worker:0.0.1"
       imagePullPolicy: Always
       securityContext:
@@ -99,14 +89,13 @@ sidecars:
         readOnlyRootFilesystem: false
         runAsNonRoot: true
         runAsUser: 10001
-      volumeMounts:
-        - name: ibkr-companies-worker-config
-          mountPath: /home/noroot/config.yaml
-          subPath: config.yaml
+      env:
+        - name: MAX_THREAD
+          value: "50"
       resources:
         limits:
-          cpu: 50m
-          memory: 64Mi
+          cpu: 80m
+          memory: 80Mi
         requests:
           cpu: 50m
           memory: 64Mi

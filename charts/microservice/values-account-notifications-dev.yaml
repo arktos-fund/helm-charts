@@ -5,7 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/account-notifications
 
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
@@ -22,13 +22,26 @@ app:
       level: warn
     timeout: 3s
     data:
-      tdengine:
-        hostname: tdengine-adapter.database
-        port: 6041
-        database: notifications
-        username: root
-        password: taosdata
+      redis:
+        hostname: redis-master.database
+        port: 6379
+        database: 13
+        timeout: 1.5s
+      postgres:
+        hostname: ext-postgres-data
+        port: 5432
+        debug: false
+        database: eod
+        schema: accounts
+        username: user_rw_eod
+        password: example
+        ssl: "disable"
         timeout: 3s
+      services:
+        accounts:
+          hostname: accounts
+          port: 11000
+          timeout: 3s
 
   resources:
     limits:
@@ -44,7 +57,4 @@ app:
     kubernetes.io/os: linux
 
 redis:
-  enabled: false
-
-mongodb:
   enabled: false

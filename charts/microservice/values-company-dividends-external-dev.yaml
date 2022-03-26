@@ -25,10 +25,7 @@ app:
         secretName: eodhistoricaldata
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
+    secret: "company-dividends-external"
 
   resources:
     limits:
@@ -44,7 +41,4 @@ app:
     kubernetes.io/os: linux
 
 redis:
-  enabled: false
-
-mongodb:
   enabled: false

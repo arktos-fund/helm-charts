@@ -1,20 +1,84 @@
 apiVersion: v1
 entries:
+  applicationset:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-03-26T16:58:07.262239+01:00"
+    description: A Helm chart for Kubernetes
+    digest: 5394425cb730e924faf971ff1fa10124c697ab274357ed74fe2deebf50c4503e
+    name: applicationset
+    type: application
+    urls:
+    - https://helm.arktos-consulting.cloud/applicationset-0.1.0.tgz
+    version: 0.1.0
+  argo-cd:
+  - annotations:
+      artifacthub.io/changes: |
+        - "[Changed]: Update to Argo CD v2.3.2"
+    apiVersion: v2
+    appVersion: v2.3.2
+    created: "2022-03-26T16:58:07.267987+01:00"
+    dependencies:
+    - condition: redis-ha.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts/
+      version: 4.12.17
+    description: A Helm chart for Argo CD, a declarative, GitOps continuous delivery
+      tool for Kubernetes.
+    digest: dbe736cc715bdfedfb18a5d059013cb1bef148d0ca157f30b770084d152316ce
+    home: https://github.com/argoproj/argo-helm
+    icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
+    keywords:
+    - argoproj
+    - argocd
+    - gitops
+    maintainers:
+    - name: alexec
+    - name: alexmt
+    - name: jessesuen
+    - name: seanson
+    name: argo-cd
+    urls:
+    - https://helm.arktos-consulting.cloud/argo-cd-4.2.2.tgz
+    version: 4.2.2
+  ibkr-gateway:
+  - apiVersion: v2
+    appVersion: 10.14.1b
+    created: "2022-03-26T16:58:07.268307+01:00"
+    description: A Helm chart IBKR Gateway for Kubernetes
+    digest: 7cb43b5c94fd29ad979cddd1c1f4af31a3bd0e44bd036ecdc65df65e322b90a5
+    name: ibkr-gateway
+    type: application
+    urls:
+    - https://helm.arktos-consulting.cloud/ibkr-gateway-0.1.3.tgz
+    version: 0.1.3
+  import:
+  - apiVersion: v2
+    appVersion: v0.1.0
+    created: "2022-03-26T16:58:07.268544+01:00"
+    description: A Helm chart for Worker for Kubernetes.
+    digest: b130d8709f0e091f7ba1bb509021a9f304475ed215f6cd7418dcef3d809c3db8
+    home: https://github.com/arktos-venture/helm-charts
+    keywords:
+    - arktos-venture
+    - worker
+    maintainers:
+    - name: perriea
+    name: import
+    urls:
+    - https://helm.arktos-consulting.cloud/import-0.0.1.tgz
+    version: 0.0.1
   microservice:
   - apiVersion: v2
-    appVersion: v0.2.0
-    created: "2022-01-01T00:21:53.940974+01:00"
+    appVersion: v0.2.1
+    created: "2022-03-26T16:58:07.271574+01:00"
     dependencies:
     - condition: redis.enabled
       name: redis
-      repository: https://charts.bitnami.com/bitnami
+      repository: file://../redis
       version: 15.6.8
-    - condition: mongodb.enabled
-      name: mongodb
-      repository: https://charts.bitnami.com/bitnami
-      version: 10.30.8
     description: A Helm chart for Microservice for Kubernetes.
-    digest: bf9f2df08b0017c8cc0c9fe4959410b0edf7cc2bf5c41e7a8c754a499bd4b554
+    digest: 1cce093971808c6fef4ed4762fd78c3ecd4dfa12e05f8fe98b9075610d3243e7
     home: https://github.com/arktos-venture/helm-charts
     keywords:
     - arktos-venture
@@ -23,49 +87,14 @@ entries:
     - name: perriea
     name: microservice
     urls:
-    - https://helm.arktos-consulting.cloud/microservice-0.0.1.tgz
-    version: 0.0.1
-  mongodb:
-  - annotations:
-      category: Database
-    apiVersion: v2
-    appVersion: 4.5.0
-    created: "2022-01-01T00:21:53.944096+01:00"
-    dependencies:
-    - name: common
-      repository: https://charts.bitnami.com/bitnami
-      tags:
-      - bitnami-common
-      version: 1.x.x
-    description: NoSQL document-oriented database that stores JSON-like documents
-      with dynamic schemas, simplifying the integration of data in content-driven
-      applications.
-    digest: a04609e804b7de801f2f4240778f64e5b8281ac05d733565e80793f827ab50b4
-    home: https://github.com/bitnami/charts/tree/master/bitnami/mongodb
-    icon: https://bitnami.com/assets/stacks/mongodb/img/mongodb-stack-220x234.png
-    keywords:
-    - mongodb
-    - database
-    - nosql
-    - cluster
-    - replicaset
-    - replication
-    maintainers:
-    - email: containers@bitnami.com
-      name: Bitnami
-    name: mongodb
-    sources:
-    - https://github.com/bitnami/bitnami-docker-mongodb
-    - https://mongodb.org
-    urls:
-    - https://helm.arktos-consulting.cloud/mongodb-10.30.8.tgz
-    version: 10.30.8
+    - https://helm.arktos-consulting.cloud/microservice-0.0.2.tgz
+    version: 0.0.2
   redis:
   - annotations:
       category: Database
     apiVersion: v2
     appVersion: 6.2.6
-    created: "2022-01-01T00:21:53.947374+01:00"
+    created: "2022-03-26T16:58:07.275116+01:00"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -75,7 +104,7 @@ entries:
     description: Open source, advanced key-value store. It is often referred to as
       a data structure server since keys can contain strings, hashes, lists, sets
       and sorted sets.
-    digest: 3ecf06e0968a75b9b726795786467d616b852f9f3b08dcd2b80ef53ba6d415bd
+    digest: 1882778149d1878a4195dd356ad8292aa120bfa2a185b89d59cc5ba569c111a7
     home: https://github.com/bitnami/charts/tree/master/bitnami/redis
     icon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
     keywords:
@@ -97,9 +126,9 @@ entries:
   tdengine-adapter:
   - apiVersion: v2
     appVersion: 2.3.6.0
-    created: "2022-01-01T00:21:53.947653+01:00"
+    created: "2022-03-26T16:58:07.275401+01:00"
     description: A Helm chart for Kubernetes
-    digest: 4f0e450ee2c86daa7334a003f6b0e30a3fc5331891ce3638b65c128ca66559d2
+    digest: 080253068e5d23696025f18356dac1284cdd6489f43af33854ba4328c4b8542f
     name: tdengine-adapter
     type: application
     urls:
@@ -108,9 +137,9 @@ entries:
   tdengine-cluster:
   - apiVersion: v2
     appVersion: 2.3.6.0
-    created: "2022-01-01T00:21:53.947979+01:00"
+    created: "2022-03-26T16:58:07.275744+01:00"
     description: TDengine Cluster Chart for Kubenetes
-    digest: 889ad8d4133fa8ef9ba316fb716b486664f3f26d6ee51eb0c09d39d05555158e
+    digest: b53e2682338819a5b5238f3f2205aa4b70d21514d2d1ddc72a5d64ac73b43390
     icon: https://www.taosdata.com/images/taosdata-logo.png
     maintainers:
     - email: linhe.huo@gmail.com
@@ -124,20 +153,4 @@ entries:
     urls:
     - https://helm.arktos-consulting.cloud/tdengine-cluster-0.3.0.tgz
     version: 0.3.0
-  worker:
-  - apiVersion: v2
-    appVersion: v0.1.0
-    created: "2022-01-01T00:21:53.948257+01:00"
-    description: A Helm chart for Worker for Kubernetes.
-    digest: 6863826762040c0ca71188559e5553d8945b9f0639edbcc67cf2e82987382836
-    home: https://github.com/arktos-venture/helm-charts
-    keywords:
-    - arktos-venture
-    - worker
-    maintainers:
-    - name: perriea
-    name: worker
-    urls:
-    - https://helm.arktos-consulting.cloud/worker-0.0.1.tgz
-    version: 0.0.1
-generated: "2022-01-01T00:21:53.932942+01:00"
+generated: "2022-03-26T16:58:07.261786+01:00"

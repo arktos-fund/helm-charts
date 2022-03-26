@@ -4,24 +4,8 @@ app:
   image:
     repository: rg.nl-ams.scw.cloud/arktos-venture/quotes-strategies
 
-  ingress:
-    enabled: false
-
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      services:
-        companies:
-          hostname: companies-microservice.companies
-          port: 11000
-          timeout: 3s
-        quotes:
-          hostname: quotes-microservice.quotes
-          port: 11000
-          timeout: 6s
+    secret: "quotes-strategies"
 
   resources:
     limits:
@@ -37,7 +21,4 @@ app:
     kubernetes.io/os: linux
 
 redis:
-  enabled: false
-
-mongodb:
   enabled: false

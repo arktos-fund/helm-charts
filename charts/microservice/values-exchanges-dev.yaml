@@ -5,7 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/exchanges
 
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - host: api.arktos-consulting.cloud
         paths:
@@ -16,34 +16,8 @@ app:
           - path: /v1/exchanges
             pathType: ImplementationSpecific
 
-  env:
-    - name: API_DEBUG
-      valueFrom:
-        secretKeyRef:
-          name: eodhistoricaldata
-          key: debug
-    - name: EOD_KEY
-      valueFrom:
-        secretKeyRef:
-          name: eodhistoricaldata
-          key: token
-
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      redis:
-        hostname: redis-master.database
-        port: 6379
-        database: 3
-        timeout: 1.5s
-      mongodb:
-        hostnames: 
-          - mongodb.database:27017
-        database: exchanges
-        timeout: 3s
+    secret: "exchanges"
 
   resources:
     limits:
@@ -59,7 +33,44 @@ app:
     kubernetes.io/os: linux
 
 redis:
-  enabled: false
+  enabled: true
 
-mongodb:
-  enabled: false
+  image:
+    registry: docker.io
+    repository: bitnami/redis
+    tag: 6.2.6-debian-10-r53
+    pullSecrets: []
+    debug: false
+  
+  architecture: replication
+  auth:
+    enabled: false
+
+  master:
+    persistence:
+      enabled: false
+
+    resources:
+      limits:
+        cpu: 50m
+        memory: 64Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+
+  metrics:
+    enabled: true
+    image:
+      registry: docker.io
+      repository: bitnami/redis-exporter
+      tag: 1.31.4-debian-10-r11
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+
+    resources:
+      limits:
+        cpu: 10m
+        memory: 32Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi

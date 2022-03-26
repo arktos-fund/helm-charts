@@ -33,7 +33,7 @@ spec:
       {{- end }}
       initContainers:
         - name: init-config
-          image: "{{ .Values.global.image.prefix }}-init-config:latest"
+          image: "{{ .Values.global.image.prefix }}-init-config:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           {{- with .Values.global.securityContext }}
           securityContext:

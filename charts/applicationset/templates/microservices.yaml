@@ -1,0 +1,37 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: microservice
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+  - git:
+      repoURL: https://github.com/arktos-venture/applicationset.git
+      revision: main      
+      files:   
+      - path: "microservices/**/{{ .Values.environment }}/config.json"                 
+  template:
+    metadata:
+      name: '{{`{{serviceName}}-{{path.basename}}`}}'      
+    spec:
+      project: '{{`{{argocdProject}}`}}'
+      syncPolicy:       
+        automated:
+          prune: true
+          selfHeal: false
+          allowEmpty: false
+        syncOptions:
+          - CreateNamespace=true
+      source:
+        repoURL: 'https://github.com/arktos-venture/helm-charts.git'
+        targetRevision: HEAD
+        path: chart/microservices
+        helm:
+          valueFiles:
+            - values.yaml
+            - "values-{{ .Values.environment }}-{{`{{customValuesPostfix}}`}}.yaml"  
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: ibgateway

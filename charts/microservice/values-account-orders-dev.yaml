@@ -5,28 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/account-orders
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      redis:
-        hostname: redis-master.database
-        port: 6379
-        database: 10
-        timeout: 1.5s
-      tdengine:
-        hostname: tdengine-adapter.database
-        port: 6041
-        database: investing_accounts
-        username: root
-        password: taosdata
-        timeout: 3s
-      services:
-        companies:
-          hostname: companies-microservice.companies
-          port: 11000
-          timeout: 3s
+    secret: "account-orders"
 
   resources:
     limits:
@@ -42,7 +21,4 @@ app:
     kubernetes.io/os: linux
 
 redis:
-  enabled: false
-
-mongodb:
   enabled: false

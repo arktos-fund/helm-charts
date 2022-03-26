@@ -62,13 +62,22 @@ spec:
             timeoutSeconds: 5
           volumeMounts:
             - name: config
+              readOnly: true
               mountPath: /config/default.yaml
+              subPath: "default.yaml"
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
       volumes:
         - name: config
           secret:
+          {{- if eq .Values.app.config.secret "" }}
             secretName: config-{{ .Release.Name }}
+          {{- else }}
+            secretName: microservices
+            items:
+              - key: {{ .Values.app.config.secret }}
+                path: default.yaml
+          {{- end }}
       {{- with .Values.app.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
