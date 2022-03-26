@@ -17,23 +17,7 @@ app:
             pathType: ImplementationSpecific
 
   config:
-    logger:
-      format: fmt
-      level: warn
-    timeout: 3s
-    data:
-      redis:
-        hostname: redis-master.database
-        port: 6379
-        database: 4
-        timeout: 1.5s
-      services:
-        http:
-          timeout: 3s
-        exchanges:
-          hostname: exchanges-microservice.exchanges
-          port: 11000
-          timeout: 3s
+    secret: "countries"
 
   resources:
     limits:
