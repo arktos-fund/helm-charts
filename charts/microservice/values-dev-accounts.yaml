@@ -22,10 +22,10 @@ app:
   resources:
     limits:
       cpu: 100m
-      memory: 100Mi
+      memory: 72Mi
     requests:
       cpu: 100m
-      memory: 100Mi
+      memory: 72Mi
 
   nodeSelector:
     k8s.scaleway.com/pool-name: app
