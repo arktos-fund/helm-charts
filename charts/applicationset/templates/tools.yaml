@@ -4,7 +4,7 @@ metadata:
   name: tools
 spec:
   syncPolicy:
-    preserveResourcesOnDeletion: true
+    preserveResourcesOnDeletion: false
   generators:
   - git:
       repoURL: https://github.com/arktos-venture/applicationset.git
@@ -23,7 +23,7 @@ spec:
           allowEmpty: false
       source:
         repoURL: 'https://github.com/arktos-venture/helm-charts.git'
-        targetRevision: HEAD
+        targetRevision: {{ .Values.environment }}
         path: 'charts/{{`{{serviceName}}`}}'
         helm:
           valueFiles:
