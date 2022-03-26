@@ -34,4 +34,4 @@ spec:
             - "values-{{ .Values.environment }}-{{`{{serviceName}}`}}.yaml"  
       destination:
         server: https://kubernetes.default.svc
-        namespace: countries
+        namespace: '{{`{{namespace}}`}}'
