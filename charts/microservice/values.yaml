@@ -6,7 +6,7 @@ app:
   image:
     repository: rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company
     pullPolicy: IfNotPresent
-    tag: "0.2.2"
+    tag: "0.3.9"
 
   imagePullSecrets:
     - name: reg-internal
