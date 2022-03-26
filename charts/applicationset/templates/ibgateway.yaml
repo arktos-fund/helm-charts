@@ -27,7 +27,7 @@ spec:
       source:
         repoURL: 'https://github.com/arktos-venture/helm-charts.git'
         targetRevision: HEAD
-        path: chart/ibkr-gateway
+        path: charts/ibkr-gateway
         helm:
           valueFiles:
             - values.yaml
