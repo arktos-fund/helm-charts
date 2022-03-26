@@ -31,7 +31,7 @@ spec:
         helm:
           valueFiles:
             - values.yaml
-            - "values-{{ .Values.environment }}-{{`{{customValuesPostfix}}`}}.yaml"  
+            - "values-{{ .Values.environment }}-{{`{{serviceName}}`}}.yaml"  
       destination:
         server: https://kubernetes.default.svc
         namespace: ibgateway
