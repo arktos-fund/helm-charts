@@ -1,6 +1,11 @@
 apiVersion: v2
-name: applicationset
-description: A Helm chart for Kubernetes
-type: application
-version: 0.1.0
-appVersion: "1.16.0"
+appVersion: v0.1.0
+description: A Helm chart for Worker for Kubernetes.
+name: workflows
+version: 0.0.1
+home: https://github.com/arktos-venture/helm-charts
+keywords:
+  - arktos-venture
+  - worker
+maintainers:
+  - name: perriea
