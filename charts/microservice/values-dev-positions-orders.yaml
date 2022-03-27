@@ -5,7 +5,7 @@ app:
     repository: rg.nl-ams.scw.cloud/arktos-venture/account-orders
 
   config:
-    secret: "account-orders"
+    secret: "orders"
 
   resources:
     limits:
