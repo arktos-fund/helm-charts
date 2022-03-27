@@ -17,7 +17,7 @@ app:
             pathType: ImplementationSpecific
 
   config:
-    secret: "company-dividends"
+    secret: "dividends"
 
   resources:
     limits:
