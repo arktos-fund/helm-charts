@@ -63,7 +63,7 @@ sidecars:
 
   containers:
     - name: positions
-      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-positions-worker:0.1.5"
+      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-positions-worker:0.1.6"
       imagePullPolicy: Always
       securityContext:
         capabilities:
@@ -80,7 +80,7 @@ sidecars:
           cpu: 50m
           memory: 64Mi
     - name: companies
-      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-companies-worker:0.1.5"
+      image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-companies-worker:0.1.6"
       imagePullPolicy: Always
       securityContext:
         capabilities:
