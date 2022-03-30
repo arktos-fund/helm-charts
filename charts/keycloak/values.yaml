@@ -279,10 +279,13 @@ ingress:
   # The Service port targeted by the Ingress
   servicePort: http
   # Ingress annotations
-  annotations: {}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
     ## Resolve HTTP 502 error using ingress-nginx:
     ## See https://www.ibm.com/support/pages/502-error-ingress-keycloak-response
-    # nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 
   # Additional Ingress labels
   labels: {}
@@ -296,10 +299,7 @@ ingress:
         - path: /
           pathType: Prefix
   # TLS configuration
-  tls:
-    - hosts:
-        - keycloak.example.com
-      secretName: ""
+  tls: []
 
   # ingress for console only (/auth/admin)
   console:
@@ -394,7 +394,7 @@ postgresql:
 
 serviceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
-  enabled: false
+  enabled: true
   # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
   namespace: ""
   # Optionally sets a namespace for the ServiceMonitor
@@ -414,7 +414,7 @@ serviceMonitor:
 
 extraServiceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
-  enabled: false
+  enabled: true
   # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
   namespace: ""
   # Optionally sets a namespace for the ServiceMonitor
@@ -466,11 +466,11 @@ autoscaling:
   # If `true`, a autoscaling/v2beta2 HorizontalPodAutoscaler resource is created (requires Kubernetes 1.18 or above)
   # Autoscaling seems to be most reliable when using KUBE_PING service discovery (see README for details)
   # This disables the `replicas` field in the StatefulSet
-  enabled: false
+  enabled: true
   # Additional HorizontalPodAutoscaler labels
   labels: {}
   # The minimum and maximum number of replicas for the Keycloak StatefulSet
-  minReplicas: 3
+  minReplicas: 1
   maxReplicas: 10
   # The metrics to use for scaling
   metrics:
