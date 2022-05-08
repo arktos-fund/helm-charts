@@ -96,11 +96,6 @@ app:
       #   password: example
       #   ssl: "disable"
       #   timeout: 3s
-      # mongodb:
-      #   hostnames: 
-      #     - mongodb:27017
-      #   database: brokers
-      #   timeout: 3s
       # services:
       #   companies:
       #     hostname: company
@@ -193,69 +188,6 @@ redis:
 
   serviceAccount:
     create: false
-
-  image:
-    registry: docker.io
-    repository: bitnami/mongodb
-    tag: 4.4.10-debian-10-r44
-    pullPolicy: IfNotPresent
-    pullSecrets: []
-    debug: false
-
-  auth:
-    enabled: true
-    rootUser: root
-    rootPassword: ""
-    usernames: []
-    passwords: []
-    databases: []
-    existingSecret: ""
-
-  systemLogVerbosity: 0
-  initdbScripts: {}
-    # my_init_script.sh: |
-    #   #!/bin/bash
-    #   echo "Do something."
-
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 5
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 30
-
-  pdb:
-    create: false
-    minAvailable: 1
-    maxUnavailable: ""
-
-  persistence:
-    enabled: true
-    storageClass: ""
-    size: 2Gi
-
-  arbiter:
-    enabled: false
-
-  metrics:
-    enabled: true
-    image:
-      registry: docker.io
-      repository: bitnami/mongodb-exporter
-      tag: 0.11.2-debian-10-r354
-      pullSecrets: []
-
-    serviceMonitor:
-      enabled: true
-
-    resources:
-      limits:
-        cpu: 30m
-        memory: 56Mi
-      requests:
-        cpu: 30m
-        memory: 56Mi
 
   resources:
     limits:
