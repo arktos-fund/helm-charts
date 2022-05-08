@@ -11,6 +11,6 @@ maintainers:
   - name: perriea
 dependencies:
   - name: redis
-    version: 16.9.0
-    repository: https://charts.bitnami.com/bitnami
+    version: 15.6.8
+    repository: "file://../redis"
     condition: redis.enabled
