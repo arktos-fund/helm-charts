@@ -4,9 +4,9 @@ app:
   replicaCount: 1
 
   image:
-    repository: rg.nl-ams.scw.cloud/arktos-venture/grpc-apis/company
+    repository: rg.nl-ams.scw.cloud/arktos-venture/instruments
     pullPolicy: IfNotPresent
-    tag: "0.3.9"
+    tag: "1.0.0"
 
   imagePullSecrets:
     - name: reg-internal
@@ -21,7 +21,7 @@ app:
   podAnnotations: {}
 
   podSecurityContext: {}
-    # fsGroup: 2000
+    # fsGroup: 1000
 
   securityContext:
     capabilities:
@@ -39,18 +39,10 @@ app:
 
   ingress:
     enabled: false
-    className: "kong"
+    labels:
+      ambassadorhost: global
     annotations: {}
       # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: api.arktos-consulting.cloud
-        paths:
-          - path: /grpc/v1/company
-            pathType: ImplementationSpecific
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
 
   env: []
     # - name: API_DEBUG
@@ -81,11 +73,6 @@ app:
       #   port: 6379
       #   database: 8
       #   timeout: 1.5s
-      # tdengine:
-      #   database: analysis
-      #   username: root
-      #   password: taosdata
-      #   timeout: 5s
       # postgres:
       #   debug: false
       #   hostname: ext-postgres-data
@@ -128,71 +115,3 @@ app:
   tolerations: []
 
   affinity: {}
-
-redis:
-  enabled: false
-
-  image:
-    registry: docker.io
-    repository: bitnami/redis
-    tag: 6.2.6-debian-10-r53
-    pullSecrets: []
-    debug: false
-  
-  architecture: replication
-  auth:
-    enabled: true
-    sentinel: false
-    existingSecret: ""
-    existingSecretPasswordKey: ""
-
-  master:
-    persistence:
-      enabled: false
-
-    resources:
-      limits: {}
-      requests: {}
-  
-  replica:
-    replicaCount: 0
-    persistence:
-      enabled: false
-    autoscaling:
-      enabled: false
-      minReplicas: 1
-      maxReplicas: 11
-      targetCPU: ""
-      targetMemory: ""
-
-    resources:
-      limits:
-        cpu: 250m
-        memory: 256Mi
-      requests:
-        cpu: 250m
-        memory: 256Mi
-
-  metrics:
-    enabled: false
-    image:
-      registry: docker.io
-      repository: bitnami/redis-exporter
-      tag: 1.31.4-debian-10-r11
-      pullPolicy: IfNotPresent
-      pullSecrets: []
-
-    resources:
-      limits: {}
-      requests: {}
-
-  serviceAccount:
-    create: false
-
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi

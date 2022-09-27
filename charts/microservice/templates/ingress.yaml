@@ -6,16 +6,10 @@
   {{- $_ := set .Values.app.ingress.annotations "kubernetes.io/ingress.class" .Values.app.ingress.className}}
   {{- end }}
 {{- end }}
-{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1
-{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
-apiVersion: extensions/v1beta1
-{{- end }}
-kind: Ingress
+apiVersion: getambassador.io/v3alpha1
+kind:  Mapping
 metadata:
-  name: {{ $fullName }}
+  name:  {{ $fullName }}
   labels:
     {{- include "microservice.labels" . | nindent 4 }}
   {{- with .Values.app.ingress.annotations }}
@@ -23,39 +17,12 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.app.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.app.ingress.className }}
-  {{- end }}
-  {{- if .Values.app.ingress.tls }}
-  tls:
-    {{- range .Values.app.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
-  {{- end }}
-  rules:
-    {{- range .Values.app.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
-        paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
-            pathType: {{ .pathType }}
-            {{- end }}
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: {{ $fullName }}
-                port:
-                  number: 11000
-              {{- else }}
-              serviceName: grpc
-              servicePort: 11000
-              {{- end }}
-          {{- end }}
-    {{- end }}
+  prefix: /cqrs/
+  method: GET
+  service: {{ $fullName }}:8080
+  timeout_ms: 4000
+  idle_timeout_ms: 500000
+  connect_timeout_ms: 2000
+  docs:
+    path: /q/service/{{ .service }}
 {{- end }}
