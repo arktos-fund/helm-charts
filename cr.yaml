@@ -1,2 +1,5 @@
-owner: arktos-venture
+owner: arktos-fund
+git-repo: helm-charts
 git-base-url: https://api.github.com/
+pages-branch: cf-pages
+push: true
