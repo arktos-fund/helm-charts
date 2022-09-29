@@ -1,117 +1,133 @@
 # Default values for microservice.
 
-app:
-  replicaCount: 1
+replicaCount: 1
 
-  image:
-    repository: rg.nl-ams.scw.cloud/arktos-venture/instruments
-    pullPolicy: IfNotPresent
-    tag: "1.0.0"
+image:
+  repository: rg.nl-ams.scw.cloud/arktos-venture/instruments
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
 
-  imagePullSecrets:
-    - name: reg-internal
-  nameOverride: ""
-  fullnameOverride: ""
+imagePullSecrets:
+  - name: regcreds
+nameOverride: ""
+fullnameOverride: ""
 
-  serviceAccount:
-    create: false
-    annotations: {}
-    name: ""
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
 
-  podAnnotations: {}
+podAnnotations: {}
 
-  podSecurityContext: {}
-    # fsGroup: 1000
+podSecurityContext: {}
+  # fsGroup: 1000
 
-  securityContext:
-    capabilities:
-      drop:
+securityContext:
+  capabilities:
+    drop:
       - ALL
-    readOnlyRootFilesystem: true
-    runAsNonRoot: true
-    runAsUser: 1000
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
 
-  service:
-    type: ClusterIP
-    ports:
-      http: 8000
-      grpc: 11000
+livenessProbe: {}
+  # httpGet:
+  #   path: /healthz
+  #   port: http
+  # failureThreshold: 3
+  # periodSeconds: 15
+  # timeoutSeconds: 5
 
-  ingress:
-    enabled: false
-    labels:
-      ambassadorhost: global
-    annotations: {}
-      # kubernetes.io/tls-acme: "true"
+readinessProbe: {}
+  # httpGet:
+  #   path: /healthz
+  #   port: http
+  # failureThreshold: 3
+  # periodSeconds: 10
+  # timeoutSeconds: 5
 
-  env: []
-    # - name: API_DEBUG
-    #   value: {{ .Values.app.secrets.debug }}
-    # - name: API_KEY
-    #   valueFrom:
-    #     secretKeyRef:
-    #       name: backend-user
-    #       key: backend-username
+service:
+  type: ClusterIP
+  ports:
+    http: 8000
+    grpc: 11000
 
-  volumes: []
-    # - name: config
-    #   secret:
-    #     secretName: config
+ingress: []
+  # - name: http
+  #   method: GET
+  #   prefix: /v1
+  #   service: "Accounts.v1.accounts"
+  #   timeout_ms: 4000
+  #   idle_timeout_ms: 500000
+  #   connect_timeout_ms: 2000
 
-  config:
-    # Secret already exist
-    secret: ""
+env: []
+  # - name: API_DEBUG
+  #   value: {{ .Values.secrets.debug }}
+  # - name: API_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: backend-user
+  #       key: backend-username
 
-    # Create new secret
-    logger:
-      format: fmt
-      level: info
-    timeout: 3s
-    data: {}
-      # redis:
-      #   hostname: redis
-      #   port: 6379
-      #   database: 8
-      #   timeout: 1.5s
-      # postgres:
-      #   debug: false
-      #   hostname: ext-postgres-data
-      #   port: 5432
-      #   database: eod
-      #   schema: accounts
-      #   username: user_rw_eod
-      #   password: example
-      #   ssl: "disable"
-      #   timeout: 3s
-      # services:
-      #   companies:
-      #     hostname: company
-      #     port: 11000
-      #     timeout: 3s
+volumes: []
+  # - name: config
+  #   secret:
+  #     secretName: config
 
-  metrics:
-    enabled: true
+config:
+  # Secret already exist
+  secret: ""
 
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
+  # Create new secret
+  logger:
+    format: fmt
+    level: info
+  timeout: 3s
+  data: {}
+    # redis:
+    #   hostname: redis
+    #   port: 6379
+    #   database: 8
+    #   timeout: 1.5s
+    # postgres:
+    #   debug: false
+    #   hostname: ext-postgres-data
+    #   port: 5432
+    #   database: eod
+    #   schema: accounts
+    #   username: user_rw_eod
+    #   password: example
+    #   ssl: "disable"
+    #   timeout: 3s
+    # services:
+    #   companies:
+    #     hostname: company
+    #     port: 11000
+    #     timeout: 3s
 
-  autoscaling:
-    enabled: true
-    minReplicas: 1
-    maxReplicas: 10
-    targetCPUUtilizationPercentage: 70
-    targetMemoryUtilizationPercentage: 80
+metrics:
+  enabled: true
 
-  nodeSelector:
-    k8s.scaleway.com/pool-name: app
-    kubernetes.io/arch: amd64
-    kubernetes.io/os: linux
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
-  tolerations: []
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
 
-  affinity: {}
+nodeSelector:
+  kubernetes.io/arch: amd64
+  kubernetes.io/os: linux
+
+tolerations: []
+
+affinity: {}

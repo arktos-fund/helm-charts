@@ -5,10 +5,10 @@ metadata:
   labels:
     {{- include "microservice.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.app.autoscaling.enabled }}
-  replicas: {{ .Values.app.replicaCount }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
   {{- end }}
-  revisionHistoryLimit: {{ .Values.app.revisionHistoryLimit | default 3 }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 3 }}
   selector:
     matchLabels:
       {{- include "microservice.selectorLabels" . | nindent 6 }}
@@ -16,26 +16,26 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
-      {{- with .Values.app.podAnnotations }}
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "microservice.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.app.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "microservice.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.app.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: app
           securityContext:
-            {{- toYaml .Values.app.securityContext | nindent 12 }}
-          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
-          {{- with .Values.app.env }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.env }}
           env:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -46,50 +46,44 @@ spec:
             - name: grpc
               containerPort: 11000
               protocol: TCP
+          {{- with .Values.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-            failureThreshold: 3
-            periodSeconds: 15
-            timeoutSeconds: 5
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
           readinessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-            failureThreshold: 3
-            periodSeconds: 10
-            timeoutSeconds: 5
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: config
               readOnly: true
               mountPath: /config/default.yaml
               subPath: "default.yaml"
           resources:
-            {{- toYaml .Values.app.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: config
           secret:
-          {{- if eq .Values.app.config.secret "" }}
+          {{- if eq .Values.config.secret "" }}
             secretName: config-{{ .Release.Name }}
           {{- else }}
             secretName: microservices
             items:
-              - key: {{ .Values.app.config.secret }}
+              - key: {{ .Values.config.secret }}
                 path: default.yaml
           {{- end }}
-      {{- with .Values.app.volumes }}
+      {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.app.nodeSelector }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.app.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.app.tolerations }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

@@ -1,28 +1,21 @@
-{{- if .Values.app.ingress.enabled -}}
 {{- $fullName := include "microservice.fullname" . -}}
-{{- $svcPort := .Values.app.service.port -}}
-{{- if and .Values.app.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.app.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.app.ingress.annotations "kubernetes.io/ingress.class" .Values.app.ingress.className}}
-  {{- end }}
-{{- end }}
+{{- $dot := . -}}
+{{- range .Values.ingress }}
 apiVersion: getambassador.io/v3alpha1
 kind:  Mapping
 metadata:
-  name:  {{ $fullName }}
-  labels:
-    {{- include "microservice.labels" . | nindent 4 }}
-  {{- with .Values.app.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+  name: {{ $fullName }}-{{ .name }}
 spec:
-  prefix: /cqrs/
-  method: GET
-  service: {{ $fullName }}:8080
-  timeout_ms: 4000
-  idle_timeout_ms: 500000
-  connect_timeout_ms: 2000
+  prefix: {{ .prefix }}
+  {{- with .method }}
+  method: {{ . }}
+  {{- end }}
+  service: {{ $fullName }}:{{ $dot.Values.service.ports.http }}
+  timeout_ms: {{ .timeout_ms | default "4000"}}
+  idle_timeout_ms: {{ .idle_timeout_ms | default "500000" }}
+  connect_timeout_ms: {{ .connect_timeout_ms | default "2000" }}
+  {{- with .service }}
   docs:
-    path: /q/service/{{ .service }}
+    path: /q/service/{{ . }}
+  {{- end }}
 {{- end }}

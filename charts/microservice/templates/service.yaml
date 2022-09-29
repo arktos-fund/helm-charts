@@ -5,13 +5,13 @@ metadata:
   labels:
     {{- include "microservice.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.app.service.type }}
+  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.app.service.ports.http }}
+    - port: {{ .Values.service.ports.http }}
       targetPort: http
       protocol: TCP
       name: http
-    - port: {{ .Values.app.service.ports.grpc }}
+    - port: {{ .Values.service.ports.grpc }}
       targetPort: grpc
       protocol: TCP
       name: grpc

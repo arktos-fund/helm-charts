@@ -3,14 +3,9 @@ appVersion: v0.2.1
 description: A Helm chart for Microservice for Kubernetes.
 name: microservice
 version: 0.0.2
-home: https://github.com/arktos-venture/helm-charts
+home: https://github.com/arktos-fund/helm-charts
 keywords:
-  - arktos-venture
+  - arktos-fund
   - microservice
 maintainers:
   - name: perriea
-dependencies:
-  - name: redis
-    version: 15.6.8
-    repository: "file://../redis"
-    condition: redis.enabled
