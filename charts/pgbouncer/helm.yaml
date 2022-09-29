@@ -1,0 +1,226 @@
+---
+# Source: pgbouncer/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argocd-pgbouncer-secret-userlist-txt
+  labels:
+    helm.sh/chart: pgbouncer-0.0.1
+    app.kubernetes.io/name: pgbouncer
+    app.kubernetes.io/instance: argocd
+    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  userlist.txt: |-
+---
+# Source: pgbouncer/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-pgbouncer-config
+  labels:
+    helm.sh/chart: pgbouncer-0.0.1
+    app.kubernetes.io/name: pgbouncer
+    app.kubernetes.io/instance: argocd
+    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  pgbouncer.ini: |-
+    ;; database name = 3
+    [databases]
+    indices = host=51.158.129.49 port=11796 user=user_rw auth_user=pgbouncer dbname=indices
+    
+    
+    [pgbouncer]
+    
+    ;;; Administrative settings
+    ;logfile = /var/log/pgbouncer/pgbouncer.log
+    ;pidfile = /var/run/pgbouncer/pgbouncer.pid
+    
+    ;;; Where to wait for clients
+    listen_addr = 0.0.0.0
+    listen_port = 6432
+    unix_socket_dir = var/run/postgresql
+    ;unix_socket_mode = 0777
+    ;unix_socket_group =
+    ;client_tls_sslmode = disable
+    ;client_tls_ca_file = <system default>
+    ;client_tls_key_file =
+    ;client_tls_cert_file =
+    ;client_tls_ciphers = fast
+    ;client_tls_protocols = all
+    ;client_tls_dheparams = auto
+    ;client_tls_ecdhcurve = auto
+    ;server_tls_sslmode = disable
+    ;server_tls_ca_file = <system default>
+    ;server_tls_key_file =
+    ;server_tls_cert_file =
+    ;server_tls_protocols = all
+    ;server_tls_ciphers = fast
+    ; any, trust, plain, crypt, md5, cert, hba, pam
+    
+    ;;; Authentication settings
+    
+    auth_type = plain
+    ;auth_file = /8.0/main/global/pg_auth
+    auth_file = /etc/pgbouncer.d/userlist.txt
+    ;auth_hba_file =
+    
+    auth_query = SELECT * FROM pgbouncer.get_auth($1)
+    
+    ;;; Users allowed into database 'pgbouncer'
+    admin_users = 
+    stats_users = , stats, root, monitor
+    
+    ;;; Pooler personality
+    
+    pool_mode = 
+    server_reset_query = DISCARD ALL
+    ;server_reset_query_always = 0
+    ;ignore_startup_parameters = extra_float_digits
+    ;server_check_query = select 1
+    ;server_check_delay = 30
+    ;application_name_add_host = 0
+    
+    ;;; Connection limits
+    
+    max_client_conn = 200
+    default_pool_size = 200
+    min_pool_size = 15
+    reserve_pool_size = 25
+    reserve_pool_timeout = 5
+    ;max_db_connections = 0
+    ;max_user_connections = 0
+    ;server_round_robin = 0
+    ;syslog = 0
+    ;syslog_facility = daemon
+    ;syslog_ident = pgbouncer
+    
+    ;;; Logging
+    
+    log_connections = 0
+    log_disconnections = 0
+    log_pooler_errors = 1
+    log_stats = 0
+    stats_period = 60
+    verbose = 0
+    
+    ;;; Timeouts
+    
+    ;server_lifetime = 3600
+    ;server_idle_timeout = 600
+    ;server_connect_timeout = 15
+    ;server_login_retry = 15
+    ;query_timeout = 0
+    ;query_wait_timeout = 120
+    ;client_idle_timeout = 
+    ;client_login_timeout = 60
+    ;autodb_idle_timeout = 3600
+    ;suspend_timeout = 10
+    ;idle_transaction_timeout = 0
+    
+    ;;; Low-level tuning options
+    
+    ;pkt_buf = 4096
+    ;listen_backlog = 128
+    ;sbuf_loopcnt = 5
+    ;max_packet_size = 2147483647
+    
+    ;tcp_defer_accept = 0
+    ;tcp_socket_buffer = 0
+    tcp_keepalive = 1
+    tcp_keepcnt = 5
+    tcp_keepidle = 30
+    tcp_keepintvl = 30
+    
+    ;dns_max_ttl = 15
+    ;dns_zone_check_period = 0
+    ;dns_nxdomain_ttl = 15
+    
+    ;disable_pqexec = 0
+    ;conffile
+    ;service_name = pgbouncer
+    ;job_name = pgbouncer
+    ;%include /etc/pgbouncer/pgbouncer-other.ini
+    
+    ;;; Custom attributes added from .Values.customSettings
+---
+# Source: pgbouncer/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-pgbouncer
+  labels:
+    helm.sh/chart: pgbouncer-0.0.1
+    app.kubernetes.io/name: pgbouncer
+    app.kubernetes.io/instance: argocd
+    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6432
+      targetPort: postgres
+      protocol: TCP
+      name: pgbouncer
+  selector:
+    app.kubernetes.io/name: pgbouncer
+    app.kubernetes.io/instance: argocd
+---
+# Source: pgbouncer/templates/statefulSets.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: argocd-pgbouncer
+  labels:
+    helm.sh/chart: pgbouncer-0.0.1
+    app.kubernetes.io/name: pgbouncer
+    app.kubernetes.io/instance: argocd
+    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 3
+  serviceName: "default"
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pgbouncer
+      app.kubernetes.io/instance: argocd
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pgbouncer
+        app.kubernetes.io/instance: argocd
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: pgbouncer
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 70
+          image: "kubedb/pgbouncer:1.17.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: postgres
+              containerPort: 6432
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: postgres
+          readinessProbe:
+            tcpSocket:
+              port: postgres
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
