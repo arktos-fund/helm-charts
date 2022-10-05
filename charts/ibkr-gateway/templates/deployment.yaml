@@ -105,7 +105,7 @@ spec:
       volumes:
         - name: {{ include "ibkr-gateway.fullname" . }}-config
           secret:
-            secretName: ibkr-gateway
+            secretName: {{ .Values.gateway.config.credentials | default "credentials" }}
             items:
               - key: config.ini
                 path: config.ini

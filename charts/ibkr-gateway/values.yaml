@@ -19,12 +19,13 @@ gateway:
     # - name: VNC_SERVER_PASSWORD
     #   valueFrom:
     #     secretKeyRef:
-    #       name: ibkr-gateway
-    #       key: vnc-password
+    #       name: credentials
+    #       key: vnc
 
   debug: false
   config: 
-    IbkrCredentials: "ibkr-gateway"
+    # credentials: config.ini key
+    credentials: "credentials"
     proxy: false
     live: true
 
