@@ -1,5 +1,20 @@
 apiVersion: v1
 entries:
+  kube-downscaler:
+  - apiVersion: v1
+    appVersion: 0.5.1
+    created: "2022-10-05T20:42:10.008131128Z"
+    description: A Helm chart for kube-downscaler
+    digest: e9417e2abdd52ccd75b50832e8c0437e8c99570f543e064f847d26640f19a072
+    keywords:
+    - k8s pods scheduler
+    - scheduled lifecycle
+    name: kube-downscaler
+    sources:
+    - https://codeberg.org/hjacobs/kube-downscaler
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/kube-downscaler-0.1.0/kube-downscaler-0.1.0.tgz
+    version: 0.1.0
   microservice:
   - apiVersion: v2
     appVersion: v0.2.1
@@ -42,4 +57,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/pgbouncer-0.0.1/pgbouncer-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-29T22:06:02.161268016Z"
+generated: "2022-10-05T20:42:10.008266429Z"
