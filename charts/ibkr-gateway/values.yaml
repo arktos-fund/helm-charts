@@ -68,7 +68,7 @@ sidecars:
   containers:
     - name: data-worker-config
       image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-worker:0.0.1"
-      imagePullPolicy: Always
+      imagePullPolicy: IfNotPresent
       securityContext:
         capabilities:
           drop:
