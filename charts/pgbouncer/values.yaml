@@ -49,7 +49,7 @@ databases:
     auth_user: pgbouncer
 
 users: {}
-#  username: password
+  # username: password
 
 # the name of an existing secret containg your user list
 # data format is:
