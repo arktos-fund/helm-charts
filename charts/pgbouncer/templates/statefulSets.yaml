@@ -58,20 +58,6 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      volumes:
-        - name: userlist
-          secret:
-            {{- if not .Values.existingUsersSecret }}
-            secretName: pgbouncer-userlist
-            {{- else }}
-            secretName: {{ .Values.users.existingUsersSecret }}
-            {{- end }}
-            items:
-              - key: userlist.txt
-                path: userlist.txt
-        - name: config
-          configMap:
-            name: pgbouncer-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -84,3 +70,18 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  volumes:
+    - name: userlist
+      secret:
+        {{- if not .Values.existingUsersSecret }}
+        secretName: pgbouncer-userlist
+        {{- else }}
+        secretName: {{ .Values.users.existingUsersSecret }}
+        {{- end }}
+        items:
+          - key: userlist.txt
+            path: userlist.txt
+    - name: config
+      configMap:
+        name: pgbouncer-config
+
