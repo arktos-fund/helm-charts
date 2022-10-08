@@ -1,5 +1,5 @@
 {{ define "userlist.txt" }}
 {{- range $k, $v := .Values.users }}
-{{ $k | quote }} {{ $v | quote }}
+{{- $k | quote }} {{ $v | quote }}
 {{- end }}
 {{- end }}
