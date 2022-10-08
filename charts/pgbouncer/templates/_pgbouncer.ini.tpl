@@ -47,9 +47,7 @@ unix_socket_dir = var/run/postgresql
 ;;; Authentication settings
 
 auth_type = {{ .Values.settings.auth_type }}
-;auth_file = /8.0/main/global/pg_auth
-auth_file = /etc/pgbouncer.d/userlist.txt
-;auth_hba_file =
+auth_file = /etc/config/userlist.txt
 
 {{ .Values.settings.auth_query }}
 
