@@ -6,6 +6,8 @@ metadata:
     {{- include "microservice.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
+  selector:
+    {{- include "microservice.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.service.ports.http }}
       targetPort: http
@@ -15,5 +17,3 @@ spec:
       targetPort: grpc
       protocol: TCP
       name: grpc
-  selector:
-    {{- include "microservice.selectorLabels" . | nindent 4 }}

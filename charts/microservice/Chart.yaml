@@ -1,8 +1,8 @@
 apiVersion: v2
 appVersion: v0.2.1
-description: A Helm chart for Microservice for Kubernetes.
+description: A Helm chart Microservice for Kubernetes.
 name: microservice
-version: 0.0.4
+version: 0.1.0
 home: https://github.com/arktos-fund/helm-charts
 keywords:
   - arktos-fund
