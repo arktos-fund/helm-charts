@@ -80,6 +80,16 @@ entries:
   pgbouncer:
   - apiVersion: v2
     appVersion: 1.17.0
+    created: "2022-10-08T16:13:45.047132865Z"
+    description: A Helm chart PgBouncer for Kubernetes
+    digest: dcf37045d13c94a3067f1280ef3352c5634d6a0c320e01b9c27e62a428cdbfda
+    name: pgbouncer
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/pgbouncer-0.0.5/pgbouncer-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
+    appVersion: 1.17.0
     created: "2022-10-08T14:49:33.593625385Z"
     description: A Helm chart PgBouncer for Kubernetes
     digest: 6521506449dd3664e420d7795fa4ed4a4ed4553daef683387b4ece387ef7d236
@@ -118,4 +128,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/pgbouncer-0.0.1/pgbouncer-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-08T14:49:33.593646185Z"
+generated: "2022-10-08T16:13:45.047163765Z"
