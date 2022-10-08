@@ -13,7 +13,7 @@ image:
   repository: kubedb/pgbouncer
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "1.17.0"
 
 nameOverride: ""
 fullnameOverride: ""
