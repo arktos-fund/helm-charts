@@ -61,9 +61,9 @@ spec:
       volumes:
         - name: userlist
           secret:
-            secretName: {{ .Values.users.existingUsersSecret | default "pgbouncer-userlist" }}
+            secretName: {{ .Values.existingUsersSecret | default "pgbouncer-userlist" }}
             items:
-              - key: {{ .Values.users.existingUsersSecretKey | default "userlist.txt" }}
+              - key: {{ .Values.existingUsersSecretKey | default "userlist.txt" }}
                 path: userlist.txt
         - name: config
           configMap:
