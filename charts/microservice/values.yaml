@@ -78,6 +78,7 @@ volumes: []
   #     secretName: natscred
 
 config:
+  nats: false
   secret: {}
     # name: "config"
     # key: "microservice"
