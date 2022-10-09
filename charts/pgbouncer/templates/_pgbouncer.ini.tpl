@@ -58,6 +58,7 @@ stats_users = {{ $users }}, stats, root, monitor
 
 ;;; Pooler personality
 
+pool_mode = {{ .Values.poolMode | default "transaction" }}
 server_reset_query = DISCARD ALL
 ;server_reset_query_always = 0
 ;ignore_startup_parameters = extra_float_digits

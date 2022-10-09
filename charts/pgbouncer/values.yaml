@@ -90,6 +90,7 @@ connectionLimits:
   reservePoolSize: 25
   reservePoolTimeout: 5
 
+poolMode: "transaction"
 logConnections: 0
 logDisconnections: 0
 logStats: 0
