@@ -7,6 +7,9 @@ kind:  Mapping
 metadata:
   name: {{ $fullName }}-{{ .name }}
 spec:
+  {{- with .hostname }}
+  hostname: {{ . }}
+  {{- end }}
   prefix: {{ .prefix }}
   {{- with .method }}
   method: {{ . }}

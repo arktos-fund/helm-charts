@@ -55,6 +55,7 @@ service:
 ingress: []
   # - name: http
   #   method: GET
+  #   hostname: "api.test.com"
   #   prefix: /v1
   #   service: "Accounts.v1.accounts"
   #   timeout_ms: 4000
