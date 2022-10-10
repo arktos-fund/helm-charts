@@ -1,6 +1,7 @@
 {{- $fullName := include "microservice.fullname" . -}}
 {{- $dot := . -}}
 {{- range .Values.ingress }}
+---
 apiVersion: getambassador.io/v3alpha1
 kind:  Mapping
 metadata:
