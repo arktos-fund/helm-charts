@@ -1,59 +1,65 @@
+{{- $dot := . -}}
+{{- range $k, $v := .Values.schedule }}
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "cronjob.fullname" . }}
+  name: {{ include "cronjob.fullname" $dot }}-{{ $k | lower }}
   labels:
-    {{- include "cronjob.labels" . | nindent 4 }}
+    {{- include "cronjob.labels" $dot | nindent 4 }}
 spec:
-  schedule: {{ .Values.schedule }}
-  concurrencyPolicy: {{ .Values.concurrencyPolicy | default "Forbid" }}
-  successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit | default 1 }}
-  failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit | default 1 }}
-  startingDeadlineSeconds: {{ .Values.startingDeadlineSeconds | default 600 }}
+  schedule: {{ $v.cron }}
+  concurrencyPolicy: {{ $dot.Values.concurrencyPolicy | default "Forbid" }}
+  successfulJobsHistoryLimit: {{ $dot.Values.successfulJobsHistoryLimit | default 1 }}
+  failedJobsHistoryLimit: {{ $dot.Values.failedJobsHistoryLimit | default 1 }}
+  startingDeadlineSeconds: {{ $v.startingDeadlineSeconds | default 600 }}
   jobTemplate:
     spec:
       template:
         spec:
-          {{- with .Values.imagePullSecrets }}
+          {{- with $dot.Values.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          serviceAccountName: {{ include "cronjob.serviceAccountName" . }}
+          serviceAccountName: {{ include "cronjob.serviceAccountName" $dot }}
           securityContext:
-            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+            {{- toYaml $dot.Values.podSecurityContext | nindent 12 }}
           containers:
             - name: worker
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
-              {{- with .Values.env }}
+              image: "{{ $dot.Values.image.repository }}:{{ $dot.Values.image.tag | default $dot.Chart.AppVersion }}"
+              imagePullPolicy: {{ $dot.Values.image.pullPolicy }}
               env:
-                {{- toYaml . | nindent 12 }}
-              {{- end }}
+                - name: "EXCHANGE"
+                  value: {{ $k | quote }}
+                {{- with $dot.Values.env }}
+                  {{- toYaml . | nindent 16 }}
+                {{- end }}
               securityContext:
-                {{- toYaml .Values.securityContext | nindent 16 }}
+                {{- toYaml $dot.Values.securityContext | nindent 16 }}
               volumeMounts:
                 - name: config
                   readOnly: true
                   mountPath: /config/default.yaml
                   subPath: "default.yaml"
               resources:
-                {{- toYaml .Values.resources | nindent 16 }}
+                {{- toYaml $dot.Values.resources | nindent 16 }}
           volumes:
             - name: config
               secret:
-                secretName: {{ .Values.config.name | default "cronjobs" }}
+                secretName: {{ $dot.Values.config.name | default "cronjobs" }}
                 items:
-                  - key: {{ .Values.config.key | default "default.yaml" }}
+                  - key: {{ $dot.Values.config.key | default "default.yaml" }}
                     path: default.yaml
-          {{- with .Values.nodeSelector }}
+          {{- with $dot.Values.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.affinity }}
+          {{- with $dot.Values.affinity }}
           affinity:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.tolerations }}
+          {{- with $dot.Values.tolerations }}
           tolerations:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+{{- end }}

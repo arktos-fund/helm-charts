@@ -2,11 +2,18 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-schedule: "30 1-8 * * 2-6"
+
+schedule: {}
+  # PA:
+  #   cron: "30 1-8 * * 2-6"
+  #   startingDeadlineSeconds: 3600
+  # BR:
+  #   cron: "30 1-8 * * 2-6"
+  #   startingDeadlineSeconds: 3600
+
 concurrencyPolicy: Allow
 successfulJobsHistoryLimit: 1
 failedJobsHistoryLimit: 1
-startingDeadlineSeconds: 3600
 
 image:
   repository: rg.nl-ams.scw.cloud/arktos-fund/cronjob
@@ -34,6 +41,15 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
+
+env:
+  - name: DATABASE_DEBUG
+    value: "true"
+  # - name: API_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: eod-api
+  #       key: value
 
 config:
   secret:
