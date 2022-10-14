@@ -15,6 +15,7 @@ spec:
   startingDeadlineSeconds: {{ $v.startingDeadlineSeconds | default 600 }}
   jobTemplate:
     spec:
+      backoffLimit: {{ $dot.Values.backoffLimit | default 0 }}
       template:
         spec:
           {{- with $dot.Values.imagePullSecrets }}
@@ -24,6 +25,7 @@ spec:
           serviceAccountName: {{ include "cronjob.serviceAccountName" $dot }}
           securityContext:
             {{- toYaml $dot.Values.podSecurityContext | nindent 12 }}
+          restartPolicy: {{ $dot.Values.restartPolicy | default "Never" }}
           containers:
             - name: worker
               image: "{{ $dot.Values.image.repository }}:{{ $dot.Values.image.tag | default $dot.Chart.AppVersion }}"

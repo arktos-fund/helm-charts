@@ -14,6 +14,8 @@ schedule: {}
 concurrencyPolicy: Allow
 successfulJobsHistoryLimit: 1
 failedJobsHistoryLimit: 1
+restartPolicy: "Never"
+backoffLimit: 0
 
 image:
   repository: rg.nl-ams.scw.cloud/arktos-fund/cronjob
