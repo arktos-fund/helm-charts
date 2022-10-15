@@ -12,7 +12,16 @@ spec:
   host: {{ . }}
   {{- end }}
   prefix: {{ .prefix }}
-  rewrite: {{ .rewrite | default .prefix }}
+  {{- with .rewrite }}
+  rewrite: {{ . | default .prefix }}
+  {{- end }}
+  {{- with .regex_rewrite }}
+  regex_rewrite:
+    pattern: {{ .pattern | quote }}
+    {{- with .substitution }}
+    substitution: {{ . | quote }}
+    {{- end }}
+  {{- end }}
   {{- with .method }}
   method: {{ . }}
   {{- end }}
