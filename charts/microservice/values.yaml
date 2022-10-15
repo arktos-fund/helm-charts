@@ -58,7 +58,6 @@ ingress: []
   #   method: GET
   #   hostname: "api.test.com"
   #   prefix: /v1
-  #   service: "Accounts.v1.accounts"
   #   timeout_ms: 4000
   #   idle_timeout_ms: 500000
   #   connect_timeout_ms: 2000

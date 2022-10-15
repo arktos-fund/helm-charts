@@ -19,9 +19,5 @@ spec:
   timeout_ms: {{ .timeout_ms | default "4000"}}
   idle_timeout_ms: {{ .idle_timeout_ms | default "500000" }}
   connect_timeout_ms: {{ .connect_timeout_ms | default "2000" }}
-  {{- with .service }}
-  docs:
-    path: /q/service/{{ . }}
-  {{- end }}
 {{- end }}
 {{- end }}
