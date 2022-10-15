@@ -1,3 +1,4 @@
+{{- if eq .Values.mode "microservice" }}
 {{- if .Values.autoscaling.enabled }}
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
@@ -25,4 +26,5 @@ spec:
         name: cpu
         targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
+{{- end }}
 {{- end }}

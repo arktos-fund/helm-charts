@@ -1,5 +1,6 @@
 # Default values for microservice.
 
+mode: microservice
 replicaCount: 1
 
 image:
@@ -127,7 +128,7 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 70
-  targetMemoryUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 65
 
 nodeSelector:
   kubernetes.io/arch: amd64
