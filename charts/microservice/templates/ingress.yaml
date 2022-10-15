@@ -11,7 +11,8 @@ spec:
   {{- with .hostname }}
   host: {{ . }}
   {{- end }}
-  prefix: {{ .prefix }}
+  prefix: {{ required "prefix field is required" .prefix }}
+  prefix_regex: {{ .prefix_regex | default true }}
   {{- with .rewrite }}
   rewrite: {{ . | default .prefix }}
   {{- end }}

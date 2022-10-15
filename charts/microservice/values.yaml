@@ -53,11 +53,12 @@ service:
     http: 8000
     grpc: 11000
 
-ingress:
+ingress: []
   # - name: http
   #   method: GET
   #   hostname: "api.test.com"
   #   prefix: /v1
+  #   prefix_regex: true
   #   regex_rewrite:
   #     pattern: "/foo/([0-9]*)/list"
   #     # substitution:
