@@ -15,7 +15,7 @@ spec:
   {{- with .method }}
   method: {{ . }}
   {{- end }}
-  service: {{ $fullName }}:{{ $dot.Values.service.ports.http }}
+  service: {{ $fullName }}.{{ $dot.Release.Namespace }}:{{ $dot.Values.service.ports.http }}
   timeout_ms: {{ .timeout_ms | default "4000"}}
   idle_timeout_ms: {{ .idle_timeout_ms | default "500000" }}
   connect_timeout_ms: {{ .connect_timeout_ms | default "2000" }}
