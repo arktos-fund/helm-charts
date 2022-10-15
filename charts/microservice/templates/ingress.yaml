@@ -23,6 +23,14 @@ spec:
     substitution: {{ . | quote }}
     {{- end }}
   {{- end }}
+  {{- with .add_request_headers }}
+  add_request_headers:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .remove_response_headers }}
+  remove_response_headers:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   {{- with .method }}
   method: {{ . }}
   {{- end }}

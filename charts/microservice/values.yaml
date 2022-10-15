@@ -62,6 +62,8 @@ ingress: []
   #   regex_rewrite:
   #     pattern: "/foo/([0-9]*)/list"
   #     # substitution:
+  #   add_request_headers:
+  #     authorization: "Authorization Header for Bearer"
   #   timeout_ms: 4000
   #   idle_timeout_ms: 500000
   #   connect_timeout_ms: 2000
