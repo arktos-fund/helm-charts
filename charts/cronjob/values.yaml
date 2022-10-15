@@ -54,9 +54,9 @@ env:
   #       key: value
 
 config:
-  secret:
-    name: "config"
-    key: "microservice"
+  nats: false
+  name: "config"
+  key: "microservice"
 
 resources:
   limits:
