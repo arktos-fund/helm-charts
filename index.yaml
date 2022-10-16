@@ -90,6 +90,21 @@ entries:
   microservice:
   - apiVersion: v2
     appVersion: v0.2.1
+    created: "2022-10-16T12:04:41.68659392Z"
+    description: A Helm chart Microservice for Kubernetes.
+    digest: 0c5341006bea3ac24f34bff6785afcf4d6f8541d71342eafdf74b47457424a1e
+    home: https://github.com/arktos-fund/helm-charts
+    keywords:
+    - arktos-fund
+    - microservice
+    maintainers:
+    - name: perriea
+    name: microservice
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/microservice-0.2.3/microservice-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
+    appVersion: v0.2.1
     created: "2022-10-15T22:25:49.865574694Z"
     description: A Helm chart Microservice for Kubernetes.
     digest: e306a4e3b2ca45cba2cdce239639dc6a05cbb3d9883b0f6de3be8d73143da1c6
@@ -379,4 +394,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/pgbouncer-0.0.1/pgbouncer-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-15T22:25:49.865786595Z"
+generated: "2022-10-16T12:04:41.68673392Z"
