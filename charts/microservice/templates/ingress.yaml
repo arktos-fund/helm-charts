@@ -8,33 +8,6 @@ kind:  Mapping
 metadata:
   name: {{ $fullName }}-{{ .name }}
 spec:
-  host: {{ .hostname | default "*" }}
-  prefix: {{ .prefix | default "/" }}
-  prefix_regex: {{ .prefix_regex | default false }}
-  rewrite: {{ .rewrite | default .prefix }}
-  {{- with .regex_rewrite }}
-  regex_rewrite:
-    pattern: {{ .pattern | quote }}
-    {{- with .substitution }}
-    substitution: {{ . | quote }}
-    {{- end }}
-  {{- end }}
-  {{- with .add_request_headers }}
-  add_request_headers:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- with .remove_response_headers }}
-  remove_response_headers:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  method: {{ .method | default "GET" }}
-  service: {{ $fullName }}.{{ $dot.Release.Namespace }}:{{ $dot.Values.service.ports.http }}
-  timeout_ms: {{ .timeout_ms | default "4000"}}
-  idle_timeout_ms: {{ .idle_timeout_ms | default "500000" }}
-  connect_timeout_ms: {{ .connect_timeout_ms | default "2000" }}
-  {{- with .docs }}
-  docs:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
 {{- end }}
