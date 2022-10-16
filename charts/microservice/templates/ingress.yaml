@@ -9,5 +9,6 @@ metadata:
   name: {{ $fullName }}-{{ .name }}
 spec:
   {{- toYaml .values | nindent 2 }}
+  service: {{ $fullName }}.{{ $dot.Release.Namespace }}:8000
 {{- end }}
 {{- end }}
