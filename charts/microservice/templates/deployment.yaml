@@ -24,9 +24,9 @@ spec:
         {{- include "microservice.selectorLabels" . | nindent 8 }}
     spec:
       {{- if ne .Values.serviceAccount.create true }}
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.imagePullSecret }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: {{ . }}
       {{- end }}
       {{- end }}
       serviceAccountName: {{ include "microservice.serviceAccountName" . }}

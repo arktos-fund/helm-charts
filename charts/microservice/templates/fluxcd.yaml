@@ -1,0 +1,31 @@
+{{- if .Values.fluxcd.enabled }}
+{{- $parts := split "." .Values.image.tag }}
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: {{ include "microservice.fullname" . }}
+spec:
+  image: {{ .Values.image.repository }}
+  interval: {{ .Values.fluxcd.interval | default "30m" }}
+  timeout: {{ .Values.fluxcd.timeout | default "2m" }}
+  {{- with .Values.imagePullSecret }}
+  secretRef:
+    name: {{ . }}
+  {{- end }}
+  accessFrom:
+    namespaceSelectors:
+      - matchLabels:
+          kubernetes.io/metadata.name: {{ .Release.Namespace }}
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: {{ include "microservice.fullname" . }}
+spec:
+  imageRepositoryRef:
+    name: {{ .Values.image.repository }}
+    namespace: {{ .Release.Namespace }}
+  policy:
+    semver:
+      range: {{ .Values.fluxcd.semver | default (printf "%s.%s.x" $parts._0 $parts._1) }}
+{{- end }}
