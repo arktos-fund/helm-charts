@@ -23,7 +23,7 @@ metadata:
   name: {{ include "microservice.fullname" . }}
 spec:
   imageRepositoryRef:
-    name: {{ .Values.image.repository }}
+    name: {{ include "microservice.fullname" . }}
     namespace: {{ .Release.Namespace }}
   policy:
     semver:
