@@ -3,6 +3,16 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2022-10-21T18:27:26.166185784Z"
+    description: A Helm chart Cronjob for Kubernetes
+    digest: c3f4120e5b36659e3a686f82f385e131a350762fcf3aede8402ce6dc16db1fc1
+    name: cronjob
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/cronjob-0.1.1/cronjob-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2022-10-15T10:35:20.606166153Z"
     description: A Helm chart Cronjob for Kubernetes
     digest: 0ad416db62b2aadf99eaf8ea41d65095af4b859c567eb6210566474a5228e83f
@@ -464,4 +474,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/pgbouncer-0.0.1/pgbouncer-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-20T15:45:13.081251342Z"
+generated: "2022-10-21T18:27:26.166319189Z"
