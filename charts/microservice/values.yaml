@@ -18,6 +18,7 @@ serviceAccount:
   name: ""
 
 podAnnotations: {}
+  # downscaler/uptime: "Mon-Mon 00:00-12:00 UTC"
 
 podSecurityContext: {}
   # fsGroup: 1000
@@ -151,6 +152,8 @@ resources:
 
 autoscaling:
   enabled: true
+  annotations: {}
+    # downscaler/uptime: "Mon-Mon 00:00-12:00 UTC"
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 70
