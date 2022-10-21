@@ -18,9 +18,9 @@ spec:
       backoffLimit: {{ $dot.Values.backoffLimit | default 0 }}
       template:
         spec:
-          {{- with $dot.Values.imagePullSecrets }}
+          {{- with $dot.Values.imagePullSecret }}
           imagePullSecrets:
-            {{- toYaml . | nindent 12 }}
+            - name: {{ . }}
           {{- end }}
           serviceAccountName: {{ include "cronjob.serviceAccountName" $dot }}
           securityContext:

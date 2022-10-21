@@ -22,7 +22,7 @@ image:
   pullPolicy: IfNotPresent
   tag: "0.3.4"
 
-imagePullSecrets: []
+imagePullSecret: regcred 
 nameOverride: ""
 fullnameOverride: ""
 
