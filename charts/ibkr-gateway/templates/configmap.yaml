@@ -6,8 +6,9 @@ metadata:
     {{- include "ibkr-gateway.labels" . | nindent 4 }}
 data:
   ibgateway.vmoptions: |-
-    -Xmx{{ .Values.gateway.jvm.Xmx | default "768" }}m
-    -XX:+UseG1GC
+    -Xms{{ .Values.gateway.jvm.Xms | default "2G" }}
+    -Xmx{{ .Values.gateway.jvm.Xmx | default "2G" }}
+    -XX:+Use{{ .Values.gateway.jvm.GCollector | default "G1GC" }}
     -XX:MaxGCPauseMillis={{ .Values.gateway.jvm.XX.MaxGCPauseMillis | default "200" }}
     -XX:ParallelGCThreads={{ .Values.gateway.jvm.XX.ParallelGCThreads | default "20" }}
     -XX:ConcGCThreads={{ .Values.gateway.jvm.XX.ConcGCThreads | default "5" }}
