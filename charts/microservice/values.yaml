@@ -32,20 +32,14 @@ securityContext:
   runAsUser: 1000
 
 livenessProbe: {}
-  # httpGet:
-  #   path: /healthz
-  #   port: http
-  # failureThreshold: 3
-  # periodSeconds: 15
-  # timeoutSeconds: 5
+  # exec:
+  #   command: ["/bin/grpc_health_probe", "-addr=:5000"]
+  # initialDelaySeconds: 5
 
 readinessProbe: {}
-  # httpGet:
-  #   path: /healthz
-  #   port: http
-  # failureThreshold: 3
-  # periodSeconds: 10
-  # timeoutSeconds: 5
+  # exec:
+  #   command: ["/bin/grpc_health_probe", "-addr=:5000"]
+  # initialDelaySeconds: 5
 
 service:
   type: ClusterIP
@@ -163,6 +157,10 @@ nodeSelector:
   kubernetes.io/arch: amd64
   kubernetes.io/os: linux
 
-tolerations: []
+tolerations:
+  - key: "k8s.scaleway.com/pool-name"
+    operator: "Equal"
+    value: "default"
+    effect: "NoSchedule"
 
 affinity: {}
