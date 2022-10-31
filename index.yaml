@@ -3,6 +3,16 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2022-10-31T23:51:48.749058188Z"
+    description: A Helm chart Cronjob for Kubernetes
+    digest: 22eb01dab3d5d633a46915a259f4bcb87762ad5b06bb6f8775d0d0c2608b76d7
+    name: cronjob
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/cronjob-0.1.2/cronjob-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2022-10-21T18:27:26.166185784Z"
     description: A Helm chart Cronjob for Kubernetes
     digest: c3f4120e5b36659e3a686f82f385e131a350762fcf3aede8402ce6dc16db1fc1
@@ -52,6 +62,16 @@ entries:
     - https://github.com/arktos-fund/helm-charts/releases/download/cronjob-0.0.1/cronjob-0.0.1.tgz
     version: 0.0.1
   ibkr-gateway:
+  - apiVersion: v2
+    appVersion: 10.19.1f
+    created: "2022-10-31T23:51:48.903420661Z"
+    description: A Helm chart IBKR Gateway for Kubernetes
+    digest: 2236a504e15d6aae2017b6aa5666443775ee88d6897a8d7fbca05d42d5e54f90
+    name: ibkr-gateway
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/ibkr-gateway-0.1.8/ibkr-gateway-0.1.8.tgz
+    version: 0.1.8
   - apiVersion: v2
     appVersion: 10.19.1f
     created: "2022-10-31T20:29:43.249042258Z"
@@ -108,6 +128,23 @@ entries:
     - https://github.com/arktos-fund/helm-charts/releases/download/kube-downscaler-0.1.0/kube-downscaler-0.1.0.tgz
     version: 0.1.0
   microservice:
+  - apiVersion: v2
+    appVersion: v0.2.1
+    created: "2022-10-31T23:51:49.060811439Z"
+    description: A Helm chart Microservice for Kubernetes.
+    digest: eefb0d28a279834065a4025e3a44fefe469631134a83b81c6cc4ff00c96bbf75
+    home: https://github.com/arktos-fund/helm-charts
+    keywords:
+    - arktos-fund
+    - microservice
+    - fluxcd
+    - prometheus
+    maintainers:
+    - name: perriea
+    name: microservice
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/microservice-0.2.9/microservice-0.2.9.tgz
+    version: 0.2.9
   - apiVersion: v2
     appVersion: v0.2.1
     created: "2022-10-21T21:08:51.299681327Z"
@@ -413,6 +450,16 @@ entries:
   pgbouncer:
   - apiVersion: v2
     appVersion: 1.17.0
+    created: "2022-10-31T23:51:49.227865934Z"
+    description: A Helm chart PgBouncer for Kubernetes
+    digest: 890e6d217b714c6386f0bc33f0853222135b01b4b1e30995c924317ce57932c5
+    name: pgbouncer
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/pgbouncer-0.1.4/pgbouncer-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.17.0
     created: "2022-10-16T12:27:57.245770795Z"
     description: A Helm chart PgBouncer for Kubernetes
     digest: 918ca8814e3c0b5b1f91c31fb1614ef2a17bb3c9dabaf7eac77aa5f4e6d312df
@@ -501,4 +548,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/pgbouncer-0.0.1/pgbouncer-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-31T20:29:43.249225559Z"
+generated: "2022-10-31T23:51:49.228083234Z"
