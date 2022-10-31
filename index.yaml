@@ -53,6 +53,16 @@ entries:
     version: 0.0.1
   ibkr-gateway:
   - apiVersion: v2
+    appVersion: 10.19.1f
+    created: "2022-10-31T20:29:43.249042258Z"
+    description: A Helm chart IBKR Gateway for Kubernetes
+    digest: 666afb7e5f31455f2c37738d1867f2078bd601abdf76b8b7a0c48430b711f57c
+    name: ibkr-gateway
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/ibkr-gateway-0.1.7/ibkr-gateway-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
     appVersion: 10.18.1e
     created: "2022-10-07T19:40:10.399198674Z"
     description: A Helm chart IBKR Gateway for Kubernetes
@@ -491,4 +501,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/pgbouncer-0.0.1/pgbouncer-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-21T21:08:51.299908021Z"
+generated: "2022-10-31T20:29:43.249225559Z"
