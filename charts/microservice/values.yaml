@@ -156,11 +156,8 @@ autoscaling:
 nodeSelector:
   kubernetes.io/arch: amd64
   kubernetes.io/os: linux
+  k8s.scaleway.com/pool-name: default
 
-tolerations:
-  - key: "k8s.scaleway.com/pool-name"
-    operator: "Equal"
-    value: "default"
-    effect: "NoSchedule"
+tolerations: []
 
 affinity: {}

@@ -92,11 +92,8 @@ sidecars:
 nodeSelector:
   kubernetes.io/arch: amd64
   kubernetes.io/os: linux
+  k8s.scaleway.com/pool-name: ib-gateway
 
-tolerations:
-  - key: "k8s.scaleway.com/pool-name"
-    operator: "Equal"
-    value: "ib-gateway"
-    effect: "NoSchedule"
+tolerations: []
 
 affinity: {}
