@@ -15,7 +15,7 @@ spec:
   startingDeadlineSeconds: {{ $v.startingDeadlineSeconds | default 600 }}
   jobTemplate:
     spec:
-      backoffLimit: {{ $dot.Values.backoffLimit | default 0 }}
+      backoffLimit: {{ $dot.Values.backoffLimit | default 3 }}
       template:
         spec:
           {{- with $dot.Values.imagePullSecret }}
