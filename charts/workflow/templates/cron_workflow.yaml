@@ -1,0 +1,31 @@
+{{- $dot := . -}}
+{{- range $k, $v := .Values.schedule }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: {{ include "workflow.fullname" $dot }}-{{ $k | lower }}
+  labels:
+    {{- include "workflow.labels" $dot | nindent 4 }}
+spec:
+  schedule: {{ $v.cron | quote }}
+  timezone: {{ $v.timezone | default "Europe/London" }}
+  concurrencyPolicy: {{ $dot.Values.concurrencyPolicy | default "Forbid" }}
+  successfulJobsHistoryLimit: {{ $dot.Values.successfulJobsHistoryLimit | default 1 }}
+  failedJobsHistoryLimit: {{ $dot.Values.failedJobsHistoryLimit | default 1 }}
+  startingDeadlineSeconds: {{ $v.startingDeadlineSeconds | default 600 }}
+  serviceAccountName: {{ include "workflow.serviceAccountName" $dot }}
+  workflowSpec:
+    entrypoint: main
+    {{ if not $dot.Values.serviceAccount.create -}}
+    imagePullSecrets:
+      - name: {{ $dot.Values.imagePullSecret }}
+    {{ end }}
+    arguments:
+      parameters:
+        - name: exchange
+          value: {{ $k | quote }}
+    workflowTemplateRef:
+      name: {{ include "workflow.fullname" $dot }}-template
+      clusterScope: false
+{{- end }}

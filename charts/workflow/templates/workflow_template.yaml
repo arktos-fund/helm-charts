@@ -1,0 +1,8 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: {{ include "workflow.fullname" . }}-template
+spec:
+  serviceAccountName: {{ include "workflow.serviceAccountName" . }}
+  templates:
+    {{- toYaml .Values.templates | nindent 4 }}
