@@ -84,10 +84,10 @@ settings:
   auth_query: "auth_query = SELECT * FROM pgbouncer.get_auth($1)"
 
 connectionLimits:
-  maxClientConn: 200
-  defaultPoolSize: 200
-  minPoolSize: 15
-  reservePoolSize: 25
+  maxClientConn: 250
+  defaultPoolSize: 3
+  minPoolSize: 0
+  reservePoolSize: 19
   reservePoolTimeout: 5
 
 poolMode: "transaction"

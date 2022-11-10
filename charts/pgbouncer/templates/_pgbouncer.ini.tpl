@@ -63,7 +63,7 @@ server_reset_query = DISCARD ALL
 ;server_reset_query_always = 0
 ;ignore_startup_parameters = extra_float_digits
 ;server_check_query = select 1
-;server_check_delay = 30
+server_check_delay = {{ .Values.serverCheckDelay | default 10 }}
 ;application_name_add_host = 0
 
 ;;; Connection limits
