@@ -507,6 +507,16 @@ entries:
   pgbouncer:
   - apiVersion: v2
     appVersion: 1.17.0
+    created: "2022-11-10T22:21:06.690216936Z"
+    description: A Helm chart PgBouncer for Kubernetes
+    digest: d844c5da897a90ffb8ee512c5de4c0fb054f9ac8064e046741db46590767dd96
+    name: pgbouncer
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/pgbouncer-0.1.6/pgbouncer-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 1.17.0
     created: "2022-11-01T00:59:02.92091778Z"
     description: A Helm chart PgBouncer for Kubernetes
     digest: 0ae9f3c31f12c0ecb242e32cb8e0de2e663b36d19143911abb9f72e98fd23c73
@@ -626,4 +636,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2022-11-08T21:05:47.07310176Z"
+generated: "2022-11-10T22:21:06.690431859Z"
