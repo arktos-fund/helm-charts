@@ -628,6 +628,16 @@ entries:
   workflow:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-11-11T12:27:23.518043704Z"
+    description: A Helm chart for Kubernetes Workflows
+    digest: 0be2de9a37fe64339ffafe9ad041aeda17c8600837d8413b90930a5a12bcbd2d
+    name: workflow
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-11-08T21:05:47.072428356Z"
     description: A Helm chart for Kubernetes Workflows
     digest: d651e17c673c15d1fae2777f8c812ffc7bce5252aa7c061ff18edf1b37aa157d
@@ -636,4 +646,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2022-11-10T22:21:06.690431859Z"
+generated: "2022-11-11T12:27:23.518119304Z"
