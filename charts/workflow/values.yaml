@@ -4,10 +4,10 @@
 
 schedule: {}
   # PA:
-  #   cron: "30 1-8 * * 2-6"
+  #   cron: "15 18 * * 1-5"
   #   startingDeadlineSeconds: 600
   # BR:
-  #   cron: "30 1-8 * * 2-6"
+  #   cron: "15 18 * * 1-5"
   #   startingDeadlineSeconds: 600
 
 timezone: Europe/Paris
@@ -27,19 +27,27 @@ serviceAccount:
   name: ""
 
 # First Job must have main name
-templates: {}
+templates:
   # - name: splits-template
   #   container:
-  #     image: rg.nl-ams.scw.cloud/arktos-fund/worker-instrument-splits:1.0.2
+  #     image: rg.nl-ams.scw.cloud/arktos-fund/worker-split-update:0.3.0
   #     pullPolicy: IfNotPresent
+  #     command: ["/bin/go"]
+  #     args: ["/config/default.yaml"]
   #     env:
   #       - name: "EXCHANGE"
   #         value: "{{workflow.parameters.exchange}}"
+  #       - name: DATABASE_DEBUG
+  #         value: "true"
   #     volumeMounts:
-  #       - name: splits
+  #       - name: splits-config
   #         readOnly: true
   #         mountPath: /config/default.yaml
   #         subPath: "default.yaml"
+  #       - name: nats
+  #         readOnly: true
+  #         mountPath: microservices.creds
+  #         subPath: microservices.creds
   #     resources:
   #       limits:
   #         cpu: 30m
@@ -47,99 +55,24 @@ templates: {}
   #       requests:
   #         cpu: 30m
   #         memory: 72Mi
-  # - name: quotes-template
-  #   container:
-  #     image: rg.nl-ams.scw.cloud/arktos-fund/worker-instrument-quotes:1.0.2
-  #     pullPolicy: IfNotPresent
-  #     env:
-  #       - name: "EXCHANGE"
-  #         value: "{{workflow.parameters.exchange}}"
-  #     volumeMounts:
-  #       - name: quotes
-  #         readOnly: true
-  #         mountPath: /config/default.yaml
-  #         subPath: "default.yaml"
-  #     resources:
-  #       limits:
-  #         cpu: 30m
-  #         memory: 72Mi
-  #       requests:
-  #         cpu: 30m
-  #         memory: 72Mi
-  # - name: dividends-template
-  #   container:
-  #     image: rg.nl-ams.scw.cloud/arktos-fund/worker-instrument-dividends:1.0.2
-  #     pullPolicy: IfNotPresent
-  #     env:
-  #       - name: "EXCHANGE"
-  #         value: "{{workflow.parameters.exchange}}"
-  #     volumeMounts:
-  #       - name: dividends
-  #         readOnly: true
-  #         mountPath: /config/default.yaml
-  #         subPath: "default.yaml"
-  #     resources:
-  #       limits:
-  #         cpu: 30m
-  #         memory: 72Mi
-  #       requests:
-  #         cpu: 30m
-  #         memory: 72Mi
-  # - name: stats-template
-  #   container:
-  #     image: rg.nl-ams.scw.cloud/arktos-fund/worker-instrument-stats:1.0.2
-  #     pullPolicy: IfNotPresent
-  #     env:
-  #       - name: "EXCHANGE"
-  #         value: "{{workflow.parameters.exchange}}"
-  #     volumeMounts:
-  #       - name: stats
-  #         readOnly: true
-  #         mountPath: /config/default.yaml
-  #         subPath: "default.yaml"
-  #     resources:
-  #       limits:
-  #         cpu: 100m
-  #         memory: 72Mi
-  #       requests:
-  #         cpu: 100m
-  #         memory: 72Mi
-  # - name: meilisearch-template
-  #   container:
-  #     image: rg.nl-ams.scw.cloud/arktos-fund/worker-instrument-meilisearch:1.0.2
-  #     pullPolicy: IfNotPresent
-  #     env:
-  #       - name: "EXCHANGE"
-  #         value: "{{workflow.parameters.exchange}}"
-  #     volumeMounts:
-  #       - name: meilisearch
-  #         readOnly: true
-  #         mountPath: /config/default.yaml
-  #         subPath: "default.yaml"
-  #     resources:
-  #       limits:
-  #         cpu: 20m
-  #         memory: 56Mi
-  #       requests:
-  #         cpu: 20m
-  #         memory: 56Mi
+  #   volumes:
+  #     - name: splits-config
+  #       secret:
+  #         secretName: workers
+  #         items:
+  #           - key: splits
+  #             path: default.yaml
+  #     - name: nats
+  #       secret:
+  #         secretName: "natscred"
+  #         items:
+  #           - key: microservices.creds
+  #             path: microservices.creds
   # - name: main
   #   dag:
   #     tasks:
   #       - name: splits
   #         template: splits-template
-  #       - name: quotes
-  #         depends: "splits"
-  #         template: quotes-template
-  #       - name: dividends
-  #         depends: "splits"
-  #         template: dividends-template
-  #       - name: stats
-  #         depends: "quotes && dividends"
-  #         template: stats-template
-  #       - name: meilisearch
-  #         depends: "stats"
-  #         template: meilisearch-template
 
 securityContext:
   capabilities:
@@ -148,53 +81,6 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
-
-env:
-  - name: DATABASE_DEBUG
-    value: "true"
-  # - name: API_KEY
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: eod-api
-  #       key: value
-
-volumes: {}
-  # - name: splits-config
-  #   secret:
-  #     secretName: microservices
-  #     items:
-  #       - key: splits
-  #         path: default.yaml
-  # - name: quotes-config
-  #   secret:
-  #     secretName: microservices
-  #     items:
-  #       - key: quotes
-  #         path: default.yaml
-  # - name: dividends-config
-  #   secret:
-  #     secretName: microservices
-  #     items:
-  #       - key: dividends
-  #         path: default.yaml
-  # - name: stats-config
-  #   secret:
-  #     secretName: microservices
-  #     items:
-  #       - key: stats
-  #         path: default.yaml
-  # - name: meilisearch-config
-  #   secret:
-  #     secretName: microservices
-  #     items:
-  #       - key: meilisearch
-  #         path: default.yaml
-  # - name: nats
-  #   secret:
-  #     secretName: "natscred"
-  #     items:
-  #       - key: microservices.creds
-  #         path: microservices.creds
 
 nodeSelector:
   kubernetes.io/arch: amd64

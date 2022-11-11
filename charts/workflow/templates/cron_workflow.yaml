@@ -17,10 +17,16 @@ spec:
   serviceAccountName: {{ include "workflow.serviceAccountName" $dot }}
   workflowSpec:
     entrypoint: main
-    {{ if not $dot.Values.serviceAccount.create -}}
+    {{- if not $dot.Values.serviceAccount.create }}
     imagePullSecrets:
       - name: {{ $dot.Values.imagePullSecret }}
-    {{ end }}
+    {{- end }}
+    {{- with $dot.Values.securityContext }}      
+    securityContext:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    podGC:
+      strategy: OnWorkflowSuccess
     arguments:
       parameters:
         - name: exchange
