@@ -16,6 +16,7 @@ successfulJobsHistoryLimit: 1
 failedJobsHistoryLimit: 1
 restartPolicy: "Never"
 backoffLimit: 3
+podGC: OnWorkflowSuccess
 
 imagePullSecret: regcred 
 nameOverride: ""
