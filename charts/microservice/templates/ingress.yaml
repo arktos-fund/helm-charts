@@ -3,7 +3,7 @@
 {{- if eq .Values.mode "microservice" }}
 {{- range .Values.ingress }}
 ---
-apiVersion: getambassador.io/v3alpha1
+apiVersion: getambassador.io/v2
 kind:  Mapping
 metadata:
   name: {{ $fullName }}-{{ .name }}
