@@ -25,6 +25,7 @@ spec:
     serviceName: {{ $fullName }}
     serviceNamespace: {{ .Release.Namespace }}
     servicePort: {{ .Values.service.ports.http }}
+    {{- if .Values.upstream.rest }}
     serviceSpec:
       rest:
         swaggerInfo:
@@ -32,4 +33,5 @@ spec:
         {{- with .Values.upstream.rest.extra }}
           {{- toYaml . | nindent 4 }}
         {{- end }}
+    {{- end }}
 {{- end }}
