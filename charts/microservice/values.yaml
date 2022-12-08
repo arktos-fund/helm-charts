@@ -48,6 +48,7 @@ service:
     grpc: 11000
 
 # Upstream: https://docs.solo.io/gloo-edge/latest/introduction/architecture/concepts/
+# Routes: https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gateway/api/v1/route_table.proto.sk/#routetable
 upstream:
   enabled: false
   useHttp2: true
@@ -58,6 +59,27 @@ upstream:
   rest:
     swagger: indexes.v1.Indexes
     extra: {}
+  routes:
+    - name: indexes
+      path: /v1/indexes
+      type: prefix
+      methods:
+        - GET
+      headers:
+        - name: "Content-Type"
+          value: "application/json"
+        - name: "Autorization"
+        - name: "X-Account"
+      options:
+        cors:
+          allowOrigin:
+            - console.arktos.fund
+          allowMethods:
+            - GET
+          allowHeaders:
+            - Content-Type
+            - Autorization
+            - X-Account
 
 env: []
   # - name: TSDB
