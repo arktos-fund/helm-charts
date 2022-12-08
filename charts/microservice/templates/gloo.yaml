@@ -1,6 +1,7 @@
 {{- if eq .Values.mode "microservice" .Values.upstream  }}
 {{- if .Values.upstream.enabled  }}
 {{- $fullName := include "microservice.fullname" . -}}
+{{- $dot := . -}}
 ---
 apiVersion: gloo.solo.io/v1
 kind: Upstream
@@ -35,5 +36,40 @@ spec:
           {{- toYaml . | nindent 4 }}
         {{- end }}
     {{- end }}
+---
+apiVersion: gateway.solo.io/v1
+kind: RouteTable
+metadata:
+  name: {{ $fullName }}
+spec:
+  routes:
+  {{- range $k, $v := .Values.upstream.routes }}
+    - name: {{ $v.name }}
+      {{- with $v.options }}
+      options:
+        cors:
+          {{- toYaml $v.options.cors | nindent 10 }}
+        timeout: {{ $v.options.timeout | default "3s" | quote }}
+      {{- end }}
+      matchers:
+        - {{ $v.type }}: {{ $v.path | quote }}
+          {{- with $v.methods }}
+          methods:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $v.headers }}
+          headers:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $v.queryParameters }}
+          queryParameters:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      routeAction:
+        single:
+          upstream:
+            name: {{ $fullName }}
+            namespace: {{ $dot.Release.Namespace }}
+  {{- end }}
 {{- end }}
 {{- end }}
