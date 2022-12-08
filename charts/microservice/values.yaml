@@ -47,37 +47,16 @@ service:
     http: 8000
     grpc: 11000
 
-# Mapping: https://www.getambassador.io/docs/emissary/latest/topics/using/intro-mappings/
-# Regex: https://www.getambassador.io/docs/emissary/latest/topics/using/prefix_regex/
-# Cors: https://www.getambassador.io/docs/emissary/latest/topics/using/cors/
-# Headers: https://www.getambassador.io/docs/emissary/latest/topics/using/headers/headers/
-ingress: []
-  # - name: "string"
-  #   values:
-  #     method: GET
-  #     hostname: "api.test.com"
-  #     prefix: /v1
-  #     prefix_regex: true
-  #     regex_rewrite:
-  #       pattern: "/foo/([0-9]*)/list"
-  #       # substitution: "string" 
-  #     add_request_headers:
-  #       authorization: "Authorization Header for Bearer"
-  #     timeout_ms: 4000
-  #     idle_timeout_ms: 500000
-  #     connect_timeout_ms: 2000
-  #     cors:
-  #       origins: http://foo.example,http://bar.example
-  #       methods: POST, GET, OPTIONS
-  #       headers: Content-Type
-  #       credentials: true
-  #       exposed_headers: X-Custom-Header
-  #       max_age: "86400"
-  #     docs:
-  #       path: "string"
-  #       url: "string"
-  #       ignored: false
-  #       display_name: "string"
+# Upstream: https://docs.solo.io/gloo-edge/latest/introduction/architecture/concepts/
+upstream:
+  useHttp2: true
+  loadBalancerConfig: {}
+  healthChecks:
+    enabled: true
+    interval: 5s
+  rest:
+    swagger: indexes.v1.Indexes
+    extra: {}
 
 env: []
   # - name: TSDB
