@@ -51,6 +51,9 @@ service:
 upstream:
   useHttp2: true
   loadBalancerConfig: {}
+  healthChecks:
+    enabled: true
+    interval: 5s
   rest:
     swagger: indexes.v1.Indexes
     extra: {}

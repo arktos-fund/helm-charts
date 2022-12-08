@@ -6,9 +6,19 @@ kind: Upstream
 metadata:
   name: {{ $fullName }}
 spec:
-  discoveryMetadata: {}
   useHttp2: {{ .Values.upstream.useHttp2 | default true }}
-  loadBalancerConfig: {}
+  {{- with .Values.upstream.loadBalancerConfig }}
+  loadBalancerConfig:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.upstream.healthChecks.enabled }}
+  healthChecks:
+    - grpcHealthCheck:
+        serviceName: grpc.health.v1.HealthCheckRequest
+      interval: {{ .Values.upstream.healthChecks.interval | default "5s" }}
+      healthyThreshold: {{ .Values.upstream.healthChecks.healthyThreshold | default 3 }}
+      unhealthyThreshold: {{ .Values.upstream.healthChecks.unhealthyThreshold | default 3 }}
+  {{- end }}
   kube:
     selector:
       {{- include "microservice.selectorLabels" . | nindent 6 }}
