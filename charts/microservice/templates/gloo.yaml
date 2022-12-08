@@ -47,9 +47,7 @@ spec:
     - name: {{ $v.name }}
       {{- with $v.options }}
       options:
-        cors:
-          {{- toYaml $v.options.cors | nindent 10 }}
-        timeout: {{ $v.options.timeout | default "3s" | quote }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       matchers:
         - {{ $v.type }}: {{ $v.path | quote }}
