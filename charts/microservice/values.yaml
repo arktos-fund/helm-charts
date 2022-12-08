@@ -49,6 +49,7 @@ service:
 
 # Upstream: https://docs.solo.io/gloo-edge/latest/introduction/architecture/concepts/
 upstream:
+  enabled: false
   useHttp2: true
   loadBalancerConfig: {}
   healthChecks:
