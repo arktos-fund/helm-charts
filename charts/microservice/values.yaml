@@ -71,6 +71,11 @@ upstream:
         - name: "Autorization"
         - name: "X-Account"
       options:
+        prefixRewrite: /v1/indexes
+        retries:
+          numRetries: 3
+          perTryTimeout: 5s
+          retryOn: connect-failure
         cors:
           allowOrigin:
             - console.arktos.fund
