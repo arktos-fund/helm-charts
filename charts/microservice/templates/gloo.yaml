@@ -8,7 +8,7 @@ kind: Upstream
 metadata:
   name: {{ $fullName }}
 spec:
-  useHttp2: {{ .Values.upstream.useHttp2 | default true }}
+  useHttp2: {{ .Values.upstream.useHttp2 }}
   {{- with .Values.upstream.loadBalancerConfig }}
   loadBalancerConfig:
     {{- toYaml . | nindent 4 }}

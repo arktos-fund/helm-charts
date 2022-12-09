@@ -51,11 +51,12 @@ service:
 # Routes: https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gateway/api/v1/route_table.proto.sk/#routetable
 upstream:
   enabled: false
-  useHttp2: true
+  useHttp2: false
   loadBalancerConfig: {}
   healthChecks:
-    enabled: true
-    interval: 5s
+    enabled: false
+    interval: 10s
+    timeout: 5s
   rest:
     swagger: indexes.v1.Indexes
     extra: {}
