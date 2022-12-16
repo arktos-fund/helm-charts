@@ -76,11 +76,6 @@ spec:
             - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
               mountPath: /home/trader/Jts/ibgateway/{{ include "ibkr-gateway.version" . }}/ibgateway.vmoptions
               subPath: ibgateway.vmoptions
-            {{- if .Values.gateway.config.proxy }}
-            - name: {{ include "ibkr-gateway.fullname" . }}-proxy
-              mountPath: /home/trader/proxy.yaml
-              subPath: proxy.yaml
-            {{- end }}
           resources:
             {{- toYaml .Values.gateway.resources | nindent 12 }}
         {{- range .Values.sidecars.containers }}
@@ -113,6 +108,9 @@ spec:
             items:
               - key: config.ini
                 path: config.ini
+        - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
+          configMap:
+            name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
         - name: nats-config
           secret:
             secretName: natscred
@@ -123,14 +121,6 @@ spec:
             items:
               - key: {{ .name }}
                 path: config.yaml
-        {{- end }}
-        - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
-          configMap:
-            name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
-        {{- if .Values.gateway.config.proxy }}
-        - name: {{ include "ibkr-gateway.fullname" . }}-proxy
-          configMap:
-            name: {{ include "ibkr-gateway.fullname" . }}-proxy
         {{- end }}
         {{- with .Values.sidecars.volumes }}
           {{- toYaml . | nindent 8 }}

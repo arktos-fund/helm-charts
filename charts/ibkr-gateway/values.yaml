@@ -26,7 +26,6 @@ gateway:
   config: 
     # credentials: config.ini key
     credentials: "credentials"
-    proxy: false
     live: true
 
   podAnnotations: {}
