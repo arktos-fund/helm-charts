@@ -8,7 +8,7 @@ metadata:
   labels:
     {{- include "cronjob.labels" $dot | nindent 4 }}
 spec:
-  schedule: {{ $v.cron }}
+  schedule: {{ $v.cron | quote }}
   concurrencyPolicy: {{ $dot.Values.concurrencyPolicy | default "Forbid" }}
   successfulJobsHistoryLimit: {{ $dot.Values.successfulJobsHistoryLimit | default 1 }}
   failedJobsHistoryLimit: {{ $dot.Values.failedJobsHistoryLimit | default 1 }}
