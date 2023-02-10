@@ -26,6 +26,9 @@ serviceAccount:
   create: true
   annotations: {}
   name: ""
+  # https://argoproj.github.io/argo-workflows/workflow-rbac/
+  # "executor" role must be created before
+  extendedRole: false
 
 # First Job must have main name
 templates:
