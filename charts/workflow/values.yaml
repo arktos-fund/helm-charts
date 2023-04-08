@@ -1,7 +1,4 @@
-# Default values for workflow.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
+# -- schedule for workflow
 schedule: {}
   # PA:
   #   cron: "15 18 * * 1-5"
@@ -10,18 +7,29 @@ schedule: {}
   #   cron: "15 18 * * 1-5"
   #   startingDeadlineSeconds: 600
 
+# -- timezone is the timezone to use for the schedule
 timezone: Europe/Paris
+# -- concurrencyPolicy is the policy for handling concurrent jobs
 concurrencyPolicy: Forbid
+# -- successfulJobsHistoryLimit is the number of successful jobs to keep
 successfulJobsHistoryLimit: 1
+# -- failedJobsHistoryLimit is the number of failed jobs to keep
 failedJobsHistoryLimit: 1
+# -- restartPolicy is the policy for handling job failures
 restartPolicy: "Never"
+# -- backoffLimit is the number of retries before considering the job failed
 backoffLimit: 3
+# -- podGC is the policy for handling pod garbage collection
 podGC: OnWorkflowSuccess
 
+# -- imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this Chart.
 imagePullSecret: regcred 
+# -- nameOverride is an optional string to substitute for the full names of resources
 nameOverride: ""
+# -- fullnameOverride is an optional string to substitute for the full names of resources
 fullnameOverride: ""
 
+# -- serviceAccount configuration
 serviceAccount:
   create: true
   annotations: {}
@@ -30,7 +38,7 @@ serviceAccount:
   # "executor" role must be created before
   extendedRole: false
 
-# First Job must have main name
+# -- templates is a list of templates to run
 templates:
   # - name: splits-template
   #   container:
@@ -78,6 +86,7 @@ templates:
   #       - name: splits
   #         template: splits-template
 
+# -- securityContext is an optional security context to add to the container
 securityContext:
   capabilities:
     drop:
@@ -87,10 +96,18 @@ securityContext:
   runAsUser: 1000
 
 nodeSelector:
-  kubernetes.io/arch: amd64
   kubernetes.io/os: linux
-  k8s.scaleway.com/pool-name: default
 
+# -- tolerations is an optional list of tolerations to add to the container
 tolerations: []
 
-affinity: {}
+# -- affinity is an optional affinity to add to the container
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/arch
+            operator: In
+            values:
+              - arm64

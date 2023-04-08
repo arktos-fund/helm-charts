@@ -1,8 +1,4 @@
-# Default values for cronjob.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-
+# -- schedule is a list of cron schedules to run the job
 schedule: {}
   # PA:
   #   cron: "30 1-8 * * 2-6"
@@ -11,31 +7,49 @@ schedule: {}
   #   cron: "30 1-8 * * 2-6"
   #   startingDeadlineSeconds: 3600
 
+# -- concurrencyPolicy is the policy for handling concurrent jobs
 concurrencyPolicy: Forbid
+# -- successfulJobsHistoryLimit is the number of successful jobs to keep
 successfulJobsHistoryLimit: 1
+# -- failedJobsHistoryLimit is the number of failed jobs to keep
 failedJobsHistoryLimit: 1
+# -- restartPolicy is the policy for handling job failures
 restartPolicy: "Never"
+# -- backoffLimit is the number of retries before considering the job failed
 backoffLimit: 3
 
+# -- image is the image to use for the job
 image:
+  # -- The image repository
   repository: rg.nl-ams.scw.cloud/arktos-fund/cronjob
+  # -- The image pull policy
   pullPolicy: IfNotPresent
+  # -- The image tag
   tag: "0.3.4"
 
-imagePullSecret: regcred 
+# -- imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this Chart.
+imagePullSecret: regcred
+# -- nameOverride is an optional string to substitute for the full names of resources
 nameOverride: ""
+# -- fullnameOverride is an optional string to substitute for the full names of resources
 fullnameOverride: ""
 
+# -- serviceAccount configuration
 serviceAccount:
+  # -- Specifies whether a ServiceAccount should be created
   create: true
+  # -- Annotations to add to the ServiceAccount
   annotations: {}
+  # -- The name of the ServiceAccount to use.
   name: ""
 
+# -- podAnnotations is an optional list of annotations to add to the pod
 podAnnotations: {}
-
+# -- podSecurityContext is an optional security context to add to the pod
 podSecurityContext: {}
   # fsGroup: 2000
 
+# -- securityContext is an optional security context to add to the container
 securityContext:
   capabilities:
     drop:
@@ -44,6 +58,7 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 1000
 
+# -- env is a list of environment variables to set in the container.
 env:
   - name: DATABASE_DEBUG
     value: "true"
@@ -53,11 +68,13 @@ env:
   #       name: eod-api
   #       key: value
 
+# -- config is a list of parameters to pass to the job
 config:
   nats: false
   name: "config"
   key: "microservice"
 
+# -- resources is an optional list of resources to set for the container
 resources:
   limits:
     cpu: 100m
@@ -66,11 +83,20 @@ resources:
     cpu: 100m
     memory: 128Mi
 
+# -- nodeSelector is an optional list of node labels for pod assignment
 nodeSelector:
-  kubernetes.io/arch: amd64
   kubernetes.io/os: linux
-  k8s.scaleway.com/pool-name: default
 
+# -- tolerations is an optional list of node taints to tolerate
 tolerations: []
 
-affinity: {}
+# -- affinity is an optional list of node affinities for pod assignment
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/arch
+            operator: In
+            values:
+              - arm64
