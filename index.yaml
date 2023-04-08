@@ -3,6 +3,16 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2023-04-08T16:09:28.501346834Z"
+    description: A Helm chart Cronjob for Kubernetes
+    digest: 6a7b1ed162199db274fe67a542d72b8a34fedd0bf700173fe276e2a585db2ada
+    name: cronjob
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/cronjob-0.1.7/cronjob-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2022-12-18T00:20:58.546234682Z"
     description: A Helm chart Cronjob for Kubernetes
     digest: d1c0522b247ceccbfd97b930929bf3e0eed8584b1d20fd3ea8d0623d9112ce61
@@ -103,6 +113,16 @@ entries:
     version: 0.0.1
   ibkr-gateway:
   - apiVersion: v2
+    appVersion: 10.19.1k
+    created: "2023-04-08T16:09:28.646181914Z"
+    description: A Helm chart IBKR Gateway for Kubernetes
+    digest: 6de1b1a6bd81d9b0cbd5dbfcd6d512b7715fb0605a204b6e5ff12e132b9f59f1
+    name: ibkr-gateway
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/ibkr-gateway-0.2.1/ibkr-gateway-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
     appVersion: 10.19.1i
     created: "2022-12-16T16:59:10.897005911Z"
     description: A Helm chart IBKR Gateway for Kubernetes
@@ -188,6 +208,24 @@ entries:
     - https://github.com/arktos-fund/helm-charts/releases/download/kube-downscaler-0.1.0/kube-downscaler-0.1.0.tgz
     version: 0.1.0
   microservice:
+  - apiVersion: v2
+    appVersion: v0.2.1
+    created: "2023-04-08T16:09:28.776236467Z"
+    description: A Helm chart Microservice for Kubernetes.
+    digest: 124025885567fd723e966f37140c6244174bacc45f4f01a4ea6aa93e4267e697
+    home: https://github.com/arktos-fund/helm-charts
+    keywords:
+    - arktos-fund
+    - microservice
+    - fluxcd
+    - prometheus
+    - gloo
+    maintainers:
+    - name: perriea
+    name: microservice
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/microservice-0.3.12/microservice-0.3.12.tgz
+    version: 0.3.12
   - apiVersion: v2
     appVersion: v0.2.1
     created: "2023-02-23T14:36:24.713706581Z"
@@ -845,6 +883,16 @@ entries:
   workflow:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-04-08T16:09:28.905120526Z"
+    description: A Helm chart for Kubernetes Workflows
+    digest: 0c127b7639de64e3624e4c13140120c250c9ba2fecac409198785c4719fa4650
+    name: workflow
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.5/workflow-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-02-10T12:50:50.92446814Z"
     description: A Helm chart for Kubernetes Workflows
     digest: 2a136b2e24d1543b3f124dbe22f5b2811d3ea66de53ec1179b90ede17d22dfad
@@ -893,4 +941,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2023-02-23T14:36:24.713984081Z"
+generated: "2023-04-08T16:09:28.905444425Z"
