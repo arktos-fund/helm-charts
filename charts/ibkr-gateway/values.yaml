@@ -1,20 +1,31 @@
-# Default values for ibkr-gateway.
-
+# -- ServiceAccount configuration
 serviceAccount:
+  # -- Specifies whether a ServiceAccount should be created
   create: false
+  # -- Annotations to add to the ServiceAccount
   annotations: {}
+  # -- The name of the ServiceAccount to use.
   name: ""
 
+# -- Gateway configuration
 gateway:
+  # -- Specifies whether a Gateway should be created
   image:
+    # -- The image repository
     repository: quay.io/arktos-venture/ibkr-gateway
+    # -- The image pull policy
     pullPolicy: IfNotPresent
+    # -- The image tag
     tag: ""
 
+  # -- imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this Chart.
   imagePullSecrets: []
+  # -- nameOverride is an optional string to substitute for the full names of resources
   nameOverride: ""
+  # -- fullnameOverride is an optional string to substitute for the full names of resources
   fullnameOverride: ""
 
+  # -- env is a list of environment variables to set in the container.
   env: []
     # - name: VNC_SERVER_PASSWORD
     #   valueFrom:
@@ -22,16 +33,21 @@ gateway:
     #       name: credentials
     #       key: vnc
 
+  # -- debug enables debug mode
   debug: false
+  # -- config is a list of parameters to pass to the gateway
   config: 
     # credentials: config.ini key
     credentials: "credentials"
     live: true
 
+  # -- podAnnotations is an optional list of annotations to add to the pod
   podAnnotations: {}
+  # -- podSecurityContext is an optional security context to add to the pod
   podSecurityContext:
     fsGroup: 10001
 
+  # -- securityContext is an optional security context to add to the container
   securityContext:
     capabilities:
       drop:
@@ -40,9 +56,13 @@ gateway:
     runAsNonRoot: true
     runAsUser: 10001
 
+  # -- jvm is a list of parameters to pass to the JVM
   jvm:
+    # -- Xmx is the maximum heap size
     Xmx: "2G"
+    # -- Xms is the initial heap size
     Xms: "2G"
+    # -- Xmn is the minimum heap size
     XX:
       ConcGCThreads: 5
       InitiatingHeapOccupancyPercent: 70
@@ -51,6 +71,7 @@ gateway:
     installer:
       uuid: "3046c7e3-ffbd-4699-a848-117342ff43ee"
 
+  # -- resources is an optional list of resources to set for the container
   resources:
     limits:
       cpu: 300m
@@ -59,12 +80,15 @@ gateway:
       cpu: 300m
       memory: 2100Mi
 
+# -- sidecars workers configuration
 sidecars:
+  # -- volumeMounts is an optional list of volume mounts to add to the container
   volumes:
     - name: data-worker-config
       secret:
         secretName: data-worker-config
 
+  # -- containers is an optional list of containers to add to the pod
   containers:
     - name: data-worker-config
       image: "rg.nl-ams.scw.cloud/arktos-venture/ibkr-worker:0.0.1"
@@ -89,10 +113,16 @@ sidecars:
           memory: 64Mi
 
 nodeSelector:
-  kubernetes.io/arch: amd64
   kubernetes.io/os: linux
-  k8s.scaleway.com/pool-name: ib-gateway
 
 tolerations: []
 
-affinity: {}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/arch
+            operator: In
+            values:
+              - amd64
