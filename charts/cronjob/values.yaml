@@ -70,7 +70,6 @@ env:
 
 # -- config is a list of parameters to pass to the job
 config:
-  nats: false
   name: "config"
   key: "microservice"
 

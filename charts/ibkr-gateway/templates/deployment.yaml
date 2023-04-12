@@ -93,9 +93,6 @@ spec:
             - name: ibkr-{{ .name }}-worker
               mountPath: /home/noroot/config.yaml
               subPath: config.yaml
-            - name: nats-config
-              mountPath: /home/noroot/microservices.creds
-              subPath: microservices.creds
           {{- with .resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -111,9 +108,6 @@ spec:
         - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
-        - name: nats-config
-          secret:
-            secretName: natscred
         {{- range .Values.sidecars.containers }}
         - name: ibkr-{{ .name }}-worker
           secret:
