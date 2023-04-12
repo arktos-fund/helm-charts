@@ -18,7 +18,7 @@ A Helm chart Microservice for Kubernetes.
 |-----|------|---------|-------------|
 | affinity | object | `{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"kubernetes.io/arch","operator":"In","values":["arm64"]}]}]}}}` | affinity is an optional configuration for the microservice |
 | autoscaling | object | `{"annotations":{},"enabled":true,"maxReplicas":10,"minReplicas":1,"targetCPUUtilizationPercentage":70,"targetMemoryUtilizationPercentage":65}` | autoscaling is an optional configuration for the microservice |
-| config | object | `{"data":{},"logger":{"format":"fmt","level":"info"},"nats":false,"secret":{},"timeout":"3s"}` | config is an optional configuration for the microservice |
+| config | object | `{"data":{},"logger":{"format":"fmt","level":"info"},"secret":{},"timeout":"3s"}` | config is an optional configuration for the microservice |
 | env | list | `[]` | env is an optional list of environment variables to add to the container |
 | fluxcd | object | `{"enabled":true,"interval":"30m"}` | fluxcd is an optional configuration for fluxcd |
 | fullnameOverride | string | `""` | fullnameOverride is an optional string to substitute for the full names of resources |

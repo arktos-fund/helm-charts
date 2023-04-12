@@ -16,10 +16,6 @@ data:
   keycloak:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- with .nats }}
-  nats:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
   {{- with .redis }}
   redis:
     {{- toYaml . | nindent 4 }}

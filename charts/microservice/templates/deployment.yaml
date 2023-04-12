@@ -67,12 +67,6 @@ spec:
               readOnly: true
               mountPath: /config/default.yaml
               subPath: "default.yaml"
-          {{- if .Values.config.nats }}
-            - name: nats
-              readOnly: true
-              mountPath: microservices.creds
-              subPath: microservices.creds
-          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
@@ -82,14 +76,6 @@ spec:
             items:
               - key: {{ .Values.config.secret.key | default "default.yaml" }}
                 path: default.yaml
-      {{- if .Values.config.nats }}
-        - name: nats
-          secret:
-            secretName: {{ .Values.config.secret.nats | default "natscred" }}
-            items:
-              - key: microservices.creds
-                path: microservices.creds
-      {{- end }}
       {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

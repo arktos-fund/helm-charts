@@ -1,0 +1,12 @@
+{{- if or (and .Values.autoscaling.enabled (ge (int .Values.autoscaling.minReplicas) 2)) (ge (int .Values.replicaCount) 2) }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "microservice.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "microservice.selectorLabels" . | nindent 6 }}
+  minAvailable: 1
+{{- end }}
