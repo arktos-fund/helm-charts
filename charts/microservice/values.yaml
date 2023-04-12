@@ -43,6 +43,7 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
+  allowPrivilegeEscalation: false
 
 # -- livenessProbe is an optional liveness probe to add to the container
 livenessProbe: {}
@@ -118,9 +119,6 @@ env: []
 
 # -- volumes is an optional list of volumes to add to the container
 volumes: []
-  # - name: nats
-  #   secret:
-  #     secretName: natscred
 
 # -- fluxcd is an optional configuration for fluxcd
 fluxcd:
@@ -130,7 +128,6 @@ fluxcd:
 
 # -- config is an optional configuration for the microservice
 config:
-  nats: false
   secret: {}
     # name: "config"
     # key: "microservice"

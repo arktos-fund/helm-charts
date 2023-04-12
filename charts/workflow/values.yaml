@@ -56,10 +56,6 @@ templates:
   #         readOnly: true
   #         mountPath: /config/default.yaml
   #         subPath: "default.yaml"
-  #       - name: nats
-  #         readOnly: true
-  #         mountPath: microservices.creds
-  #         subPath: microservices.creds
   #     resources:
   #       limits:
   #         cpu: 30m
@@ -74,12 +70,6 @@ templates:
   #         items:
   #           - key: splits
   #             path: default.yaml
-  #     - name: nats
-  #       secret:
-  #         secretName: "natscred"
-  #         items:
-  #           - key: microservices.creds
-  #             path: microservices.creds
   # - name: main
   #   dag:
   #     tasks:
