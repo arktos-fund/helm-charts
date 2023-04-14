@@ -1,6 +1,6 @@
 # microservice
 
-![Version: 0.3.12](https://img.shields.io/badge/Version-0.3.12-informational?style=flat-square) ![AppVersion: v0.2.1](https://img.shields.io/badge/AppVersion-v0.2.1-informational?style=flat-square)
+![Version: 0.3.14](https://img.shields.io/badge/Version-0.3.14-informational?style=flat-square) ![AppVersion: v0.2.1](https://img.shields.io/badge/AppVersion-v0.2.1-informational?style=flat-square)
 
 A Helm chart Microservice for Kubernetes.
 
@@ -10,7 +10,7 @@ A Helm chart Microservice for Kubernetes.
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| perriea |  |  |
+| perriea | <aperrier@arktos.fund> |  |
 
 ## Values
 
@@ -22,7 +22,7 @@ A Helm chart Microservice for Kubernetes.
 | env | list | `[]` | env is an optional list of environment variables to add to the container |
 | fluxcd | object | `{"enabled":true,"interval":"30m"}` | fluxcd is an optional configuration for fluxcd |
 | fullnameOverride | string | `""` | fullnameOverride is an optional string to substitute for the full names of resources |
-| image | object | `{"pullPolicy":"IfNotPresent","repository":"rg.nl-ams.scw.cloud/arktos-venture/instruments","tag":"1.0.0"}` | image is the image to use for the job |
+| image | object | `{"pullPolicy":"IfNotPresent","repository":"946936475872.dkr.ecr.us-east-1.amazonaws.com/instruments","tag":"1.0.0"}` | image is the image to use for the job |
 | imagePullSecrets | list | `[{"name":"regcred"}]` | imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this Chart. |
 | livenessProbe | object | `{}` | livenessProbe is an optional liveness probe to add to the container |
 | metrics | object | `{"enabled":true}` | metrics is an optional configuration for the microservice |
@@ -34,14 +34,17 @@ A Helm chart Microservice for Kubernetes.
 | readinessProbe | object | `{}` | readinessProbe is an optional readiness probe to add to the container |
 | replicaCount | int | `1` | replicas is the number of replicas to deploy |
 | resources | object | `{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"100m","memory":"128Mi"}}` | resources is an optional configuration for the microservice |
-| securityContext | object | `{"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | securityContext is an optional security context to add to the container |
+| securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | securityContext is an optional security context to add to the container |
+| securityGroups | object | `{"enabled":false,"rules":[],"serviceAccountSelector":{}}` | securityGroups is an optional configuration for AWS security groups |
+| securityGroups.rules | list | `[]` | rules is an optional list of rules to add to the security group |
+| securityGroups.serviceAccountSelector | object | `{}` | serviceAccountSelector is an optional matchLabels to select the service account |
 | service | object | `{"ports":{"grpc":11000,"http":8000},"type":"ClusterIP"}` | service is the service configuration |
 | serviceAccount | object | `{"annotations":{},"create":true,"name":""}` | serviceAccount configuration |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the ServiceAccount |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
 | serviceAccount.name | string | `""` | The name of the ServiceAccount to use. |
 | tolerations | list | `[]` | tolerations is an optional configuration for the microservice |
-| upstream | object | `{"enabled":false,"healthChecks":{"enabled":false,"interval":"10s","timeout":"5s"},"loadBalancerConfig":{},"rest":{"extra":{},"swagger":"indexes.v1.Indexes"},"routes":[{"headers":[{"name":"Content-Type","value":"application/json"},{"name":"Autorization"},{"name":"X-Account"}],"methods":["GET"],"name":"indexes","options":{"cors":{"allowHeaders":["Content-Type","Autorization","X-Account"],"allowMethods":["GET"],"allowOrigin":["console.arktos.fund"]},"prefixRewrite":"/v1/indexes","retries":{"numRetries":3,"perTryTimeout":"5s","retryOn":"connect-failure"}},"path":"/v1/indexes","type":"prefix"}],"useHttp2":false}` | ingress is the ingress configuration Upstream: https://docs.solo.io/gloo-edge/latest/introduction/architecture/concepts/ Routes: https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gateway/api/v1/route_table.proto.sk/#routetable |
+| upstream | object | `{"enabled":false,"healthChecks":{"enabled":false,"interval":"10s","timeout":"5s"},"loadBalancerConfig":{},"rest":{"extra":{},"swagger":"instruments.v1.Instruments"},"routes":[{"headers":[{"name":"Content-Type","value":"application/json"},{"name":"Autorization"},{"name":"X-Account"}],"methods":["GET"],"name":"instruments","options":{"cors":{"allowHeaders":["Content-Type","Autorization","X-Account"],"allowMethods":["GET"],"allowOrigin":["console.arktos.fund"]},"prefixRewrite":"/v1/instruments","retries":{"numRetries":3,"perTryTimeout":"5s","retryOn":"connect-failure"}},"path":"/v1/instruments","type":"prefix"}],"useHttp2":false}` | ingress is the ingress configuration Upstream: https://docs.solo.io/gloo-edge/latest/introduction/architecture/concepts/ Routes: https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gateway/api/v1/route_table.proto.sk/#routetable |
 | volumes | list | `[]` | volumes is an optional list of volumes to add to the container |
 
 ----------------------------------------------

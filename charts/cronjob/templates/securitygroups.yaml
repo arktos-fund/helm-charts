@@ -1,0 +1,21 @@
+{{- if and .Values.securityGroups.enabled (gt (len .Values.securityGroups.rules) 0) }}
+apiVersion: vpcresources.k8s.aws/v1beta1
+kind: SecurityGroupPolicy
+metadata:
+  name: {{ include "cronjob.fullname" . }}
+  labels:
+    {{- include "cronjob.labels" . | nindent 4 }}
+spec:
+  {{- with .Values.securityGroups.serviceAccountSelector }}
+  serviceAccountSelector: 
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  podSelector: 
+    matchLabels:
+      {{- include "cronjob.selectorLabels" . | nindent 6 }}
+  securityGroups:
+    groupIds:
+    {{- range .Values.securityGroups.rules }}
+      - {{ . }}
+    {{- end }}
+{{- end }}

@@ -2,5 +2,13 @@ apiVersion: v2
 name: workflow
 description: A Helm chart for Kubernetes Workflows
 type: application
-version: 0.1.5
+version: 0.1.6
 appVersion: "1.16.0"
+home: https://github.com/arktos-fund/helm-charts
+keywords:
+  - arktos-fund
+  - argo-workflow
+  - aws
+maintainers:
+  - name: perriea
+    email: aperrier@arktos.fund

@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: v0.2.1
 description: A Helm chart Microservice for Kubernetes.
 name: microservice
-version: 0.3.13
+version: 0.3.14
 home: https://github.com/arktos-fund/helm-charts
 keywords:
   - arktos-fund
@@ -10,5 +10,7 @@ keywords:
   - fluxcd
   - prometheus
   - gloo
+  - aws
 maintainers:
   - name: perriea
+    email: aperrier@arktos.fund

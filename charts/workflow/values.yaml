@@ -38,6 +38,15 @@ serviceAccount:
   # "executor" role must be created before
   extendedRole: false
 
+# -- securityGroups is an optional configuration for AWS security groups
+securityGroups:
+  enabled: false
+  # -- serviceAccountSelector is an optional matchLabels to select the service account
+  serviceAccountSelector: {}
+  # -- rules is an optional list of rules to add to the security group
+  rules: []
+    # - "sg-1234567890abcdef0"
+
 # -- templates is a list of templates to run
 templates:
   # - name: splits-template
