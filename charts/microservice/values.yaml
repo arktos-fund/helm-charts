@@ -5,7 +5,7 @@ replicaCount: 1
 
 # -- image is the image to use for the job
 image:
-  repository: rg.nl-ams.scw.cloud/arktos-venture/instruments
+  repository: 946936475872.dkr.ecr.us-east-1.amazonaws.com/instruments
   tag: "1.0.0"
   pullPolicy: IfNotPresent
 
@@ -76,11 +76,11 @@ upstream:
     interval: 10s
     timeout: 5s
   rest:
-    swagger: indexes.v1.Indexes
+    swagger: instruments.v1.Instruments
     extra: {}
   routes:
-    - name: indexes
-      path: /v1/indexes
+    - name: instruments
+      path: /v1/instruments
       type: prefix
       methods:
         - GET
@@ -90,7 +90,7 @@ upstream:
         - name: "Autorization"
         - name: "X-Account"
       options:
-        prefixRewrite: /v1/indexes
+        prefixRewrite: /v1/instruments
         retries:
           numRetries: 3
           perTryTimeout: 5s
@@ -125,6 +125,15 @@ fluxcd:
   enabled: true
   interval: 30m
   # semver: 2.0.x
+
+# -- securityGroups is an optional configuration for AWS security groups
+securityGroups:
+  enabled: false
+  # -- serviceAccountSelector is an optional matchLabels to select the service account
+  serviceAccountSelector: {}
+  # -- rules is an optional list of rules to add to the security group
+  rules: []
+    # - "sg-1234567890abcdef0"
 
 # -- config is an optional configuration for the microservice
 config:

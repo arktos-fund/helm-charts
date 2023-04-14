@@ -73,6 +73,15 @@ config:
   name: "config"
   key: "microservice"
 
+# -- securityGroups is an optional configuration for AWS security groups
+securityGroups:
+  enabled: false
+  # -- serviceAccountSelector is an optional matchLabels to select the service account
+  serviceAccountSelector: {}
+  # -- rules is an optional list of rules to add to the security group
+  rules: []
+    # - "sg-1234567890abcdef0"
+
 # -- resources is an optional list of resources to set for the container
 resources:
   limits:

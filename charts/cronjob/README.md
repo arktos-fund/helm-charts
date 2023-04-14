@@ -1,8 +1,16 @@
 # cronjob
 
-![Version: 0.1.7](https://img.shields.io/badge/Version-0.1.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
+![Version: 0.1.9](https://img.shields.io/badge/Version-0.1.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
 A Helm chart Cronjob for Kubernetes
+
+**Homepage:** <https://github.com/arktos-fund/helm-charts>
+
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| perriea | <aperrier@arktos.fund> |  |
 
 ## Values
 
@@ -28,6 +36,9 @@ A Helm chart Cronjob for Kubernetes
 | restartPolicy | string | `"Never"` | restartPolicy is the policy for handling job failures |
 | schedule | object | `{}` | schedule is a list of cron schedules to run the job |
 | securityContext | object | `{"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | securityContext is an optional security context to add to the container |
+| securityGroups | object | `{"enabled":false,"rules":[],"serviceAccountSelector":{}}` | securityGroups is an optional configuration for AWS security groups |
+| securityGroups.rules | list | `[]` | rules is an optional list of rules to add to the security group |
+| securityGroups.serviceAccountSelector | object | `{}` | serviceAccountSelector is an optional matchLabels to select the service account |
 | serviceAccount | object | `{"annotations":{},"create":true,"name":""}` | serviceAccount configuration |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the ServiceAccount |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |

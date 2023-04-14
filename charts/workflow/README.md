@@ -1,8 +1,16 @@
 # workflow
 
-![Version: 0.1.5](https://img.shields.io/badge/Version-0.1.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
+![Version: 0.1.6](https://img.shields.io/badge/Version-0.1.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes Workflows
+
+**Homepage:** <https://github.com/arktos-fund/helm-charts>
+
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| perriea | <aperrier@arktos.fund> |  |
 
 ## Values
 
@@ -20,6 +28,9 @@ A Helm chart for Kubernetes Workflows
 | restartPolicy | string | `"Never"` | restartPolicy is the policy for handling job failures |
 | schedule | object | `{}` | schedule for workflow |
 | securityContext | object | `{"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | securityContext is an optional security context to add to the container |
+| securityGroups | object | `{"enabled":false,"rules":[],"serviceAccountSelector":{}}` | securityGroups is an optional configuration for AWS security groups |
+| securityGroups.rules | list | `[]` | rules is an optional list of rules to add to the security group |
+| securityGroups.serviceAccountSelector | object | `{}` | serviceAccountSelector is an optional matchLabels to select the service account |
 | serviceAccount | object | `{"annotations":{},"create":true,"extendedRole":false,"name":""}` | serviceAccount configuration |
 | successfulJobsHistoryLimit | int | `1` | successfulJobsHistoryLimit is the number of successful jobs to keep |
 | templates | string | `nil` | templates is a list of templates to run |
