@@ -1,0 +1,52 @@
+{{- $fullName := include "microservice.fullname" . -}}
+{{- $svcGRPCPort := .Values.service.ports.grpc -}}
+{{- $svcHTTPPort := .Values.service.ports.http -}}
+{{- $dot := . -}}
+{{- range .Values.ingress }}
+{{- $ingress := . }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .name }}-{{ $fullName }}
+  labels:
+    {{- include "microservice.labels" $dot | nindent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/group.name: {{ .name }}
+    alb.ingress.kubernetes.io/tags: iac=true,type={{ .name }}
+  {{- with .annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .ingressClassName | default "alb" }}
+  {{- if .tls }}
+  tls:
+    {{- range .tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  {{- if eq $ingress.name "internal" }}
+                  number: {{ $svcGRPCPort }}
+                  {{- else }}
+                  number: {{ $svcHTTPPort }}
+                  {{- end }}
+          {{- end }}
+    {{- end }}
+{{- end }}
