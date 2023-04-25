@@ -10,8 +10,8 @@ image:
   pullPolicy: IfNotPresent
 
 # -- imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this Chart.
-imagePullSecrets:
-  - name: regcred
+imagePullSecrets: []
+  # - name: regcred
 # -- nameOverride is an optional string to substitute for the full names of resources
 nameOverride: ""
 # -- fullnameOverride is an optional string to substitute for the full names of resources
@@ -20,11 +20,19 @@ fullnameOverride: ""
 # -- serviceAccount configuration
 serviceAccount:
   # -- Specifies whether a ServiceAccount should be created
-  create: true
+  create: false
   # -- Annotations to add to the ServiceAccount
   annotations: {}
   # -- The name of the ServiceAccount to use.
   name: ""
+  # -- Rules/RoleBinding to add to the ServiceAccount
+  rules: []
+    # - apiGroups: [""]
+    #   resources: ["pods"]
+    #   verbs: ["get", "list", "watch"]
+    # - apiGroups: [""]
+    #   resources: ["pods/log"]
+    #   verbs: ["get"]
 
 # -- podAnnotations is an optional list of annotations to add to the pod
 podAnnotations: {}
@@ -65,45 +73,36 @@ service:
     grpc: 11000
 
 # -- ingress is the ingress configuration
-# Upstream: https://docs.solo.io/gloo-edge/latest/introduction/architecture/concepts/
-# Routes: https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gateway/api/v1/route_table.proto.sk/#routetable
-upstream:
-  enabled: false
-  useHttp2: false
-  loadBalancerConfig: {}
-  healthChecks:
-    enabled: false
-    interval: 10s
-    timeout: 5s
-  rest:
-    swagger: instruments.v1.Instruments
-    extra: {}
-  routes:
-    - name: instruments
-      path: /v1/instruments
-      type: prefix
-      methods:
-        - GET
-      headers:
-        - name: "Content-Type"
-          value: "application/json"
-        - name: "Autorization"
-        - name: "X-Account"
-      options:
-        prefixRewrite: /v1/instruments
-        retries:
-          numRetries: 3
-          perTryTimeout: 5s
-          retryOn: connect-failure
-        cors:
-          allowOrigin:
-            - console.arktos.fund
-          allowMethods:
-            - GET
-          allowHeaders:
-            - Content-Type
-            - Autorization
-            - X-Account
+ingress: []
+  # - name: internal
+  #   annotations:
+  #     alb.ingress.kubernetes.io/load-balancer-name: ingress-internal
+  #     alb.ingress.kubernetes.io/backend-protocol-version: GRPC
+  #     alb.ingress.kubernetes.io/scheme: internal
+  #     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+  #     alb.ingress.kubernetes.io/healthcheck-port: 11000
+  #     alb.ingress.kubernetes.io/healthcheck-path: /grpc.health.v1.Health/Check
+  #     alb.ingress.kubernetes.io/healthcheck-interval-seconds: '300'
+  #   hosts:
+  #     - host: grpc.arktos.internal
+  #       paths:
+  #         - path: /instruments.v1.Instruments/*
+  #           pathType: Prefix
+  # - name: public
+  #   annotations:
+  #     alb.ingress.kubernetes.io/load-balancer-name: ingress-public
+  #     alb.ingress.kubernetes.io/waf-acl-id: <redacted>
+  #     alb.ingress.kubernetes.io/scheme: internet-facing
+  #     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+  #     alb.ingress.kubernetes.io/healthcheck-path: /health
+  #     alb.ingress.kubernetes.io/healthcheck-interval-seconds: '300'
+  #     alb.ingress.kubernetes.io/auth-idp-cognito: '{"userPoolARN":"arn:aws:cognito-idp:us-east-1:xxx:userpool/xxx","userPoolClientID":"my-clientID","userPoolDomain":"my-domain"}'
+  #     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:xxxxx:certificate/xxxxxxx
+  #   hosts:
+  #     - host: api.arktos.fund
+  #       paths:
+  #         - path: /
+  #           pathType: Exact
 
 # -- env is an optional list of environment variables to add to the container
 env: []
