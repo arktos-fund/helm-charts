@@ -116,6 +116,11 @@ env: []
   #       name: eod-api
   #       key: value
 
+# -- envFrom is an optional list of sources to populate environment variables in the container 
+envFrom: []
+  # - secretRef:
+  #     name: secret-name
+
 # -- volumes is an optional list of volumes to add to the container
 volumes: []
 
