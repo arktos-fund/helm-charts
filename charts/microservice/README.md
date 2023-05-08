@@ -1,6 +1,6 @@
 # microservice
 
-![Version: 0.3.14](https://img.shields.io/badge/Version-0.3.14-informational?style=flat-square) ![AppVersion: v0.2.1](https://img.shields.io/badge/AppVersion-v0.2.1-informational?style=flat-square)
+![Version: 0.4.1](https://img.shields.io/badge/Version-0.4.1-informational?style=flat-square) ![AppVersion: v0.2.1](https://img.shields.io/badge/AppVersion-v0.2.1-informational?style=flat-square)
 
 A Helm chart Microservice for Kubernetes.
 
@@ -20,10 +20,12 @@ A Helm chart Microservice for Kubernetes.
 | autoscaling | object | `{"annotations":{},"enabled":true,"maxReplicas":10,"minReplicas":1,"targetCPUUtilizationPercentage":70,"targetMemoryUtilizationPercentage":65}` | autoscaling is an optional configuration for the microservice |
 | config | object | `{"data":{},"logger":{"format":"fmt","level":"info"},"secret":{},"timeout":"3s"}` | config is an optional configuration for the microservice |
 | env | list | `[]` | env is an optional list of environment variables to add to the container |
+| envFrom | list | `[]` | envFrom is an optional list of sources to populate environment variables in the container  |
 | fluxcd | object | `{"enabled":true,"interval":"30m"}` | fluxcd is an optional configuration for fluxcd |
 | fullnameOverride | string | `""` | fullnameOverride is an optional string to substitute for the full names of resources |
 | image | object | `{"pullPolicy":"IfNotPresent","repository":"946936475872.dkr.ecr.us-east-1.amazonaws.com/instruments","tag":"1.0.0"}` | image is the image to use for the job |
-| imagePullSecrets | list | `[{"name":"regcred"}]` | imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this Chart. |
+| imagePullSecrets | list | `[]` | imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this Chart. |
+| ingress | list | `[]` | ingress is the ingress configuration |
 | livenessProbe | object | `{}` | livenessProbe is an optional liveness probe to add to the container |
 | metrics | object | `{"enabled":true}` | metrics is an optional configuration for the microservice |
 | mode | string | `"microservice"` | mode is the deployment mode (microservice/worker) |
@@ -39,12 +41,12 @@ A Helm chart Microservice for Kubernetes.
 | securityGroups.rules | list | `[]` | rules is an optional list of rules to add to the security group |
 | securityGroups.serviceAccountSelector | object | `{}` | serviceAccountSelector is an optional matchLabels to select the service account |
 | service | object | `{"ports":{"grpc":11000,"http":8000},"type":"ClusterIP"}` | service is the service configuration |
-| serviceAccount | object | `{"annotations":{},"create":true,"name":""}` | serviceAccount configuration |
+| serviceAccount | object | `{"annotations":{},"create":false,"name":"","rules":[]}` | serviceAccount configuration |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the ServiceAccount |
-| serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
+| serviceAccount.create | bool | `false` | Specifies whether a ServiceAccount should be created |
 | serviceAccount.name | string | `""` | The name of the ServiceAccount to use. |
+| serviceAccount.rules | list | `[]` | Rules/RoleBinding to add to the ServiceAccount |
 | tolerations | list | `[]` | tolerations is an optional configuration for the microservice |
-| upstream | object | `{"enabled":false,"healthChecks":{"enabled":false,"interval":"10s","timeout":"5s"},"loadBalancerConfig":{},"rest":{"extra":{},"swagger":"instruments.v1.Instruments"},"routes":[{"headers":[{"name":"Content-Type","value":"application/json"},{"name":"Autorization"},{"name":"X-Account"}],"methods":["GET"],"name":"instruments","options":{"cors":{"allowHeaders":["Content-Type","Autorization","X-Account"],"allowMethods":["GET"],"allowOrigin":["console.arktos.fund"]},"prefixRewrite":"/v1/instruments","retries":{"numRetries":3,"perTryTimeout":"5s","retryOn":"connect-failure"}},"path":"/v1/instruments","type":"prefix"}],"useHttp2":false}` | ingress is the ingress configuration Upstream: https://docs.solo.io/gloo-edge/latest/introduction/architecture/concepts/ Routes: https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gateway/api/v1/route_table.proto.sk/#routetable |
 | volumes | list | `[]` | volumes is an optional list of volumes to add to the container |
 
 ----------------------------------------------
