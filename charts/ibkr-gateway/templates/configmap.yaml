@@ -6,14 +6,14 @@ metadata:
     {{- include "ibkr-gateway.labels" . | nindent 4 }}
 data:
   ibgateway.vmoptions: |-
-    -Xms{{ .Values.gateway.jvm.Xms | default "2G" }}
-    -Xmx{{ .Values.gateway.jvm.Xmx | default "2G" }}
-    -XX:+Use{{ .Values.gateway.jvm.GCollector | default "G1GC" }}
-    -XX:MaxGCPauseMillis={{ .Values.gateway.jvm.XX.MaxGCPauseMillis | default "200" }}
-    -XX:ParallelGCThreads={{ .Values.gateway.jvm.XX.ParallelGCThreads | default "20" }}
-    -XX:ConcGCThreads={{ .Values.gateway.jvm.XX.ConcGCThreads | default "5" }}
-    -XX:InitiatingHeapOccupancyPercent={{ .Values.gateway.jvm.XX.InitiatingHeapOccupancyPercent | default "70" }}
-    -Dinstaller.uuid={{ required "UUID JVM requirement" .Values.gateway.jvm.installer.uuid }}
+    -Xms{{ .Values.jvm.Xms | default "2G" }}
+    -Xmx{{ .Values.jvm.Xmx | default "2G" }}
+    -XX:+Use{{ .Values.jvm.GCollector | default "G1GC" }}
+    -XX:MaxGCPauseMillis={{ .Values.jvm.XX.MaxGCPauseMillis | default "200" }}
+    -XX:ParallelGCThreads={{ .Values.jvm.XX.ParallelGCThreads | default "20" }}
+    -XX:ConcGCThreads={{ .Values.jvm.XX.ConcGCThreads | default "5" }}
+    -XX:InitiatingHeapOccupancyPercent={{ .Values.jvm.XX.InitiatingHeapOccupancyPercent | default "70" }}
+    -Dinstaller.uuid={{ required "UUID JVM requirement" .Values.jvm.installer.uuid }}
     -DvmOptionsPath=/home/trader/Jts/ibgateway/{{ include "ibkr-gateway.version" . }}/ibgateway.vmoptions
     -Dsun.awt.nopixfmt=true
     -Dsun.java2d.noddraw=true

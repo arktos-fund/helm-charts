@@ -4,6 +4,10 @@ metadata:
   name: {{ include "ibkr-gateway.fullname" . }}
   labels:
     {{- include "ibkr-gateway.labels" . | nindent 4 }}
+  {{- with .Values.podAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: 1
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 3 }}
@@ -14,28 +18,25 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-      {{- with .Values.gateway.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
         {{- include "ibkr-gateway.selectorLabels" . | nindent 8 }}
     spec:
       {{- if ne .Values.serviceAccount.create true }}
-      {{- with .Values.gateway.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- end }}
       serviceAccountName: {{ include "ibkr-gateway.serviceAccountName" . | default "default" }}
       securityContext:
-        {{- toYaml .Values.gateway.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: gateway
           securityContext:
-            {{- toYaml .Values.gateway.securityContext | nindent 12 }}
-          image: "{{ .Values.gateway.image.repository }}:{{ .Values.gateway.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.gateway.image.pullPolicy }}
-          {{- with .Values.gateway.env }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.env }}
           env:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -44,17 +45,17 @@ spec:
               containerPort: 5900
               protocol: TCP
             - name: socket
-              containerPort: {{ if .Values.gateway.config.live }}4001{{ else }}4002{{ end }}
+              containerPort: {{ if .Values.config.live }}4001{{ else }}4002{{ end }}
               protocol: TCP
-          {{- if .Values.gateway.config.proxy }}
+          {{- if .Values.config.proxy }}
             - name: tunnel-socket
               containerPort: 5000
               protocol: TCP
           {{- end }}
-          {{- if eq .Values.gateway.debug false }}
+          {{- if eq .Values.debug false }}
           livenessProbe:
             tcpSocket:  
-              port: {{ if .Values.gateway.config.live }}4001{{ else }}4002{{ end }}
+              port: {{ if .Values.config.live }}4001{{ else }}4002{{ end }}
             initialDelaySeconds: 500
             periodSeconds: 20
             timeoutSeconds: 3
@@ -62,7 +63,7 @@ spec:
             failureThreshold: 3
           readinessProbe:
             tcpSocket:  
-              port: {{ if .Values.gateway.config.live }}4001{{ else }}4002{{ end }}
+              port: {{ if .Values.config.live }}4001{{ else }}4002{{ end }}
             initialDelaySeconds: 45
             periodSeconds: 15
             timeoutSeconds: 3
@@ -80,17 +81,17 @@ spec:
               mountPath: /home/trader/app/config.yaml
               subPath: config.yaml
           resources:
-            {{- toYaml .Values.gateway.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: {{ include "ibkr-gateway.fullname" . }}-config
           secret:
-            secretName: {{ .Values.gateway.config.credentials | default "credentials" }}
+            secretName: {{ .Values.config.credentials | default "credentials" }}
             items:
               - key: config.ini
                 path: config.ini
         - name: {{ include "ibkr-gateway.fullname" . }}-workers-config
           secret:
-            secretName: {{ .Values.gateway.config.workers | default "workers" }}
+            secretName: {{ .Values.config.workers | default "workers" }}
             items:
               - key: config.yaml
                 path: config.yaml
