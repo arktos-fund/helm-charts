@@ -76,28 +76,11 @@ spec:
             - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
               mountPath: /home/trader/Jts/ibgateway/{{ include "ibkr-gateway.version" . }}/ibgateway.vmoptions
               subPath: ibgateway.vmoptions
+            - name: {{ include "ibkr-gateway.fullname" . }}-workers-config
+              mountPath: /home/trader/app/config.yaml
+              subPath: config.yaml
           resources:
             {{- toYaml .Values.gateway.resources | nindent 12 }}
-        {{- range .Values.sidecars.containers }}
-        - name: {{ .name }}
-          securityContext:
-            {{- toYaml .securityContext | nindent 12 }}
-          image: {{ .image | quote }}
-          imagePullPolicy: {{ .imagePullPolicy }}
-          {{- with .env }}
-          env:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          ports:
-          volumeMounts:
-            - name: ibkr-{{ .name }}-worker
-              mountPath: /home/noroot/config.yaml
-              subPath: config.yaml
-          {{- with .resources }}
-          resources:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-        {{- end }}
       volumes:
         - name: {{ include "ibkr-gateway.fullname" . }}-config
           secret:
@@ -105,20 +88,15 @@ spec:
             items:
               - key: config.ini
                 path: config.ini
+        - name: {{ include "ibkr-gateway.fullname" . }}-workers-config
+          secret:
+            secretName: {{ .Values.gateway.config.workers | default "workers" }}
+            items:
+              - key: config.yaml
+                path: config.yaml
         - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
-        {{- range .Values.sidecars.containers }}
-        - name: ibkr-{{ .name }}-worker
-          secret:
-            secretName: ibkr-workers
-            items:
-              - key: {{ .name }}
-                path: config.yaml
-        {{- end }}
-        {{- with .Values.sidecars.volumes }}
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
