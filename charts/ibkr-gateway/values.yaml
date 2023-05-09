@@ -27,12 +27,16 @@ image:
 imagePullSecrets: []
 
 # -- env is a list of environment variables to set in the container.
-env: []
+env:
   # - name: VNC_SERVER_PASSWORD
   #   valueFrom:
   #     secretKeyRef:
   #       name: credentials
   #       key: vnc
+  # - name: AWS_ROLE_ARN
+  #   value: "arn:aws:iam::111122223333:role/s3-writer"
+  # - name: AWS_WEB_IDENTITY_TOKEN_FILE
+  #   value: "/var/run/secrets/eks.amazonaws.com/serviceaccount/token"
 
 # -- debug enables debug mode
 debug: false
@@ -73,6 +77,19 @@ jvm:
     MaxGCPauseMillis: 200
   installer:
     uuid: "3046c7e3-ffbd-4699-a848-117342ff43ee"
+
+# -- volumes is a list of volumes that can be mounted
+volumes:
+  extra: []
+    # - name: aws-token
+    #   projected:
+    #     sources:
+    #       - serviceAccountToken:
+    #           audience: "sts.amazonaws.com"
+    #           path: token
+  mounts: []
+    # - name: aws-token
+    #   mountPath: "/var/run/secrets/eks.amazonaws.com/serviceaccount/"
 
 # -- resources is an optional list of resources to set for the container
 resources:
