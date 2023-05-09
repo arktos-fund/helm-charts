@@ -131,6 +131,23 @@ entries:
   ibkr-gateway:
   - apiVersion: v2
     appVersion: 10.19.1m
+    created: "2023-05-09T18:09:07.136743017Z"
+    description: A Helm chart IBKR Gateway for Kubernetes
+    digest: edfa58a1c084848883eda10b69565e1bf0fb146262cbb6712dfcafa0b70bfda8
+    home: https://github.com/arktos-fund/helm-charts
+    keywords:
+    - arktos-fund
+    - ibkr-gateway
+    maintainers:
+    - email: aperrier@arktos.fund
+      name: perriea
+    name: ibkr-gateway
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/ibkr-gateway-0.2.7/ibkr-gateway-0.2.7.tgz
+    version: 0.2.7
+  - apiVersion: v2
+    appVersion: 10.19.1m
     created: "2023-05-09T09:01:32.640640386Z"
     description: A Helm chart IBKR Gateway for Kubernetes
     digest: 1cf4217278324271c03c4ead36fc04142d81f29ee1a7aebb840252acaffee4c9
@@ -1138,4 +1155,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-09T09:01:32.640869498Z"
+generated: "2023-05-09T18:09:07.137107617Z"
