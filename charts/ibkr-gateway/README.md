@@ -1,6 +1,6 @@
 # ibkr-gateway
 
-![Version: 0.2.5](https://img.shields.io/badge/Version-0.2.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 10.19.1m](https://img.shields.io/badge/AppVersion-10.19.1m-informational?style=flat-square)
+![Version: 0.2.6](https://img.shields.io/badge/Version-0.2.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 10.19.1m](https://img.shields.io/badge/AppVersion-10.19.1m-informational?style=flat-square)
 
 A Helm chart IBKR Gateway for Kubernetes
 
@@ -19,6 +19,7 @@ A Helm chart IBKR Gateway for Kubernetes
 | affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"kubernetes.io/arch"` |  |
 | affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
 | affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"amd64"` |  |
+| annotations | object | `{}` | annotations is an optional list of annotations to add to the pod |
 | config | object | `{"credentials":"credentials","live":true,"workers":"workers"}` | config is a list of parameters to pass to the gateway |
 | debug | bool | `false` | debug enables debug mode |
 | env | list | `[]` | env is a list of environment variables to set in the container. |
