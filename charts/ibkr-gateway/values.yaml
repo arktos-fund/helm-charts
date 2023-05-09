@@ -2,8 +2,6 @@
 nameOverride: ""
 # -- fullnameOverride is an optional string to substitute for the full names of resources
 fullnameOverride: ""
-# -- annotations is an optional list of annotations to add to the pod
-annotations: {}
 
 # -- ServiceAccount configuration
 serviceAccount:
@@ -27,7 +25,7 @@ image:
 imagePullSecrets: []
 
 # -- env is a list of environment variables to set in the container.
-env:
+env: []
   # - name: VNC_SERVER_PASSWORD
   #   valueFrom:
   #     secretKeyRef:
@@ -48,8 +46,13 @@ config:
   workers: "workers"
   live: true
 
+# -- annotations is an optional list of annotations to add to the object metadata
+annotations: {}
+  # CapacityProvisioned: "0.5vCPU 2GB"
 # -- podAnnotations is an optional list of annotations to add to the pod
 podAnnotations: {}
+  # downscaler/uptime: "Mon-Mon 00:00-12:00 UTC"
+  # eks.amazonaws.com/role-arn: arn:aws:iam::012345678912:role/my-example-iam
 # -- podSecurityContext is an optional security context to add to the pod
 podSecurityContext:
   fsGroup: 10001

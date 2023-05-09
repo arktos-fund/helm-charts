@@ -4,7 +4,7 @@ metadata:
   name: {{ include "microservice.fullname" . }}
   labels:
     {{- include "microservice.labels" . | nindent 4 }}
-  {{- with .Values.podAnnotations }}
+  {{- with .Values.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -20,6 +20,9 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "microservice.selectorLabels" . | nindent 8 }}
     spec:
