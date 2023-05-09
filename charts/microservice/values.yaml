@@ -34,6 +34,9 @@ serviceAccount:
     #   resources: ["pods/log"]
     #   verbs: ["get"]
 
+# -- annotations is an optional list of annotations to add to the metadata object
+annotations: {}
+  # CapacityProvisioned: "0.5vCPU 2GB"
 # -- podAnnotations is an optional list of annotations to add to the pod
 podAnnotations: {}
   # downscaler/uptime: "Mon-Mon 00:00-12:00 UTC"

@@ -1,6 +1,6 @@
 # ibkr-gateway
 
-![Version: 0.2.6](https://img.shields.io/badge/Version-0.2.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 10.19.1m](https://img.shields.io/badge/AppVersion-10.19.1m-informational?style=flat-square)
+![Version: 0.2.8](https://img.shields.io/badge/Version-0.2.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 10.19.1m](https://img.shields.io/badge/AppVersion-10.19.1m-informational?style=flat-square)
 
 A Helm chart IBKR Gateway for Kubernetes
 
@@ -19,10 +19,10 @@ A Helm chart IBKR Gateway for Kubernetes
 | affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"kubernetes.io/arch"` |  |
 | affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
 | affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"amd64"` |  |
-| annotations | object | `{}` | annotations is an optional list of annotations to add to the pod |
+| annotations | object | `{}` | annotations is an optional list of annotations to add to the object metadata |
 | config | object | `{"credentials":"credentials","live":true,"workers":"workers"}` | config is a list of parameters to pass to the gateway |
 | debug | bool | `false` | debug enables debug mode |
-| env | string | `nil` | env is a list of environment variables to set in the container. |
+| env | list | `[]` | env is a list of environment variables to set in the container. |
 | fullnameOverride | string | `""` | fullnameOverride is an optional string to substitute for the full names of resources |
 | image | object | `{"pullPolicy":"IfNotPresent","repository":"quay.io/arktos-venture/ibkr-gateway","tag":""}` | Specifies whether a Gateway should be created |
 | image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |

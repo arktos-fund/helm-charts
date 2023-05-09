@@ -1,6 +1,6 @@
 # microservice
 
-![Version: 0.4.1](https://img.shields.io/badge/Version-0.4.1-informational?style=flat-square) ![AppVersion: v0.2.1](https://img.shields.io/badge/AppVersion-v0.2.1-informational?style=flat-square)
+![Version: 0.4.3](https://img.shields.io/badge/Version-0.4.3-informational?style=flat-square) ![AppVersion: v0.2.1](https://img.shields.io/badge/AppVersion-v0.2.1-informational?style=flat-square)
 
 A Helm chart Microservice for Kubernetes.
 
@@ -17,6 +17,7 @@ A Helm chart Microservice for Kubernetes.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"kubernetes.io/arch","operator":"In","values":["arm64"]}]}]}}}` | affinity is an optional configuration for the microservice |
+| annotations | object | `{}` | annotations is an optional list of annotations to add to the metadata object |
 | autoscaling | object | `{"annotations":{},"enabled":true,"maxReplicas":10,"minReplicas":1,"targetCPUUtilizationPercentage":70,"targetMemoryUtilizationPercentage":65}` | autoscaling is an optional configuration for the microservice |
 | config | object | `{"data":{},"logger":{"format":"fmt","level":"info"},"secret":{},"timeout":"3s"}` | config is an optional configuration for the microservice |
 | env | list | `[]` | env is an optional list of environment variables to add to the container |
