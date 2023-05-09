@@ -131,6 +131,23 @@ entries:
   ibkr-gateway:
   - apiVersion: v2
     appVersion: 10.19.1m
+    created: "2023-05-09T21:36:07.915989791Z"
+    description: A Helm chart IBKR Gateway for Kubernetes
+    digest: 8cbade36094533418fcff446188f3b3494f4ef0bf40d2412cdeb665399bb0d4b
+    home: https://github.com/arktos-fund/helm-charts
+    keywords:
+    - arktos-fund
+    - ibkr-gateway
+    maintainers:
+    - email: aperrier@arktos.fund
+      name: perriea
+    name: ibkr-gateway
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/ibkr-gateway-0.2.8/ibkr-gateway-0.2.8.tgz
+    version: 0.2.8
+  - apiVersion: v2
+    appVersion: 10.19.1m
     created: "2023-05-09T18:09:07.136743017Z"
     description: A Helm chart IBKR Gateway for Kubernetes
     digest: edfa58a1c084848883eda10b69565e1bf0fb146262cbb6712dfcafa0b70bfda8
@@ -327,6 +344,25 @@ entries:
     - https://github.com/arktos-fund/helm-charts/releases/download/kube-downscaler-0.1.0/kube-downscaler-0.1.0.tgz
     version: 0.1.0
   microservice:
+  - apiVersion: v2
+    appVersion: v0.2.1
+    created: "2023-05-09T21:36:08.125872033Z"
+    description: A Helm chart Microservice for Kubernetes.
+    digest: 7be851fb10904e44ac2ec580474a10a9c9585305f83968328041e0c8cd9f3233
+    home: https://github.com/arktos-fund/helm-charts
+    keywords:
+    - arktos-fund
+    - microservice
+    - fluxcd
+    - prometheus
+    - aws
+    maintainers:
+    - email: aperrier@arktos.fund
+      name: perriea
+    name: microservice
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/microservice-0.4.3/microservice-0.4.3.tgz
+    version: 0.4.3
   - apiVersion: v2
     appVersion: v0.2.1
     created: "2023-05-08T14:34:08.885127319Z"
@@ -1155,4 +1191,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-09T18:09:07.137107617Z"
+generated: "2023-05-09T21:36:08.126487038Z"
