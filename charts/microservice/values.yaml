@@ -78,6 +78,7 @@ service:
 # -- ingress is the ingress configuration
 ingress: []
   # - name: internal
+  #   ingressClassName: alb
   #   annotations:
   #     alb.ingress.kubernetes.io/load-balancer-name: ingress-internal
   #     alb.ingress.kubernetes.io/backend-protocol-version: GRPC
@@ -92,6 +93,7 @@ ingress: []
   #         - path: /instruments.v1.Instruments/*
   #           pathType: Prefix
   # - name: public
+  #   ingressClassName: alb
   #   annotations:
   #     alb.ingress.kubernetes.io/load-balancer-name: ingress-public
   #     alb.ingress.kubernetes.io/waf-acl-id: <redacted>

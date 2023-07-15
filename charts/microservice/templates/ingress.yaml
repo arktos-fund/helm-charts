@@ -12,14 +12,17 @@ metadata:
   labels:
     {{- include "microservice.labels" $dot | nindent 4 }}
   annotations:
-    kubernetes.io/ingress.class: alb
+  {{- if eq .ingressClassName "alb" }}
     alb.ingress.kubernetes.io/group.name: {{ .name }}
     alb.ingress.kubernetes.io/tags: iac=true,type={{ .name }}
+  {{- end }}
   {{- with .annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  ingressClassName: {{ .ingressClassName | default "alb" }}
+  {{- if .ingressClassName }}
+  ingressClassName: {{ .ingressClassName }}
+  {{- end }}
   {{- if .tls }}
   tls:
     {{- range .tls }}
