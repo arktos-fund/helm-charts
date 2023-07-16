@@ -34,9 +34,6 @@ serviceAccount:
   create: true
   annotations: {}
   name: ""
-  # https://argoproj.github.io/argo-workflows/workflow-rbac/
-  # "executor" role must be created before
-  extendedRole: false
 
 # -- securityGroups is an optional configuration for AWS security groups
 securityGroups:
@@ -48,7 +45,7 @@ securityGroups:
     # - "sg-1234567890abcdef0"
 
 # -- templates is a list of templates to run
-templates:
+templates: []
   # - name: splits-template
   #   container:
   #     image: rg.nl-ams.scw.cloud/arktos-fund/worker-split-update:0.3.0
