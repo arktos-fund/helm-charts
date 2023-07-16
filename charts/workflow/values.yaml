@@ -34,6 +34,14 @@ serviceAccount:
   create: true
   annotations: {}
   name: ""
+  # -- Rules/RoleBinding to add to the ServiceAccount
+  rules: []
+    # - apiGroups: [""]
+    #   resources: ["pods"]
+    #   verbs: ["get", "list", "watch"]
+    # - apiGroups: [""]
+    #   resources: ["pods/log"]
+    #   verbs: ["get"]
 
 # -- securityGroups is an optional configuration for AWS security groups
 securityGroups:
