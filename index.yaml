@@ -346,6 +346,25 @@ entries:
   microservice:
   - apiVersion: v2
     appVersion: v0.2.1
+    created: "2023-08-26T15:17:49.020763509Z"
+    description: A Helm chart Microservice for Kubernetes.
+    digest: 310fa285e625b9ebf9f6852fb1ca39600105d07b95f7ff832976b33c2addabf5
+    home: https://github.com/arktos-fund/helm-charts
+    keywords:
+    - arktos-fund
+    - microservice
+    - fluxcd
+    - prometheus
+    - aws
+    maintainers:
+    - email: aperrier@arktos.fund
+      name: perriea
+    name: microservice
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/microservice-0.4.5/microservice-0.4.5.tgz
+    version: 0.4.5
+  - apiVersion: v2
+    appVersion: v0.2.1
     created: "2023-07-15T00:22:53.641079677Z"
     description: A Helm chart Microservice for Kubernetes.
     digest: 075754c3060c74d147d13c757c5a9d76dd15f057ab853ede474ec15169a32fc8
@@ -1264,4 +1283,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2023-07-16T17:44:15.155018126Z"
+generated: "2023-08-26T15:17:49.021809479Z"
