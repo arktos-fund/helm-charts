@@ -8,7 +8,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .name }}-{{ $fullName }}
+  name: {{ $fullName }}-{{ .name }}
   labels:
     {{- include "microservice.labels" $dot | nindent 4 }}
   annotations:
