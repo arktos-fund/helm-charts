@@ -1153,6 +1153,24 @@ entries:
   workflow:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-09-19T19:15:45.268522844Z"
+    description: A Helm chart for Kubernetes Workflows
+    digest: 5cbdb711d930238d9481591e209034b7ba714fef03d18818d5d19863f9621350
+    home: https://github.com/arktos-fund/helm-charts
+    keywords:
+    - arktos-fund
+    - argo-workflow
+    - aws
+    maintainers:
+    - email: aperrier@arktos.fund
+      name: perriea
+    name: workflow
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.2.1/workflow-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-07-16T17:44:15.154839326Z"
     description: A Helm chart for Kubernetes Workflows
     digest: 0b72b3a317bdcf7a8f9c467162a48a8ffaa7fd34c2c10cf97c35a39a271d9adc
@@ -1283,4 +1301,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2023-08-26T15:17:49.021809479Z"
+generated: "2023-09-19T19:15:45.268807342Z"
