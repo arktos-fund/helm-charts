@@ -28,6 +28,8 @@ imagePullSecret: regcred
 nameOverride: ""
 # -- fullnameOverride is an optional string to substitute for the full names of resources
 fullnameOverride: ""
+# -- annotations is an optional map of annotations to add to the pod
+annotations: {}
 
 # -- serviceAccount configuration
 serviceAccount:
