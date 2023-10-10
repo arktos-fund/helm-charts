@@ -34,16 +34,4 @@ spec:
     workflowTemplateRef:
       name: {{ include "workflow.fullname" $dot }}-template
       clusterScope: false
-  {{- with $dot.Values.tolerations }}
-  tolerations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- with $dot.Values.nodeSelector }}
-  nodeSelector:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- with $dot.Values.affinity }}
-  affinity:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
 {{- end }}

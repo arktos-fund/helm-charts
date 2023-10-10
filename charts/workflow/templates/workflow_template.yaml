@@ -1,3 +1,4 @@
+{{- $dot := . -}}
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
@@ -11,4 +12,7 @@ metadata:
 spec:
   serviceAccountName: {{ include "workflow.serviceAccountName" . }}
   templates:
-    {{- toYaml .Values.templates | nindent 4 }}
+    {{- range $k, $v := .Values.templates }}
+    - name: {{ $k }}
+      {{- toYaml $v | nindent 6 }}
+    {{- end }}
