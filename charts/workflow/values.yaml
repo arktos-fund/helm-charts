@@ -54,9 +54,9 @@ securityGroups:
   rules: []
     # - "sg-1234567890abcdef0"
 
-# -- templates is a list of templates to run
-templates: []
-  # - name: splits-template
+# -- templates is a map of templates to run
+templates: {}
+  # splits-template:
   #   container:
   #     image: rg.nl-ams.scw.cloud/arktos-fund/worker-split-update:0.3.0
   #     pullPolicy: IfNotPresent
@@ -86,7 +86,7 @@ templates: []
   #         items:
   #           - key: splits
   #             path: default.yaml
-  # - name: main
+  # main:
   #   dag:
   #     tasks:
   #       - name: splits
