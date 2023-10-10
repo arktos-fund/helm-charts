@@ -15,4 +15,16 @@ spec:
     {{- range $k, $v := .Values.templates }}
     - name: {{ $k }}
       {{- toYaml $v | nindent 6 }}
+      {{- with $dot.Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $dot.Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $dot.Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     {{- end }}
