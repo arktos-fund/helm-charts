@@ -331,6 +331,20 @@ entries:
   kube-downscaler:
   - apiVersion: v1
     appVersion: 0.5.1
+    created: "2023-10-10T21:22:19.721548674Z"
+    description: A Helm chart for kube-downscaler
+    digest: aa5cd66d0a974e303420b240ae81bfd10c2c951e822dfadbc55af0d9ec6ca507
+    keywords:
+    - k8s pods scheduler
+    - scheduled lifecycle
+    name: kube-downscaler
+    sources:
+    - https://codeberg.org/hjacobs/kube-downscaler
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/kube-downscaler-0.1.1/kube-downscaler-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v1
+    appVersion: 0.5.1
     created: "2022-10-05T20:42:10.008131128Z"
     description: A Helm chart for kube-downscaler
     digest: e9417e2abdd52ccd75b50832e8c0437e8c99570f543e064f847d26640f19a072
@@ -1153,6 +1167,24 @@ entries:
   workflow:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-10-10T21:22:19.89726423Z"
+    description: A Helm chart for Kubernetes Workflows
+    digest: 5928a963e8c0beecbe140c4f8f2154c0b02a065d71dcaddcb397f133e7ff42d2
+    home: https://github.com/arktos-fund/helm-charts
+    keywords:
+    - arktos-fund
+    - argo-workflow
+    - aws
+    maintainers:
+    - email: aperrier@arktos.fund
+      name: perriea
+    name: workflow
+    type: application
+    urls:
+    - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.2.2/workflow-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-09-19T19:15:45.268522844Z"
     description: A Helm chart for Kubernetes Workflows
     digest: 5cbdb711d930238d9481591e209034b7ba714fef03d18818d5d19863f9621350
@@ -1301,4 +1333,4 @@ entries:
     urls:
     - https://github.com/arktos-fund/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-19T19:15:45.268807342Z"
+generated: "2023-10-10T21:22:19.897544633Z"
