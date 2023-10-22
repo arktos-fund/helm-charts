@@ -31,7 +31,7 @@ jobs:
         with:
           charts_dir: charts
           config: cr.yaml
-          charts_repo_url: https://helm.arktos.fund
+          charts_repo_url: https://helm.hartza.capital
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: true

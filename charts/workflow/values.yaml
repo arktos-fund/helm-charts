@@ -58,7 +58,7 @@ securityGroups:
 templates: {}
   # splits-template:
   #   container:
-  #     image: rg.nl-ams.scw.cloud/arktos-fund/worker-split-update:0.3.0
+  #     image: rg.nl-ams.scw.cloud/hartza-capital/worker-split-update:0.3.0
   #     pullPolicy: IfNotPresent
   #     command: ["/bin/go"]
   #     args: ["/config/default.yaml"]

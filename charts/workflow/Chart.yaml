@@ -4,11 +4,11 @@ description: A Helm chart for Kubernetes Workflows
 type: application
 version: 0.2.4
 appVersion: "1.16.0"
-home: https://github.com/arktos-fund/helm-charts
+home: https://github.com/hartza-capital/helm-charts
 keywords:
-  - arktos-fund
+  - hartza-capital
   - argo-workflow
   - aws
 maintainers:
   - name: perriea
-    email: aperrier@arktos.fund
+    email: aperrier@hartza.capital

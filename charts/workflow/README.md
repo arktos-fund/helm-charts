@@ -4,13 +4,13 @@
 
 A Helm chart for Kubernetes Workflows
 
-**Homepage:** <https://github.com/arktos-fund/helm-charts>
+**Homepage:** <https://github.com/hartza-capital/helm-charts>
 
 ## Maintainers
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| perriea | <aperrier@arktos.fund> |  |
+| perriea | <aperrier@hartza.capital> |  |
 
 ## Values
 

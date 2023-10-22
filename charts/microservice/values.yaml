@@ -104,7 +104,7 @@ ingress: []
   #     alb.ingress.kubernetes.io/auth-idp-cognito: '{"userPoolARN":"arn:aws:cognito-idp:us-east-1:xxx:userpool/xxx","userPoolClientID":"my-clientID","userPoolDomain":"my-domain"}'
   #     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:xxxxx:certificate/xxxxxxx
   #   hosts:
-  #     - host: api.arktos.fund
+  #     - host: api.hartza.capital
   #       paths:
   #         - path: /
   #           pathType: Exact

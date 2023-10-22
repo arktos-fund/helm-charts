@@ -4,13 +4,13 @@
 
 A Helm chart Cronjob for Kubernetes
 
-**Homepage:** <https://github.com/arktos-fund/helm-charts>
+**Homepage:** <https://github.com/hartza-capital/helm-charts>
 
 ## Maintainers
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| perriea | <aperrier@arktos.fund> |  |
+| perriea | <aperrier@hartza.capital> |  |
 
 ## Values
 
@@ -23,9 +23,9 @@ A Helm chart Cronjob for Kubernetes
 | env | list | `[{"name":"DATABASE_DEBUG","value":"true"}]` | env is a list of environment variables to set in the container. |
 | failedJobsHistoryLimit | int | `1` | failedJobsHistoryLimit is the number of failed jobs to keep |
 | fullnameOverride | string | `""` | fullnameOverride is an optional string to substitute for the full names of resources |
-| image | object | `{"pullPolicy":"IfNotPresent","repository":"rg.nl-ams.scw.cloud/arktos-fund/cronjob","tag":"0.3.4"}` | image is the image to use for the job |
+| image | object | `{"pullPolicy":"IfNotPresent","repository":"rg.nl-ams.scw.cloud/hartza-capital/cronjob","tag":"0.3.4"}` | image is the image to use for the job |
 | image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| image.repository | string | `"rg.nl-ams.scw.cloud/arktos-fund/cronjob"` | The image repository |
+| image.repository | string | `"rg.nl-ams.scw.cloud/hartza-capital/cronjob"` | The image repository |
 | image.tag | string | `"0.3.4"` | The image tag |
 | imagePullSecret | string | `"regcred"` | imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this Chart. |
 | nameOverride | string | `""` | nameOverride is an optional string to substitute for the full names of resources |

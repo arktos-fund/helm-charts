@@ -4,10 +4,10 @@ description: A Helm chart Cronjob for Kubernetes
 type: application
 version: 0.1.9
 appVersion: "0.0.1"
-home: https://github.com/arktos-fund/helm-charts
+home: https://github.com/hartza-capital/helm-charts
 keywords:
-  - arktos-fund
+  - hartza-capital
   - aws
 maintainers:
   - name: perriea
-    email: aperrier@arktos.fund
+    email: aperrier@hartza.capital

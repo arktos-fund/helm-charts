@@ -21,7 +21,7 @@ backoffLimit: 3
 # -- image is the image to use for the job
 image:
   # -- The image repository
-  repository: rg.nl-ams.scw.cloud/arktos-fund/cronjob
+  repository: rg.nl-ams.scw.cloud/hartza-capital/cronjob
   # -- The image pull policy
   pullPolicy: IfNotPresent
   # -- The image tag
