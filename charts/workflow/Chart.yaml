@@ -2,7 +2,7 @@ apiVersion: v2
 name: workflow
 description: A Helm chart for Kubernetes Workflows
 type: application
-version: 0.2.4
+version: 0.2.5
 appVersion: "1.16.0"
 home: https://github.com/hartza-capital/helm-charts
 keywords:
