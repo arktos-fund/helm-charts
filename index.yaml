@@ -1167,6 +1167,24 @@ entries:
   workflow:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-10-28T10:36:58.309806841Z"
+    description: A Helm chart for Kubernetes Workflows
+    digest: 3656423f921b4517abe2a40dc63c3eeb0086007838126240e3cfc4a1ededad8d
+    home: https://github.com/hartza-capital/helm-charts
+    keywords:
+    - hartza-capital
+    - argo-workflow
+    - aws
+    maintainers:
+    - email: aperrier@hartza.capital
+      name: perriea
+    name: workflow
+    type: application
+    urls:
+    - https://github.com/hartza-capital/helm-charts/releases/download/workflow-0.2.5/workflow-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-10-10T22:22:36.119277733Z"
     description: A Helm chart for Kubernetes Workflows
     digest: 56f50cba4291971efe9318146613ccfe61fe39aecbad56b93e0de50c7fd92545
@@ -1369,4 +1387,4 @@ entries:
     urls:
     - https://github.com/hartza-capital/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2023-10-10T22:22:36.119762532Z"
+generated: "2023-10-28T10:36:58.310332647Z"
