@@ -18,8 +18,10 @@ spec:
   workflowSpec:
     entrypoint: main
     {{- if not $dot.Values.serviceAccount.create }}
+    {{- with $dot.Values.imagePullSecrets }}
     imagePullSecrets:
-      - name: {{ $dot.Values.imagePullSecret }}
+      {{- toYaml $dot.Values.imagePullSecrets | nindent 6 }}
+    {{- end }}
     {{- end }}
     {{- with $dot.Values.securityContext }}      
     securityContext:
