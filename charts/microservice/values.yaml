@@ -6,7 +6,7 @@ replicaCount: 1
 # -- image is the image to use for the job
 image:
   repository: 946936475872.dkr.ecr.us-east-1.amazonaws.com/instruments
-  tag: "1.0.0"
+  tag: "v1.0.0"
   pullPolicy: IfNotPresent
 
 # -- imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this Chart.
@@ -43,7 +43,8 @@ podAnnotations: {}
   # eks.amazonaws.com/role-arn: arn:aws:iam::012345678912:role/my-example-iam
 
 # -- podSecurityContext is an optional security context to add to the pod
-podSecurityContext: {}
+podSecurityContext:
+  privileged: false
   # fsGroup: 1000
 
 # -- securityContext is an optional security context to add to the container
@@ -57,16 +58,24 @@ securityContext:
   allowPrivilegeEscalation: false
 
 # -- livenessProbe is an optional liveness probe to add to the container
-livenessProbe: {}
-  # exec:
-  #   command: ["/bin/grpc_health_probe", "-addr=:5000"]
-  # initialDelaySeconds: 5
+livenessProbe:
+  grpc:
+    port: 11000
+  timeoutSeconds: 3
+  periodSeconds: 12
+  successThreshold: 1
+  failureThreshold: 3
+  initialDelaySeconds: 20
 
 # -- readinessProbe is an optional readiness probe to add to the container
-readinessProbe: {}
-  # exec:
-  #   command: ["/bin/grpc_health_probe", "-addr=:5000"]
-  # initialDelaySeconds: 5
+readinessProbe:
+  grpc:
+    port: 11000
+  timeoutSeconds: 3
+  periodSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+  initialDelaySeconds: 10
 
 # -- service is the service configuration
 service:
@@ -197,8 +206,23 @@ autoscaling:
     # downscaler/uptime: "Mon-Mon 00:00-12:00 UTC"
   minReplicas: 1
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 70
-  targetMemoryUtilizationPercentage: 65
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15
+      selectPolicy: Max
+  targetUtilizationPercentage:
+    cpu: 70
+    memory: 65
 
 # -- nodeSelector is an optional configuration for the microservice
 nodeSelector:
