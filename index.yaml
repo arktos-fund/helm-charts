@@ -360,6 +360,25 @@ entries:
   microservice:
   - apiVersion: v2
     appVersion: v0.2.1
+    created: "2023-11-10T10:27:47.130684998Z"
+    description: A Helm chart Microservice for Kubernetes.
+    digest: 129376ee2c3b9188b0e33976924a75c6fb4c98027b84706c457f60eb93671de4
+    home: https://github.com/hartza-capital/helm-charts
+    keywords:
+    - hartza-capital
+    - microservice
+    - fluxcd
+    - prometheus
+    - aws
+    maintainers:
+    - email: aperrier@hartza.capital
+      name: perriea
+    name: microservice
+    urls:
+    - https://github.com/hartza-capital/helm-charts/releases/download/microservice-0.4.6/microservice-0.4.6.tgz
+    version: 0.4.6
+  - apiVersion: v2
+    appVersion: v0.2.1
     created: "2023-08-26T15:17:49.020763509Z"
     description: A Helm chart Microservice for Kubernetes.
     digest: 310fa285e625b9ebf9f6852fb1ca39600105d07b95f7ff832976b33c2addabf5
@@ -1387,4 +1406,4 @@ entries:
     urls:
     - https://github.com/hartza-capital/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2023-10-28T10:36:58.310332647Z"
+generated: "2023-11-10T10:27:47.131054287Z"
