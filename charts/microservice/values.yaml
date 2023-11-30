@@ -199,6 +199,10 @@ resources:
     cpu: 100m
     memory: 128Mi
 
+# -- pdb is an optional configuration for the microservice
+pdb:
+  maxUnavailable: 1
+
 # -- autoscaling is an optional configuration for the microservice
 autoscaling:
   enabled: true
