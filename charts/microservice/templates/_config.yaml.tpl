@@ -12,10 +12,6 @@ server:
     timeout: {{ .Values.config.timeout }}
 {{- with .Values.config.data }}
 data:
-  {{- with .keycloak }}
-  keycloak:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
   {{- with .redis }}
   redis:
     {{- toYaml . | nindent 4 }}
