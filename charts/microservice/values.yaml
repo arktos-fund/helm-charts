@@ -1,5 +1,3 @@
-# -- mode is the deployment mode (microservice/worker)
-mode: microservice
 # -- replicas is the number of replicas to deploy
 replicaCount: 1
 
@@ -41,6 +39,9 @@ annotations: {}
 podAnnotations: {}
   # downscaler/uptime: "Mon-Mon 00:00-12:00 UTC"
   # eks.amazonaws.com/role-arn: arn:aws:iam::012345678912:role/my-example-iam
+
+# -- terminationGracePeriodSeconds is an optional duration in seconds the pod needs to terminate gracefully
+terminationGracePeriodSeconds: 30
 
 # -- podSecurityContext is an optional security context to add to the pod
 podSecurityContext:
