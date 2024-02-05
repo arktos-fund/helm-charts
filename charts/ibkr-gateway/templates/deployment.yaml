@@ -1,3 +1,5 @@
+{{- $dot := . -}}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -80,9 +82,14 @@ spec:
             - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
               mountPath: /home/trader/Jts/ibgateway/{{ include "ibkr-gateway.version" . }}/ibgateway.vmoptions
               subPath: ibgateway.vmoptions
-            - name: {{ include "ibkr-gateway.fullname" . }}-workers-config
-              mountPath: /home/trader/app/config.yaml
-              subPath: config.yaml
+            - name: {{ include "ibkr-gateway.fullname" . }}-supervisord
+              mountPath: /etc/supervisor/supervisord.conf
+              subPath: supervisord.conf
+            {{- range .Values.config.workers }}
+            - name: {{ include "ibkr-gateway.fullname" $dot }}-{{ .name }}-config
+              mountPath: {{ .directory | default "/home/trader/app" }}/{{ .config | default "config.yaml" }}
+              subPath: {{ .config | default "config.yaml" }}
+            {{- end }}
             {{- with .Values.volumes.mounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -95,15 +102,17 @@ spec:
             items:
               - key: config.ini
                 path: config.ini
-        - name: {{ include "ibkr-gateway.fullname" . }}-workers-config
+        {{- range .Values.config.workers }}
+        - name: {{ include "ibkr-gateway.fullname" $dot }}-{{ .name }}-config
           secret:
-            secretName: {{ .Values.config.workers | default "workers" }}
-            items:
-              - key: config.yaml
-                path: config.yaml
+            secretName: {{ $dot.Values.config.workers_secret | default "workers" }}
+        {{- end }}
         - name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
           configMap:
             name: {{ include "ibkr-gateway.fullname" . }}-vmoptions
+        - name: {{ include "ibkr-gateway.fullname" . }}-supervisord
+          configMap:
+            name: {{ include "ibkr-gateway.fullname" . }}-supervisord
         {{- with .Values.volumes.extra }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
