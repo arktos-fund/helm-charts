@@ -130,6 +130,23 @@ entries:
     version: 0.0.1
   ibkr-gateway:
   - apiVersion: v2
+    appVersion: 10.19.2h
+    created: "2024-02-05T20:57:53.507457667Z"
+    description: A Helm chart IBKR Gateway for Kubernetes
+    digest: 11377e18a930761308124be37e9f1f10aedc3c896e6259e342eeceeceebefd8c
+    home: https://github.com/hartza-capital/helm-charts
+    keywords:
+    - hartza-capital
+    - ibkr-gateway
+    maintainers:
+    - email: aperrier@hartza.capital
+      name: perriea
+    name: ibkr-gateway
+    type: application
+    urls:
+    - https://github.com/hartza-capital/helm-charts/releases/download/ibkr-gateway-0.2.9/ibkr-gateway-0.2.9.tgz
+    version: 0.2.9
+  - apiVersion: v2
     appVersion: 10.19.1m
     created: "2023-05-09T21:36:07.915989791Z"
     description: A Helm chart IBKR Gateway for Kubernetes
@@ -1462,4 +1479,4 @@ entries:
     urls:
     - https://github.com/hartza-capital/helm-charts/releases/download/workflow-0.1.0/workflow-0.1.0.tgz
     version: 0.1.0
-generated: "2024-02-04T01:12:18.06260843Z"
+generated: "2024-02-05T20:57:53.507655918Z"
