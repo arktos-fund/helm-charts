@@ -15,7 +15,7 @@ serviceAccount:
 # -- Specifies whether a Gateway should be created
 image:
   # -- The image repository
-  repository: quay.io/arktos-venture/ibkr-gateway
+  repository: quay.io/hartza-capital/ib-gateway
   # -- The image pull policy
   pullPolicy: IfNotPresent
   # -- The image tag
@@ -42,8 +42,19 @@ debug: false
 config: 
   # credentials: config.ini key
   credentials: "credentials"
-  # workers: config.yaml key
-  workers: "workers"
+  # workers_secret: config.yaml key
+  workers_secret: "workers"
+  workers: []
+    # - name: worker1
+    #   command: "python3 main.py config.yaml"
+    #   directory: /home/trader/app
+    #   config: config.yaml
+    #   startretries: 20
+    # - name: worker2
+    #   command: "python3 main.py config.yaml"
+    #   directory: /home/trader/app2
+    #   config: config.yaml
+    #   startretries: 20
   live: true
 
 # -- annotations is an optional list of annotations to add to the object metadata

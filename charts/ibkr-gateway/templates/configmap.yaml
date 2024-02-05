@@ -19,3 +19,33 @@ data:
     -Dsun.java2d.noddraw=true
     -Dswing.boldMetal=false
     -Dsun.locale.formatasdefault=true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ibkr-gateway.fullname" . }}-supervisord
+  labels:
+    {{- include "ibkr-gateway.labels" . | nindent 4 }}
+data:
+  supervisord.conf: |-
+    [supervisord]
+    nodaemon=false
+    loglevel=info
+    user=trader
+    logfile=/dev/stdout
+    logfile_maxbytes=0
+
+{{- range .Values.config.workers }}
+    [program:{{ .name }}]
+    command={{ .command }}
+    directory={{ .directory | default "/home/trader/app" }}
+    stdout_logfile=/dev/stdout
+    stdout_logfile_maxbytes=0
+    redirect_stderr=true
+    autostart=true
+    autorestart=true
+    startretries={{ .startretries | default "3" }}
+    stopsignal={{ .stopsignal | default "QUIT" }}
+{{- end }}
+
+    [supervisorctl]
